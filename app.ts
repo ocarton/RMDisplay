@@ -1,15 +1,11 @@
-// TypeScript
-import {Component, View, bootstrap} from 'angular2/angular2';
-
-@Component({
-    selector: 'hello-angular2'
+angular.module('YOUR-APP-NAME', ['auth0', 'angular-storage', 'angular-jwt'])
+.config(function (authProvider) {
+  authProvider.init({
+    domain: 'ocarton.eu.auth0.com',
+    clientID: 'DoSDUdFuDMBT70SDScOUL2ZrHGjL1Sex'
+  });
 })
-@View({
-    template: "<h1>Hello {{ name | lowercase }}</h1>"
-})
-class HelloAngular2Cmp {
-    name:string = "Angular2";
-}
-
-
-bootstrap(HelloAngular2Cmp);
+.run(function(auth) {
+  // This hooks al auth events to check everything as soon as the app starts
+  auth.hookEvents();
+});
