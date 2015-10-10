@@ -47,7 +47,7 @@ audio:not([controls]) {
   display: none;
   height: 0;
 }
-
+[hidden],
 template {
   display: none;
 }
@@ -247,6 +247,9 @@ th {
   }
   .navbar {
     display: none;
+  }
+  .navbar-transluscent {
+    background-color: rgba(255,255,255,.5);
   }
   .btn > .caret,
   .dropup > .btn > .caret {
@@ -2512,7 +2515,7 @@ input[type="search"] {
 input[type="radio"],
 input[type="checkbox"] {
   margin: 4px 0 0;
-  margin-top: 1px \9;
+  margin-top: 1px;
   line-height: normal;
 }
 input[type="file"] {
@@ -2642,7 +2645,7 @@ input[type="search"] {
 .checkbox-inline input[type="checkbox"] {
   position: absolute;
   margin-left: -20px;
-  margin-top: 4px \9;
+  margin-top: 4px;
 }
 .radio + .radio,
 .checkbox + .checkbox {
@@ -4386,7 +4389,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-default {
-  background-color: #ffffff;
+  background-color: rgba(225, 225, 225, 0.5);
   border-color: #eeeeee;
 }
 .navbar-default .navbar-brand {
@@ -6217,7 +6220,7 @@ button.close {
   border: 1px solid #ffffff;
   border-radius: 10px;
   cursor: pointer;
-  background-color: #000 \9;
+  background-color: #000;
   background-color: rgba(0, 0, 0, 0);
 }
 .carousel-indicators .active {
