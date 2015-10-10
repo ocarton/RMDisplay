@@ -1,241 +1,36 @@
-<html>
-  
+<!DOCTYPE html>
+<html ng-app="sample" ng-controller="AppCtrl">
   <head>
-    <meta charset="utf-8">
+    <script type="text/javascript" src="//use.typekit.net/iws6ohy.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+    <!-- Pingendo -->
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
-    rel="stylesheet" type="text/css">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="http://localhost:8080/RM.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="RM.css">
-    <link rel="stylesheet" href="RM.css">
-    <link rel="stylesheet" href="RM.css">
-    <link rel="stylesheet" href="RM.css">
-    <link rel="stylesheet" href="RM.css">
+    <link rel="stylesheet" href="RM.css">    
+
+    <!-- Auth0 -->
+    <!-- font awesome from BootstrapCDN 
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    -->    
+    <script type="text/javascript" src="auth0-variables.js"></script>
+    <script type="text/javascript" src="https://cdn.auth0.com/js/lock-7.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.17/angular.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.17/angular-cookies.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.17/angular-route.js"></script>
+    <script type="text/javascript" src="https://cdn.auth0.com/w2/auth0-angular-4.js"></script>
+    <script src="//cdn.rawgit.com/auth0/angular-storage/master/dist/angular-storage.js" type="text/javascript"> </script>
+    <script src="//cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js" type="text/javascript"> </script>
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="home/home.js"></script>
+    <script type="text/javascript" src="login/login.js"></script>
   </head>
-  
   <body>
-    <div class="cover">
-      <div class="navbar">
-        <div class="container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#"><span>Brand</span></a>
-          </div>
-          <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav navbar-right">
-              <li class="active">
-                <a href="#">Home</a>
-              </li>
-              <li>
-                <a href="#">Contacts</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="cover-image" style="background-image : url('https://unsplash.imgix.net/photo-1422513391413-ddd4f2ce3340?w=1024&amp;q=50&amp;fm=jpg&amp;s=282e5978de17d6cd2280888d16f06f04')"></div>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6 text-center">
-            <h1 class="text-center text-inverse">RM staffing center</h1>
-            <p class="text-inverse">Information hub for the staffing purposes of the A&amp;D division</p>
-            <br>
-            <br>
-            <div class="container"></div>
-            <a class="btn btn-lg btn-primary">Click me</a>
-            <div class="row"></div>
-          </div>
-          <div class="col-lg-6">
-            <div id="carousel-example" data-interval="5000" class="carousel slide"
-            data-ride="carousel">
-              <div class="carousel-inner">
-                <div class="item active">
-                  <img src="https://unsplash.imgix.net/photo-1422222948315-28aadb7a2cb8?w=1024&amp;q=50&amp;fm=jpg&amp;s=cfeadbd7a991e58b553bee29a7eeca55">
-                  <div class="carousel-caption">
-                    <h2>Title</h2>
-                    <p>Description</p>
-                  </div>
-                </div>
-                <div class="item">
-                  <img src="https://ununsplash.imgix.net/photo-1423753623104-718aaace6772?w=1024&amp;q=50&amp;fm=jpg&amp;s=1ffa61419561b5c796bca3158e7c704c">
-                  <div class="carousel-caption">
-                    <h2>Title</h2>
-                    <p>Description</p>
-                  </div>
-                </div>
-              </div>
-              <a class="left carousel-control" href="#carousel-example" data-slide="prev"><i class="icon-prev  fa fa-angle-left"></i></a>
-              <a class="right carousel-control" href="#carousel-example" data-slide="next"><i class="icon-next fa fa-angle-right"></i></a>
-            </div>
-          </div>
-          <div class="item active"></div>
-        </div>
-      </div>
-    </div>
-    <div class="carousel slide" id="carousel-example" data-interval="5000"
-    data-ride="carousel">
-      <div class="carousel-inner">
-        <div class="item" id="KPIs">
-          <img src="https://unsplash.imgix.net/photo-1423683249427-8ca22bd873e0?w=1024&amp;q=50&amp;fm=jpg&amp;s=5e57c661d0f772ce269188a6f5325708">
-          <div class="carousel-caption">
-            <h2>Title</h2>
-            <p>Description</p>
-          </div>
-        </div>
-        <div class="item">
-          <img src="https://unsplash.imgix.net/photo-1422222948315-28aadb7a2cb8?w=1024&amp;q=50&amp;fm=jpg&amp;s=cfeadbd7a991e58b553bee29a7eeca55">
-          <div class="carousel-caption">
-            <h2>Title</h2>
-            <p>Description</p>
-          </div>
-        </div>
-      </div>
-      <a class="left carousel-control" href="#KPIs" data-slide="prev"><i class="icon-prev  fa fa-angle-left"></i></a>
-      <a class="right carousel-control" href="#KPIs" data-slide="next"><i class="icon-next fa fa-angle-right"></i></a>
-    </div>
-    <div class="carousel slide" id="carousel-example" data-interval="false"
-    data-ride="carousel">
-      <div class="carousel-inner">
-        <div class="item" id="KPIs">
-          <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png">
-          <div class="carousel-caption">
-            <h2>Title</h2>
-            <p>Description</p>
-          </div>
-        </div>
-      </div>
-      <a class="left carousel-control" href="#carousel-example" data-slide="prev"><i class="icon-prev  fa fa-angle-left"></i></a>
-      <a class="right carousel-control" href="#carousel-example" data-slide="next"><i class="icon-next fa fa-angle-right"></i></a>
-    </div>
-    <div class="section">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png"
-            class="img-responsive">
-          </div>
-          <div class="col-md-6">
-            <h1 class="text-primary">A title</h1>
-            <h3>A subtitle</h3>
-            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
-              ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis
-              dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies
-              nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
-              Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In
-              enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum
-              felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus
-              elementum semper nisi.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="section">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <h1 class="text-primary">A title</h1>
-            <h3>A subtitle</h3>
-            <p>Lorea ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
-              ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis
-              dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies
-              nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
-              Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In
-              enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum
-              felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus
-              elementum semper nisi.</p>
-          </div>
-          <div class="col-md-6">
-            <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png"
-            class="img-responsive">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="section">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <h1 class="text-center text-primary">L'équipe de RM A&amp;D</h1>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-3">
-            <h3 class="text-center">Bayonne, Pau,&nbsp;
-              <br>Toulouse Digital et S&amp;A
-              <br>
-            </h3>
-            <a href="mailto:olivier.carton@capgemini.com">
-                <img src="src/img/Olivier.png" class="center-block img-circle img-responsive">
-                <p class="text-center">Olivier CARTON</p>
-              </a>
-          </div>
-          <div class="col-md-3">
-            <h3 class="text-center">
-              <br>Marseille et Nice</h3>
-            <a href="mailto:gauthier.thomas@capgemini.com">            
-                <img src="src/img/Gauthier.PNG" class="center-block img-circle img-responsive">
-              <p class="text-center">Gautier THOMAS</p>
-              </a>
-          </div>
-          <div class="col-md-3">
-            <h3 class="text-center">
-              <br>Paris et Rennes</h3>
-            <a href="mailto:marine.deliquaire@capgemini.com">               
-              <img src="src/img/Marine.png" class="center-block img-circle img-responsive">
-              <p class="text-center">Marine DELIQUAIRE</p>
-              </a>
-          </div>
-          <div class="col-md-3">
-            <h3 class="text-center">
-              <br>Toulouse AT</h3>
-            <a href="mailto:guillaume.etcheverria@capgemini.com">               
-              <img src="src/img/Guillaume.png" class="center-block img-circle img-responsive">
-              <p class="text-center">Guillaume ETCHEVERRIA</p>
-              </a>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-3">
-            <h3 class="text-center">
-              <br>Toulouse ADM</h3>
-            <a href="mailto:charlotte.lagauzere@capgemini.com">   
-              <img src="src/img/Charlotte.png" class="center-block img-circle img-responsive">
-              <p class="text-center">Charlotte LAGAUZERE</p>
-              </a>
-          </div>
-          <div class="col-md-3">
-            <h3 class="text-center">
-              <br>Toulouse ADM</h3>
-            <a href="mailto:margaux.olivier@capgemini.com">   
-              <img src="src/img/Margaux.png" class="center-block img-circle img-responsive">
-              <p class="text-center">Margaux OLIVIER</p>
-              </a>
-          </div>
-          <div class="col-md-3">
-            <h3 class="text-center">
-              <br>Toulouse PBS</h3>
-            <a href="mailto:gilles.benderitter@capgemini.com">               
-              <img src="src/img/Gilles.png" class="center-block img-circle img-responsive">
-              <p class="text-center">Gilles BENDERITTER</p>
-              </a>
-          </div>
-          <div class="col-md-3">
-            <h3 class="text-center">
-              <br>Toulouse MSC</h3>
-            <a href="mailto:marie.sonrel@capgemini.com">   
-              <img src="src/img/Marie.png" class="center-block img-circle img-responsive">
-              <p class="text-center">Marie SONREL</p>
-              </a>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div ng-view></div>
   </body>
 </html>
