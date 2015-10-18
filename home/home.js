@@ -12,6 +12,7 @@ angular.module( 'sample.home', [
     $location.path('/login');
   }
   
+    
   $scope.flareChart = function() {}
     
     //var width = 1000;
