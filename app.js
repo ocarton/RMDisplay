@@ -1,4 +1,4 @@
-angular.module( 'sample', [
+angular.module( 'RMBoard', [
   'auth0',
   'ngRoute',
   'sample.home',
@@ -19,6 +19,14 @@ angular.module( 'sample', [
       controller: 'LoginCtrl',
       templateUrl: 'login/login.html',
       pageTitle: 'Login'
+    })
+    .when( '/chart', {
+      controller: 'LoginCtrl',
+      templateUrl: 'home/home3.html',
+      pageTitle: 'Chart'
+    })    
+    .otherwise({
+      redirectTo: '/login'
     });
 
 
@@ -51,15 +59,12 @@ angular.module( 'sample', [
 
   });
 })
+
 .controller( 'AppCtrl', function AppCtrl ( $scope, $location ) {
   $scope.$on('$routeChangeSuccess', function(e, nextRoute){
     if ( nextRoute.$$route && angular.isDefined( nextRoute.$$route.pageTitle ) ) {
       $scope.pageTitle = nextRoute.$$route.pageTitle;
     }
   });
-})
-
-
-
-;
+});
 

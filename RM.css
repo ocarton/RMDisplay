@@ -18,9 +18,12 @@ html {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
-body {
-  margin: 0;
+#flareChart {
+  width: 100%;
+  height: 100%;
+/*  position: absolute;*/
 }
+
 article,
 aside,
 details,
@@ -1093,7 +1096,10 @@ body {
   font-size: 14px;
   line-height: 1.42857143;
   color: #333333;
-  background-color: #ffffff;
+  margin: 0;
+  background-color: #f9e3c1;
+  /*background-color: #ffffff;*/
+
 }
 input,
 button,
@@ -1593,9 +1599,9 @@ pre code {
     width: 970px;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1800px) { /*Modified : was initially 1200*/
   .container {
-    width: 1170px;
+    width: 1770px; /*Modified : was initially 1170*/
   }
 }
 .container-fluid {

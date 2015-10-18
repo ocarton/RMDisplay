@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html ng-app="sample" ng-controller="AppCtrl">
+<html ng-app="RMBoard" ng-controller="AppCtrl">
   <head>
   <!--  <script type="text/javascript" src="//use.typekit.net/iws6ohy.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Pingendo -->
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://localhost:8080/RM.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="RM.css">    
    
+    <!-- Charts -->
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="home/orga.js"></script>
+    
     <!-- Auth0 -->
     <!-- font awesome from BootstrapCDN 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
@@ -23,16 +34,8 @@
     <script type="text/javascript" src="home/home.js"></script>
     <script type="text/javascript" src="login/login.js"></script>   
    
-    <!-- Pingendo -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://localhost:8080/RM.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="RM.css">    
-
   </head>
-  <body ng-view/>
+  <body>
+    <ng-view></ng-view>
   </body>
 </html>
