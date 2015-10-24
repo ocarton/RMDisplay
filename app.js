@@ -4,7 +4,9 @@ angular.module( 'RMBoard', [
   'sample.home',
   'sample.login',
   'angular-storage',
-  'angular-jwt'
+  'angular-jwt',
+  'orgaChart',
+  'ARVEChart'
 ])
 .config( function myAppConfig ( $routeProvider, authProvider, $httpProvider, $locationProvider,
   jwtInterceptorProvider) {

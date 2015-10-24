@@ -18,10 +18,13 @@ html {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
-#flareChart {
-  width: 100%;
-  height: 100%;
-/*  position: absolute;*/
+/*Graphs rendering*/
+/*.axis {
+  shape-rendering: crispEdges;
+}*/
+.x.axis line, .x.axis path , .y.axis line, .y.axis path {
+  fill: none;
+  stroke: #000;
 }
 
 article,
@@ -1099,6 +1102,8 @@ body {
   margin: 0;
   background-color: #f9e3c1;
   /*background-color: #ffffff;*/
+  /*Hiding vertical scrollbar*/
+  /*/overflow-y:hidden*/  
 
 }
 input,
