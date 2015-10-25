@@ -18,10 +18,10 @@ var x = d3.scale.ordinal()
 var y = d3.scale.linear()
     .rangeRound([height, 0]);
 
-var catList = ["Vacation", "Billable", "Ti", "Presales", "Sickness", "Training","Idle", "Unknown"];
+var catList = ["unknown", "sickness", "idle", "ti", "training",  "presales", "billable", "vacation"];
 
 var color = d3.scale.ordinal()
-    .range(["#00C9C9", "#4416D5", "#999999", "#00E400", "#FFD300", "#FF7400", "#FF0000", "#00000"])
+    .range(["#00000","#FFD300", "#FF0000", "#999999", "#FF7400", "#00E400", "#4416D5", "#00C9C9"])
     .domain(catList);
 
 var xAxis = d3.svg.axis()
@@ -34,10 +34,12 @@ var yAxis = d3.svg.axis()
     .tickFormat(d3.format(".0%"));
     
 var xBars = [];
+var xBarsS = [];
+var xBarsP = [];
 
-var group; //Group of rectangles which compose one bar
+var groupC, groupL, groupR; //Group of rectangles which compose one bar
 
-var root, rootP1, rootP2, rootS1, rootS2;
+var root = [];
 
 function initNodeData(n) {
   // If the node has children...
@@ -59,14 +61,14 @@ function initNodeData(n) {
   else
   {
     // Setting missing values to 0
-    if (n.vacation == undefined) { n.vacation=0; }
-    if (n.billable == undefined) { n.billable=0; }
-    if (n.presales == undefined) { n.presales=0; }
-    if (n.sickness == undefined) { n.sickness=0; }    
-    if (n.ti == undefined) { n.ti=0; }
-    if (n.idle == undefined) { n.idle=0; }
-    if (n.unknown == undefined) { n.unknown=0; }
-    if (n.training == undefined) { n.training=0; }
+    if (typeof n.vacation === "undefined") { n.vacation=0; }
+    if (typeof n.billable === "undefined") { n.billable=0; }
+    if (typeof n.presales === "undefined") { n.presales=0; }
+    if (typeof n.sickness === "undefined") { n.sickness=0; }    
+    if (typeof n.ti === "undefined") { n.ti=0; }
+    if (typeof n.idle === "undefined") { n.idle=0; }
+    if (typeof n.unknown === "undefined") { n.unknown=0; }
+    if (typeof n.training === "undefined") { n.training=0; }
   }
 
   // Calculating total ETP not on vacation
@@ -77,14 +79,23 @@ function initNodeData(n) {
   n.y0 = 0;
 }
 
-function drawChart(node) {
+function drawChart(week, transition) {
+    // Securing max values
+    if (week < 1) {week = 1};
+    if (week > root.length-2) {week = root.length-2};    
     // Building the bars list
-    angular.forEach(node.children, function(d) {xBars = xBars.concat(d);});
-    xBars = xBars.concat(node);
+    angular.forEach(root[week].children, function(d) {xBars = xBars.concat(d);});
+    xBars = xBars.concat(root[week]);
+    angular.forEach(root[week+1].children, function(d) {xBarsS = xBarsS.concat(d);});
+    xBarsS = xBarsS.concat(root[week+1]);
+    angular.forEach(root[week-1].children, function(d) {xBarsP = xBarsP.concat(d);});
+    xBarsP = xBarsP.concat(root[week-1]);    
     
     // Calculating minimal vacation percentage  
-    var minVacSh = d3.min(xBars.map(function(d) {return -d.vacSh;}));
-    console.log("minVacSh= "+minVacSh);
+    var minVacSh0= d3.min(xBars.map(function(d) {return -d.vacSh;}));
+    var minVacSh1 = d3.min(xBarsS.map(function(d) {return -d.vacSh;}));
+    var minVacSh2 = d3.min(xBarsP.map(function(d) {return -d.vacSh;}));
+    var minVacSh = d3.min([minVacSh1, minVacSh0, minVacSh2]);        
     // Setting a scale from y values
     y.domain([minVacSh, 1]);     
     // Displaying yAxis
@@ -95,111 +106,86 @@ function drawChart(node) {
     // Setting a scale with all x labels    
     x.domain(xBars.map(function(d) { return d.name; }));
     // Draw y-axis grid lines
-    svg.selectAll("line.y")
-      .data(y.ticks(10))
-      .enter().append("line")
+    svg.selectAll("line.y").data(y.ticks(10)).enter().append("line")
       .attr("class", "y")
-      .attr("x1", 0)
-      .attr("x2", width)
-      .attr("y1", y)
-      .attr("y2", y)
+      .attr("x1", 0).attr("x2", width)
+      .attr("y1", y).attr("y2", y)
       .style("stroke", "#fff");  
     // Redrawing xAxis
-    svg.append("line")
+    svg.selectAll("line.x").data("xAxis").enter().append("line")
       .attr("class", "y")
-      .attr("x1", 0)
-      .attr("x2", width)
-      .attr("y1", y(0))
-      .attr("y2", y(0))
+      .attr("x1", 0).attr("x2", width)
+      .attr("y1", y(0)).attr("y2", y(0))
       .style("stroke", "#000");         
-    //svg.selectAll("line").select(".y='386'")
-      //.attr("y2", y(0))
-    //  .style("stroke", "#900");   
     // Building xAxis
-    svg.append("g")
+    svg.selectAll("line.x").data("xLabels").enter().append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + 0+ ")")
       .call(xAxis); 
 
-    // Setting a scale from y values
-    y.domain([minVacSh,1]);
+    // Modifying scale from y values
+    //y.transition().duration(750).domain([minVacSh,1]);
+    y.domain([minVacSh,1]);    
 
-    // Building the bars list
-    group = svg.selectAll(".groupBar1")
+    // Building the bars lists
+    groupC = svg.selectAll(".barCenter")
       .data(xBars)
       .enter().append("g")
-      .attr("class", "groupBar1")
+      .attr("class", "barCenter")
+      .attr("opacity", 0)
       .attr("transform", function(d) {return "translate(" + x(d.name) + ",0)"; });  // Position of next bar
+    groupL = svg.selectAll(".barLeft")
+      .data(xBarsP)
+      .enter().append("g")
+      .attr("class", "barLeft")
+      .attr("opacity", 0.4)
+      .attr("transform", function(d) {return "translate(" + (x(d.name)-x.rangeBand()/2) + ",0)"; });  // Position of next bar
+    groupR = svg.selectAll(".barRight")
+      .data(xBarsS)
+      .enter().append("g")
+      .attr("class", "barRight")
+      .attr("opacity", 0.4)
+      .attr("transform", function(d) {return "translate(" + (x(d.name)+x.rangeBand()) + ",0)"; });  // Position of next bar
+      
 
-    //Building the bars
-
-   // Drawing unknown bar     
-   group.append("rect")
-    .attr("width", x.rangeBand()) //Bar width
-    .attr("class", "Unknown")
-    .attr("y", function(d) {return d.y0;}) //Bar position
-    .attr("height", function(d) {d.y0 += y(1-d.unknown/d.tot); return y(1-d.unknown/d.tot)}) //Bar length
-    .style("fill", color("Unknown"));  
-   // Drawing sickness bar     
-   group.append("rect")
-    .attr("width", x.rangeBand()) //Bar width
-    .attr("class", "Sickness")
-    .attr("y", function(d) {return d.y0;}) //Bar position
-    .attr("height", function(d) {d.y0 += y(1-d.sickness/d.tot); return y(1-d.sickness/d.tot)}) //Bar length
-    .style("fill", color("Sickness"));  
-   // Drawing idle bar     
-   group.append("rect")
-    .attr("width", x.rangeBand()) //Bar width
-    .attr("class", "Idle")
-    .attr("y", function(d) {return d.y0;}) //Bar position
-    .attr("height", function(d) {d.y0 += y(1-d.idle/d.tot); return y(1-d.idle/d.tot)}) //Bar length
-    .style("fill", color("Idle"));  
-   // Drawing ti bar     
-   group.append("rect")
-    .attr("width", x.rangeBand()) //Bar width
-    .attr("class", "TI")
-    .attr("y", function(d) {return d.y0;}) //Bar position
-    .attr("height", function(d) {d.y0 += y(1-d.ti/d.tot); return y(1-d.ti/d.tot)}) //Bar length
-    .style("fill", color("Ti")); 
-   // Drawing training bar     
-   group.append("rect")
-    .attr("width", x.rangeBand()) //Bar width
-    .attr("class", "Training")
-    .attr("y", function(d) {return d.y0;}) //Bar position
-    .attr("height", function(d) {d.y0 += y(1-d.training/d.tot); return y(1-d.training/d.tot)}) //Bar length
-    .style("fill", color("Training"));
-   // Drawing presales bar     
-   group.append("rect")
-    .attr("width", x.rangeBand()) //Bar width
-    .attr("class", "Presales")
-    .attr("y", function(d) {return d.y0;}) //Bar position
-    .attr("height", function(d) {d.y0 += y(1-d.presales/d.tot); return y(1-d.presales/d.tot)}) //Bar length
-    .style("fill", color("Presales"));
-   // Drawing billable bar     
-   group.append("rect")
-    .attr("width", x.rangeBand()) //Bar width
-    .attr("class", "Billable")
-    .attr("y", function(d) {return d.y0;}) //Bar position
-    .attr("height", function(d) {d.y0 += y(1-d.billable/d.tot); return y(1-d.billable/d.tot)}) //Bar length
-    .style("fill", color("Billable"));     
-   // Drawing vacation bar     
-   group.append("rect")
-    .attr("width", x.rangeBand()) //Bar width
-    .attr("class", "Vacation")
-    .attr("y", function(d) {return y(0);}) //Bar position
-    .attr("height", function(d) {d.y0 = y(1-d.vacation/d.tot); return d.y0}) //Bar length
-    .style("fill", color("Vacation"));    
-    
-    
+   //Building the bars
+   angular.forEach(catList, function(c){
+      groupC.append("rect")
+        .attr("width", x.rangeBand()) //Bar width
+        .attr("class", c)
+        .attr("y", function(d) {return d.y0;}) //Bar position
+        .attr("height", function(d) {console.log(d[c]);d.y0 += y(1-d[c]/d.tot); return y(1-d[c]/d.tot)}) //Bar length
+        .style("fill", color(c));       
+   });
+   angular.forEach(catList, function(c){
+      groupR.append("rect")
+        .attr("width", x.rangeBand()/2) //Bar width
+        .attr("class", c)
+        .attr("y", function(d) {return d.y0;}) //Bar position
+        .attr("height", function(d) {console.log(d[c]);d.y0 += y(1-d[c]/d.tot); return y(1-d[c]/d.tot)}) //Bar length
+        .style("fill", color(c));       
+   });   
+   angular.forEach(catList, function(c){
+      groupL.append("rect")
+        .attr("width", x.rangeBand()/2) //Bar width
+        .attr("class", c)
+        .attr("y", function(d) {return d.y0;}) //Bar position
+        .attr("height", function(d) {console.log(d[c]);d.y0 += y(1-d[c]/d.tot); return y(1-d[c]/d.tot)}) //Bar length
+        .style("fill", color(c));       
+   });   
+ 
+/*groupC.transition().duration(0)
+                  .attr("opacity", 0).each("end", function(e, i) {*/groupC.transition().duration(750)
+                  .attr("opacity", 1) /*})*/;
   x.rangeRoundBands([0, width], .8)    
    // Drawing unknown bar     
-   group.append("rect")
+   groupL.append("rect")
     .attr("width", x.rangeBand()) //Bar width
     .attr("class", "Vacation")
     .attr("y", function(d) {return y(0);}) //Bar position
     .attr("height", function(d) {d.y0 = y(1-d.vacation/d.tot); return d.y0}) //Bar length
     .style("fill", "green")
-    .attr("transform", function(d) {return "translate(-20"  + ",0)"; });  // Position of next bar
+   /* .attr("transform", function(d) {return "translate(-"+ x.rangeBand() + ",0)"; })*/;  // Position of next bar
 }
 
 var svg = d3.select("#ARVEChart").append("svg")
@@ -209,39 +195,54 @@ var svg = d3.select("#ARVEChart").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-getData(2);
-
-function getData(wk) {
-
-d3.json(fList[wk], function(error, root) {
+d3.json(fList[0], function(error, data0) {
   if (error) throw error;  
-
-  initNodeData(root);
+  root[0] = data0;
+  initNodeData(root[0]);
+  console.log(root[0]);
+  d3.json(fList[1], function(error, data1) {
+    if (error) throw error;  
+    root[1] = data1;    
+    initNodeData(root[1]);
+    console.log(root[1]);
+    d3.json(fList[2], function(error, data2) {
+      if (error) throw error;  
+      root[2] = data2;    
+      initNodeData(root[2]);
+      console.log(root[2]);
+      d3.json(fList[3], function(error, data3) {
+        if (error) throw error;  
+        root[3] = data3;    
+        initNodeData(root[3]);
+        console.log(root[3]);            
+        d3.json(fList[4], function(error, data4) {
+          if (error) throw error;  
+          root[4] = data4;    
+          initNodeData(root[4]);
+          console.log(root[4]);
   
-  d3.json(fList[wk]), function(error, data) {console.log(data);rootS1=data.filter(true);};
-  console.log(root);
-  //initNodeData(rootS1);
-
-  drawChart(root);
-  // Positionning legend
-  var legend = svg.select(".group:last-child").selectAll(".legend")
-      .data(catList)
-      .enter().append("g")
-      .attr("class", "legend")
-      .attr("transform", function(d) { return "translate(" + (x.rangeBand()) / 2 + "," + y((d.y0 + d.y1) / 2) + ")"; });
-
-  // Setting line
-  legend.append("line")
-      .attr("stroke-width", 2)
-      .attr("stroke", "black")
-      .attr("x2", 10);
-
-  // Setting text    
-  legend.append("text")
-      .attr("x", 13)
-      .attr("dy", ".35em")
-      .text(catList);
+          drawChart(2);
+          // Positionning legend
+          var legend = svg.select(".group:last-child").selectAll(".legend")
+              .data(catList)
+              .enter().append("g")
+              .attr("class", "legend")
+              .attr("transform", function(d) { return "translate(" + (x.rangeBand()) / 2 + "," + y((d.y0 + d.y1) / 2) + ")"; });
+        
+          // Setting line
+          legend.append("line")
+              .attr("stroke-width", 2)
+              .attr("stroke", "black")
+              .attr("x2", 10);
+        
+          // Setting text    
+          legend.append("text")
+              .attr("x", 13)
+              .attr("dy", ".35em")
+              .text(catList);
+          });      
+        });      
+      });      
+    });      
   });
-  }
-  
 });
