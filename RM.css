@@ -26,6 +26,10 @@ html {
   fill: none;
   stroke: #000;
 }
+.barCenter, .barLeft, .barRight {
+    cursor: pointer;
+    /*cursor: hand;*/
+}
 
 article,
 aside,
