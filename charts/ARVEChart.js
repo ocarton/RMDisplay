@@ -6,7 +6,7 @@ angular.module('ARVEChart', [])
 
 $scope.ARVEChart = function() {}
 
-var fList= ["data/arveS-2.json", "data/arveS-1.json", "data/arveS.json", "data/arveS1.json", "data/arveS2.json"];
+var fList= ["data/arveP2.json", "data/arveP1.json", "data/arveS.json", "data/arveS1.json", "data/arveS2.json"];
 
 var margin = {top: 20, right: 45, bottom: 30, left: 45},
     width = 960 - margin.left - margin.right,
@@ -41,7 +41,7 @@ var yAxis = d3.svg.axis()
     
 var xBars = [], xBarsS = [], xBarsP = [];
 
-var groupC, groupL, groupR; //Group of rectangles which compose one bar
+var groupC, groupL, groupR, legend; //Group of rectangles which compose one bar
 var root = [];
 
 function initNodeData(n) {
@@ -171,7 +171,8 @@ function loadBarsData() {
         .data(xBarsP)
         .enter().append("g")
         .attr("class", "barLeft")
-        .attr("transform", function(d) {return "translate(" + x(d.name)+ ",0) scale(0, 1)"; });  // Position of next bar
+        .attr("transform", function(d) {return "translate(" + x(d.name)+ ",0) scale(0, 1)"; })  // Position of next bar
+        .on ("click", slideRight);        
       angular.forEach(catList, function(c){
           groupL.append("rect")
             .attr("width", x.rangeBand()*sideBarsWidth) //Bar width
@@ -217,7 +218,7 @@ function loadBarsData() {
           .enter().append("g")
           .attr("class", "barRight")
           .attr("transform", function(d) {return "translate(" + (x(d.name)+x.rangeBand()) + ",0) scale(0,1) "; })  // Position of next bar
-          .on ("click", click);
+          .on ("click", slideLeft);
            
       angular.forEach(catList, function(c){
           groupR.append("rect")
@@ -256,91 +257,130 @@ function loadBarsData() {
             .attr("height", function(d) {
                 legPos = parDat.y0 + y(1-parDat[c]/parDat.tot)/2;              
                 legendY2[c] = d3.max([15+lastLegendPos, legPos]); 
-                legendY1[c] = legPos;         
+                legendY1[c] = legPos;  console.log(legendY1[c]);        
                 if (c != lastCat) {
                   if (lastCat != "") {lastLegendPos = legendY2[lastCat];}
                   lastCat=c;
                   }
                 parDat.y0 += y(1-parDat[c]/parDat.tot);
                 return y(1-parDat[c]/parDat.tot)
-                
          })
       });       
    });
    }
  
-   // Positionning legend
-   var legend = svg.select(".barRight:last-child").selectAll(".legend")
-        .data(catList)
-        .enter().append("g")
-        .attr("class", "legend")
-        .attr("opacity", 1)        
-        .attr("transform", function(d) {return "translate(" + (x.rangeBand()*sideBarsWidth+20) + "," + legendY2[d] + ")"; });
-  
-   // Setting line
-   legend.append("line")
-        .attr("stroke-width", 2)
-        .attr("stroke", "black")
-        .attr("opacity", 1)
-        .attr("x1", -20).attr("x2", 10)
-        .attr("y1", function(d) {return (legendY1[d]-legendY2[d]);}).attr("y2", 0);        
+   if (!legend) {
+      // Positionning legend
+      legend = svg.select(".barRight:last-child").selectAll(".legend")
+            .data(catList)
+            .enter().append("g")
+            .attr("class", "legend")
+            .attr("opacity", 1)        
+            .attr("transform", function(d) {return "translate(" + (x.rangeBand()*sideBarsWidth+20) + "," + legendY2[d] + ")"; });
+      // Setting line
+      legend.append("line")
+            .attr("stroke-width", 2)
+            .attr("stroke", "black")
+            .attr("opacity", 1)
+            .attr("x1", -20).attr("x2", 10)
+            .attr("y1", function(d) {return (legendY1[d]-legendY2[d]);}).attr("y2", 0);        
+      // Setting text    
+      legend.append("text")
+            .attr("x", 13)
+            .attr("dy", ".35em")
+            .attr("opacity",1)        
+            .text(function(d) {return d;});
+   }
+   else{
+      // Updating legend
+      //legend = svg.select(".barRight:last-child").selectAll(".legend")
+      //      .data(catList);
+      //legend
+      //      .enter().append("g")
+      //      .attr("class", "legend");
+            
+      legend.selectAll("line").transition().duration(0).each("end", function(e, i){
+        legend.transition().duration(transitionDuration)
+          .attr("transform", function(d) {return "translate(" + (x.rangeBand()*sideBarsWidth+20) + "," + legendY2[d] + ")"; });
+        //legend.transition().duration(transitionDuration)            
+        //      .attr("transform", function(d) {console.log(legendY2[d]);return "translate(" + (x.rangeBand()*sideBarsWidth+200) + "," + legendY2[d] + ")"; });
+        // Setting line
+      
+        // Setting line
+        legend.selectAll("line").transition().duration(transitionDuration)
+              .attr("x1", -20).attr("x2", 10)
+              .attr("y1", function(d) {return (legendY1[d]-legendY2[d]);}).attr("y2", 0);        
+      });     
+     
+//      legend.selectAll("line").transition.duration(transitionDuration)
+ //           .attr("x1", -20).attr("x2", 10)
+  //          .attr("y1", function(d) {return (legendY1[d]-legendY2[d]);}).attr("y2", 0);        
+      // Setting text    
 
-  
-   // Setting text    
-   legend.append("text")
-        .attr("x", 13)
-        .attr("dy", ".35em")
-        .attr("opacity",1)        
-        .text(function(d) {return d;});
-    
+ /*     legend.selectAll("text")
+            .attr("x", 13)
+            .attr("dy", ".35em")
+            .attr("opacity",1)        
+            .text(function(d) {console.log("passe");return 'otod';});  */   
+   }
 }
 
 function slideChart(transition) {
   
   if(transition =="left") {
-    curWeek = curWeek+1;
-    // Securing max values
-    if (curWeek > root.length-2) {curWeek = root.length-2};        
-    // Moving bars
- /*   groupL.selectAll("rect")
-      .attr("transform", function(d) {return "translate(" + x.rangeBand()/2 + ",0)  scale(2, 1)"; });    
-    groupC.selectAll("rect")
-      .attr("transform", function(d) {return "translate(" + (x.rangeBand()) + ",0) scale(0.5, 1)"; });
-    groupR.selectAll("rect")
-      .attr("transform", function(d) {return "translate(" + (x.rangeBand()) + ",0) scale(0, 1)"; }); 
- */ loadBarsData();
-    
-    // Redrawing xAxis
-    svg.select("g").selectAll("line.x").data("xAxis").enter().append("line")
-      .attr("class", "x")
-      .attr("x1", 0).attr("x2", width)
-      .attr("y1", y(0)).attr("y2", y(0))
-      .style("stroke", "#000");         
-    // Building xAxis
-     if (!xAxisGroup) {
-      xAxisGroup = svg.append("g")
-        .attr("class", "x axis")
-        .call(xAxis);
-    }
-    else {
-      t.select(".x Axis").call(xAxis);
-    }       
-    
-    
+    // Securing max values      
+    if (curWeek < root.length-2) {
+      curWeek = curWeek+1;
+      loadBarsData();        
+      // Moving bars
+      groupL.selectAll("rect")
+        .attr("transform", function(d) {return "translate("+ x.rangeBand()*sideBarsWidth +",0)  scale("+1/sideBarsWidth+", 1)"; });    
+      groupC.selectAll("rect")
+        .attr("transform", function(d) {return "translate(" + (x.rangeBand()) + ",0) scale("+sideBarsWidth+", 1)"; });
+      groupR.selectAll("rect")
+        .attr("transform", function(d) {return "translate(" + (x.rangeBand()*sideBarsWidth) + ",0) scale(0, 1)"; })
+    };    
   }
   else if(transition =="right") {
-    curWeek = curWeek -1;
-    if (curWeek < 1) {curWeek = 1};
-    // Moving bars
-    groupL.transition().duration(transitionDuration)
-      .attr("transform", function(d) {return "translate(" + (x(d.name)-x.rangeBand()*sideBarsWidth) + ",0) scale(0, 1)"; });
-    groupC.transition().duration(transitionDuration)
-      .attr("transform", function(d) {return "translate(" + (x(d.name)-x.rangeBand()*sideBarsWidth) + ",0) scale("+sideBarsWidth+", 1)"; })
-      .attr("opacity", barOpacity);
-    groupR.transition().duration(transitionDuration)
-      .attr("transform", function(d) {return "translate(" + (x(d.name))+x.rangeBand() +  ",0) scale(0, 1)"; })
-      .attr("opacity", 1);
-  }   
+    if (curWeek > 1) {
+      curWeek = curWeek-1; 
+      loadBarsData();        
+      // Moving bars
+      groupL.selectAll("rect")
+        .attr("transform", function(d) {return "translate(" + (0) + ",0)  scale(0, 1)"; });    
+      groupC.selectAll("rect")
+        .attr("transform", function(d) {return "translate(" + (-x.rangeBand()*sideBarsWidth) + ",0) scale("+sideBarsWidth+", 1)"; });
+      groupR.selectAll("rect")
+        .attr("transform", function(d) {return "translate("+(-x.rangeBand())+",0) scale("+1/sideBarsWidth+", 1)"; })
+      };        
+    };  
+    groupR.selectAll("rect")
+        .transition().duration(0)
+        .each("end", function(e, i){
+            groupL.selectAll("rect").transition().duration(transitionDuration)
+              .attr("transform", function(d) {return "translate(" + (0) + ",0)  scale(1, 1)"; });    
+            groupC.selectAll("rect").transition().duration(transitionDuration)
+              .attr("transform", function(d) {return "translate(" + (0) + ",0) scale(1, 1)"; });
+            groupR.selectAll("rect").transition().duration(transitionDuration)
+              .attr("transform", function(d) {return "translate(" + (0) + ",0) scale(1, 1)"; });        
+    }); 
+         
+
+  // Redrawing xAxis
+  svg.select("g").selectAll("line.x").data("xAxis").enter().append("line")
+    .attr("class", "x")
+    .attr("x1", 0).attr("x2", width)
+    .attr("y1", y(0)).attr("y2", y(0))
+    .style("stroke", "#000");         
+  // Building xAxis
+  if (!xAxisGroup) {
+    xAxisGroup = svg.append("g")
+      .attr("class", "x axis")
+      .call(xAxis);
+  }
+  else {
+    t.select(".x Axis").call(xAxis);
+  }    
 }
 
 
@@ -377,8 +417,12 @@ var drawChart = function () {
    
 }
 
-function click(d) {
+function slideLeft() {
   slideChart("left");    
+};
+
+function slideRight() {
+  slideChart("right");    
 };
 
 var svg = d3.select("#ARVEChart").append("svg")
