@@ -8,7 +8,7 @@ $scope.ARVEChart = function() {}
 
 var fList= ["data/arveP2.json", "data/arveP1.json", "data/arveS.json", "data/arveS1.json", "data/arveS2.json"];
 
-var margin = {top: 40, right: 45, bottom: 30, left: 45},
+var margin = {top: 40, right: 45, bottom: 30, left: 55},
     width = 1000 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
@@ -23,8 +23,7 @@ var xAxis = d3.svg.axis()
     .orient("top").ticks(1);
 var yAxis = d3.svg.axis()
     .scale(y)
-    .orient("left")
-    .ticks(20)
+    .orient("left").ticks(10)
     .tickFormat(d3.format(".0%"));
     
 var curWeek = 2;
@@ -64,6 +63,8 @@ function make_y_axis() {
         .scale(y)
         .orient("left")
         .ticks(40)
+        .tickSize(-width*.9, 0, 0)  
+        .tickFormat("")              
 }
 
 //-------------------------------------------------------------------------------
@@ -140,9 +141,7 @@ function loadBarsData() {
       // Redisplaying yAxis and lines
       var t1 = t.transition();
       t.selectAll(".y.axis").call(yAxis);    
-      t.selectAll(".y.grid").call(make_y_axis()
-              .tickSize(-width, 0, 0)
-              .tickFormat(""));         
+      t.selectAll(".y.grid").call(make_y_axis());         
       svg.selectAll(".y.grid").selectAll("line").filter(function(d){return d == 0;})
       .style("stroke", "#000");                    
       
@@ -176,25 +175,46 @@ function loadBarsData() {
         .enter().append("rect")
         .attr("class", function(d) {return d;})
         .style("fill", function(d) {return color(d);});
-  
+
+      svg.selectAll(".barCenter").selectAll(".legend").remove();
+
       angular.forEach(catList, function(c){
           groupC.each(function(parDat) {
-            svg.selectAll("#"+parDat.name+".barCenter").selectAll("rect."+c)//.transition().duration(transitionDuration)
+            svg.selectAll("#"+parDat.name+".barCenter").selectAll("rect."+c)
                   .attr("width", x.rangeBand()) //Bar width        
                   .attr("y", function(d) {return parDat.y0;}) //Bar position
                   .attr("height", function(d) {
+                      if (c=="billable") {parDat.midBar = parDat.y0+y(1-parDat[c]/parDat.tot/2)}
                       parDat.y0 += y(1-parDat[c]/parDat.tot);
-  if (c=="billable"){//console.log(parDat.name+" "+c+" "+parDat[c]);
-  }                        
                       return y(1-parDat[c]/parDat.tot)});
             if (c == "billable") {
-              d3.select(this).selectAll("rect."+c)
+              var value = svg.selectAll("#"+parDat.name+".barCenter")
+                .append("g")
+                .attr("class", "legend")
+                 .attr("opacity",1)                   
+                .attr("transform", function(d) {return "translate(-10," + parDat.midBar + ")"; })
+              //adding the white 'shadow' behind the text
+              value
                 .append("text")
-                .text(function(d){return parDat[c]/parDat.tot})
-            } 
+                  .attr("x", 13)
+                  .attr("dy", ".35em")
+                  .attr("font-size", "1.4em")                  
+                  .attr("opacity",1)   
+                  .attr("class", "shadow")                         
+                  .text(function(d){return d3.format(".2%")(parDat[c]/parDat.tot)});
+              //adding the text
+              value
+                .append("text")
+                  .attr("x", 13)
+                  .attr("dy", ".35em")
+                  .attr("font-size", "1.4em")                   
+                  .attr("opacity",1)   
+                  .text(function(d){return d3.format(".2%")(parDat[c]/parDat.tot)});              
+                                
+            }      
           });
-      });  
-      
+      });
+
       groupL = svg.selectAll(".barLeft")
         .data(xBarsP, function(d){return d.name});
       groupL
@@ -268,7 +288,7 @@ function loadBarsData() {
                   .attr("height", function(d) {
                   //legPos defines position of the legend based on position of the bar
                   legPos = parDat.y0 + y(1-parDat[c]/parDat.tot)/2;              
-                  legendY2[c] = d3.max([15+lastLegendPos, legPos]); 
+                  legendY2[c] = d3.max([20+lastLegendPos, legPos]); 
                   legendY1[c] = legPos;        
                   if (c != lastCat) {
                     if (lastCat != "") {lastLegendPos = legendY2[lastCat];}
@@ -292,6 +312,7 @@ function loadBarsData() {
               .append("text")
                 .attr("x", 13)
                 .attr("dy", ".35em")
+                .attr("font-size", "1.4em")                   
                 .attr("opacity",1)        
                 .text(function(d) {return d});
       legEl
@@ -322,8 +343,6 @@ var drawChart = function () {
     svg.append("g")            
         .attr("class", "y grid")
         .call(make_y_axis()
-            .tickSize(-width, 0, 0)
-            .tickFormat("")
         )
 
     // Drawing yAxis

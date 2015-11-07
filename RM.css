@@ -19,9 +19,10 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 /*Graphs rendering*/
-/*.axis {
-  shape-rendering: crispEdges;
-}*/
+.axis {
+  font-size:1.4em;   
+/*  shape-rendering: crispEdges;*/
+}
 .x.axis line, .x.axis path , .y.axis line, .y.axis path {
   fill: none;
   stroke: #000;
@@ -31,12 +32,17 @@ html {
     /*cursor: hand;*/
 }
 .grid .tick {
-    stroke: white;
+    stroke: grey;
     /*stroke-opacity: 0.7;*/
     /*shape-rendering: crispEdges;*/
 }
 .grid path {
           stroke-width: 0;
+}
+text.shadow {
+    stroke: white;
+    stroke-width: 5px;/*2.5px;*/
+    opacity: 0.9;
 }
 
 article,
@@ -1616,9 +1622,15 @@ pre code {
     width: 970px;
   }
 }
-@media (min-width: 1800px) { /*Modified : was initially 1200*/
+@media (min-width: 1200px) {
   .container {
-    width: 1770px; /*Modified : was initially 1170*/
+    width: 1170px; 
+  }
+}
+/* This media was added for display on HD screens*/
+@media (min-width: 1800px) {
+  .container {
+    width: 1770px;
   }
 }
 .container-fluid {
