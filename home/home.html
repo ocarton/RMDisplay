@@ -43,18 +43,12 @@
           Tableau ARVE</h1>
       </div>
     </div>
-    <div class="row"><br></div>    
-  </div>
-</div>    
-<div class="section">
-  <div class="container">
     <div class="row">
-      <div class="col-lg-6" ng-controller="ARVECtrl">
+      <div class="col-lg-6" ng-controller="ARVECtrl" align="center">
         <h2 id="ARVEWTRTitle" class="text-center text-primary">ARVE WTR</h2>
-        <svg id="ARVEChart" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet"></svg>         
-      </div>
-      <div class="col-lg-6" ng-controller="OrgaCtrl">
-        <svg id="flareChart" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet"></svg>         
+        <svg id="ARVEChart" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet"></svg>
+        <label align="center"><input  type="checkbox" ng-model="checkVac.value" ng-change="displayCat()">Afficher les vacances</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+        <label align="center"><input  type="checkbox" ng-model="checkUnknown.value" ng-change="displayCat()">Compenser les unknowns</label>                 
       </div>
     </div>
   </div>
