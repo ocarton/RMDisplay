@@ -1,5 +1,4 @@
 /// <reference path="../typings/angular2/angular2.d.ts"/>
-
 angular.module('ARVEChart', [])
 
 .controller( 'ARVECtrl', function ARVEController( $scope, auth, $http, $location, store) {

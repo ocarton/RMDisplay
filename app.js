@@ -6,7 +6,9 @@ angular.module( 'RMBoard', [
   'angular-storage',
   'angular-jwt',
   'orgaChart',
-  'ARVEChart'
+  'ARVEChart',
+  'IdleBoard', 
+  'demo'
 ])
 .config( function myAppConfig ( $routeProvider, authProvider, $httpProvider, $locationProvider,
   jwtInterceptorProvider) {
@@ -17,16 +19,15 @@ angular.module( 'RMBoard', [
       pageTitle: 'Homepage',
       requiresLogin: true
     })
+    .when('/simple', {
+        templateUrl: 'home/simple-frame.html',
+        controller: 'SimpleDemoController'
+    })    
     .when( '/login', {
       controller: 'LoginCtrl',
       templateUrl: 'login/login.html',
       pageTitle: 'Login'
     })
-    .when( '/chart', {
-      controller: 'LoginCtrl',
-      templateUrl: 'home/home3.html',
-      pageTitle: 'Chart'
-    })    
     .otherwise({
       redirectTo: '/login'
     });

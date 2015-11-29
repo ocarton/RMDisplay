@@ -1,5 +1,5 @@
 angular.module( 'sample.home', [
-'auth0'
+'auth0', 'dndLists'
 ])
 .controller( 'HomeCtrl', function HomeController( $scope, auth, $http, $location, store) {
 
