@@ -7,8 +7,7 @@ angular.module( 'RMBoard', [
   'angular-jwt',
   'orgaChart',
   'ARVEChart',
-  'IdleBoard', 
-  'demo'
+  'IdleBoard'
 ])
 .config( function myAppConfig ( $routeProvider, authProvider, $httpProvider, $locationProvider,
   jwtInterceptorProvider) {
@@ -19,10 +18,6 @@ angular.module( 'RMBoard', [
       pageTitle: 'Homepage',
       requiresLogin: true
     })
-    .when('/simple', {
-        templateUrl: 'home/simple-frame.html',
-        controller: 'SimpleDemoController'
-    })    
     .when( '/login', {
       controller: 'LoginCtrl',
       templateUrl: 'login/login.html',

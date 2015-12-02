@@ -15,6 +15,9 @@
             <li class="active">
               <a href="#/#ARVE" class="btn-primary btn-block">ARVE</a>
             </li>
+            <li class="active">
+              <a href="#/#DISPOS" class="btn-primary btn-block">DISPOS</a>
+            </li>            
             <li>
              <a ng-click="logout()" class="btn-warning btn-block">Logout</a>
             </li>            
@@ -35,100 +38,79 @@
         </div>
       </div>
     </div>
-<div class="section" id="ARVE">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h1 class="text-center text-primary">
-          Tableau ARVE</h1>
-      </div>
-      <div class="col-lg-6" ng-controller="ARVECtrl" align="center">
-        <h2 id="ARVEWTRTitle" class="text-center text-primary">ARVE WTR</h2>
-        <svg id="ARVEChart" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet"></svg>
-        <label align="center"><input  type="checkbox" ng-model="checkVac.value" ng-change="displayCat()">Afficher les vacances</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
-        <label align="center"><input  type="checkbox" ng-model="checkUnknown.value" ng-change="displayCat()">Compenser les unknowns</label>                 
-      </div>
+<div class="section container" id="ARVE">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="text-center text-primary">
+        Tableau ARVE</h1>
+    </div>
+    <div class="col-lg-6" ng-controller="ARVECtrl" align="center">
+      <h2 id="ARVEWTRTitle" class="text-center text-primary">ARVE WTR</h2>
+      <svg id="ARVEChart" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet"></svg>
+      <label align="center"><input  type="checkbox" ng-model="checkVac.value" ng-change="displayCat()">Afficher les vacances</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+      <label align="center"><input  type="checkbox" ng-model="checkUnknown.value" ng-change="displayCat()">Compenser les unknowns</label>                 
     </div>
   </div>
 </div>  
 
-<div class="ng-scope" ng-app="demo" ng-controller="SimpleDemoController">
-
-  <h1>Demo: Simple Lists</h1>
-  
-  <div class="alert alert-success">
-      <strong>Instructions:</strong>
-      Drag &amp; drop the list items to move them around, or just click to select them.
-      If that's too boring, check out the <a href="#/nested">nested container demo</a>
-  </div>
-
-  <div class="simpleDemo row">
-      <div class="col-md-8">
-          <div class="row">
-              <div ng-repeat="(listName, list) in models.lists" class="col-md-6">
-                  <div class="panel panel-info">
-                      <div class="panel-heading">
-                          <h3 class="panel-title">List {{listName}}</h3>
-                      </div>
-                      <div class="panel-body" ng-include="'home/simple.html'"></div>
-
-<div class="panel-body">
-  <ul dnd-list="list">  
-    <li ng-repeat="item in list"
-        dnd-draggable="item"
-        dnd-moved="list.splice($index, 1)"
-        dnd-effect-allowed="move"
-        dnd-selected="models.selected = item"
-        ng-class="{'selected': models.selected === item}"
-        >
-        {{item.label}}</br>
-        {{item.grade}}        
-    </li>
-  </ul>    
-</div>
-
-                  </div>
-              </div>
-          </div>
-          <div view-source="simple"></div>
-      </div>
-  
-      <div class="col-md-4">
-          <div class="panel panel-default">
-              <div class="panel-heading">
-                  <h3 class="panel-title">Generated Model</h3>
-              </div>
-              <div class="panel-body">
-                  <pre class="code">{{modelAsJson}}</pre>
-              </div>
-          </div>
-      </div>
-  </div>
-</div>
-
-<div class="section" id="DISPOS">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12" ng-controller="IdleCtrl" align="center">
-        <h1 class="text-center text-primary">
-          Disponibilités</h1>     
-<ul dnd-list="list">
-
-    <li ng-repeat="item in list"
-        dnd-draggable="item"
-        dnd-moved="list.splice($index, 1)"
-        dnd-effect-allowed="move"
-        dnd-selected="models.selected = item"
-        ng-class="{'selected': models.selected === item}"
-        >
-        {{item.label}}
-    </li>
-</ul>
-      </div>
+<div class="section container" id="DISPOS">
+  <div class="row">
+    <div class="col-md-12 ng-scope" ng-app="IdleBoard" ng-controller="IdleCtrl">
+      <h1 class="text-center text-primary">Disponibilités</h1>     
+        <div class="cards">
+            <div class="col-md-8">
+                <div class="row">
+                    <div ng-repeat="(listName, list) in models.lists" class="col-sm-6">
+                        <div class="panel panel-info">
+                          <div class="panel-heading">
+                              <h3 class="panel-title">List {{listName}}</h3>
+                          </div>
+                          <div class="panel-body col2">
+                            <ul dnd-list="list">  
+                              <li ng-repeat="item in list"
+                                  dnd-draggable="item"
+                                  dnd-moved="list.splice($index, 1)"
+                                  dnd-effect-allowed="move"
+                                  dnd-selected="models.selected = item"
+                                  ng-class="{'selected': models.selected === item}"
+                                  >
+                                  <table class="table card">                                  
+                                    <tbody>
+                                      <tr>
+                                        <td width=80%>This cells [sic] has more content.</td>
+                                        <td width=20%>C</td>
+                                      </tr>
+                                      <tr>
+                                        <td>{{item.label}}</td>
+                                        <td></td>                                        
+                                      </tr>
+                                      <tr>
+                                        <td>{{item.grade}}</td>
+                                        <td></td>                                                                                                                           
+                                      </tr>  
+                                    </tbody>           
+                                  </table>                                                           
+                              </li>
+                            </ul>    
+                          </div>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Generated Model</h3>
+                    </div>
+                    <div class="panel-body">
+                        <pre class="code">{{modelAsJson}}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
   </div>
-</div-->
-<br><br><br><br><br>
+</div>
 <script>
 console.log("Page 'Home' loaded");
 </script>        
