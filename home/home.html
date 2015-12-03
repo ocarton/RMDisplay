@@ -26,7 +26,9 @@
       </div>
     </div>
    <div class="cover">
-      <div class="cover-image" style="background-image : url('https://unsplash.imgix.net/photo-1422513391413-ddd4f2ce3340?w=1024&amp;q=50&amp;fm=jpg&amp;s=282e5978de17d6cd2280888d16f06f04')"></div>
+      <div class="cover-image" style="background-image : url('src/img/sky-sunset-night.jpg')"></div>
+     
+      <!--div class="cover-image" style="background-image : url('https://unsplash.imgix.net/photo-1422513391413-ddd4f2ce3340?w=1024&amp;q=50&amp;fm=jpg&amp;s=282e5978de17d6cd2280888d16f06f04')"></div-->
       <div class="container">
         <div class="row">
           <div class="col-md-6 text-center">
@@ -54,61 +56,82 @@
 </div>  
 
 <div class="section container" id="DISPOS">
-  <div class="row">
-    <div class="col-md-12 ng-scope" ng-app="IdleBoard" ng-controller="IdleCtrl">
-      <h1 class="text-center text-primary">Disponibilités</h1>     
+  <div class="col-md-12 ng-scope" ng-app="IdleBoard" ng-controller="IdleCtrl">
+    <h1 class="text-center text-primary">Disponibilités</h1>
+      <div class="row">            
         <div class="cards">
-            <div class="col-md-8">
-                <div class="row">
-                    <div ng-repeat="(listName, list) in models.lists" class="col-sm-6">
-                        <div class="panel panel-info">
-                          <div class="panel-heading">
-                              <h3 class="panel-title">List {{listName}}</h3>
-                          </div>
-                          <div class="panel-body col2">
-                            <ul dnd-list="list">  
-                              <li ng-repeat="item in list"
-                                  dnd-draggable="item"
-                                  dnd-moved="list.splice($index, 1)"
-                                  dnd-effect-allowed="move"
-                                  dnd-selected="models.selected = item"
-                                  ng-class="{'selected': models.selected === item}"
-                                  >
-                                  <table class="table card">                                  
-                                    <tbody>
-                                      <tr>
-                                        <td width=80%>This cells [sic] has more content.</td>
-                                        <td width=20%>C</td>
-                                      </tr>
-                                      <tr>
-                                        <td>{{item.label}}</td>
-                                        <td></td>                                        
-                                      </tr>
-                                      <tr>
-                                        <td>{{item.grade}}</td>
-                                        <td></td>                                                                                                                           
-                                      </tr>  
-                                    </tbody>           
-                                  </table>                                                           
-                              </li>
-                            </ul>    
-                          </div>
-                        </div>
-                    </div>
-                </div>    
-            </div>
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Generated Model</h3>
-                    </div>
-                    <div class="panel-body">
-                        <pre class="code">{{modelAsJson}}</pre>
-                    </div>
+          <!--div class="col-sm-1" height = 100%>
+              <div class="panel panel-info" >                      
+              <div class="panel-heading">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        Moin
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              </div>                        
+          </div-->
+          <div class="col-md-12">
+            <div ng-repeat="(listName, list) in models.lists" class="col-sm-3">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">List {{listName}}</h3>
                 </div>
+                <div class="panel-body col2">
+                  <ul dnd-list="list">  
+                    <li ng-repeat="item in list"
+                    dnd-draggable="item"
+                    dnd-moved="list.splice($index, 1)"
+                    dnd-effect-allowed="move"
+                    dnd-selected="models.selected = item"
+                    ng-class="{'selected': models.selected === item}"
+                    >
+                      <table class="table card">                                  
+                        <tbody>
+                          <tr>
+                            <td width=80%>
+                              <div class="module ellipsis-1" align="left">
+                                Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
+                              </div>                                
+                            </td>
+                            <td>
+                              <div class="module ellipsis-1">
+                              C
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>{{item.label}}</td>
+                            <td></td>                                        
+                          </tr>
+                          <tr>
+                            <td>{{item.grade}}</td>
+                            <td></td>                                                                                                                           
+                          </tr>  
+                        </tbody>           
+                      </table>                                                           
+                    </li>
+                  </ul>    
+                </div>
+              </div>
             </div>
-        </div>
-    </div>
+          </div>    
+        </div>          
+      </div>
+      <div class="col-md-12">
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                  <h3 class="panel-title">Generated Model</h3>
+              </div>
+              <div class="panel-body">
+                  <pre class="code">{{modelAsJson}}</pre>
+              </div>
+          </div>
+      </div>          
   </div>
 </div>
 <script>

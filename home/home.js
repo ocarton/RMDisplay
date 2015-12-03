@@ -10,5 +10,5 @@ angular.module( 'sample.home', [
     store.remove('profile');
     store.remove('token');
     $location.path('/login');
-  }
+  } 
 });

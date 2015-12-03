@@ -8,7 +8,7 @@ angular.module("IdleBoard", []).controller("IdleCtrl", function($scope) {
     };
 
     // Generate initial model
-    for (var i = 1; i <= 3; ++i) {
+    for (var i = 1; i <= 13; ++i) {
         $scope.models.lists.A.push({label: "Item A" + i, grade: "Grade C"});
         $scope.models.lists.B.push({label: "Item B" + i});
     }
