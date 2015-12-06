@@ -1,3 +1,4 @@
+<!-- Barre de navigation en bas de l'écran -->
 <div class="navbar navbar-default navbar-fixed-bottom">
       <div class="container">
         <div class="navbar-header">
@@ -25,6 +26,7 @@
         </div>
       </div>
     </div>
+<!-- Ecran de titre de la page-->
    <div class="cover">
       <div class="cover-image" style="background-image : url('src/img/sky-sunset-night.jpg')"></div>
      
@@ -40,12 +42,10 @@
         </div>
       </div>
     </div>
+<!-- Ecran de l'ARVE-->    
 <div class="section container" id="ARVE">
+  <h1 class="text-center text-primary">Tableau ARVE</h1>
   <div class="row">
-    <div class="col-md-12">
-      <h1 class="text-center text-primary">
-        Tableau ARVE</h1>
-    </div>
     <div class="col-lg-6" ng-controller="ARVECtrl" align="center">
       <h2 id="ARVEWTRTitle" class="text-center text-primary">ARVE WTR</h2>
       <svg id="ARVEChart" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet"></svg>
@@ -58,70 +58,111 @@
 <div class="section container" id="DISPOS">
   <div class="col-md-12 ng-scope" ng-app="IdleBoard" ng-controller="IdleCtrl">
     <h1 class="text-center text-primary">Disponibilités</h1>
-      <div class="row">            
+      <div class="row">
+        <div class="col-md-1">
+          <div class="panel panel-info" >                      
+            <div class="panel-heading">
+              <table><tbody><tr><td>Semaine S</td></tr></tbody></table>
+            </div>
+          </div>                        
+        </div>
         <div class="cards">
-          <!--div class="col-sm-1" height = 100%>
-              <div class="panel panel-info" >                      
-              <div class="panel-heading">
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>
-                        Moin
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              </div>                        
-          </div-->
-          <div class="col-md-12">
+          <div class="col-md-11">
             <div ng-repeat="(listName, list) in models.lists" class="col-sm-3">
               <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">List {{listName}}</h3>
+                    <h3 class="panel-title">{{listName}}</h3>
                 </div>
-                <div class="panel-body col2">
-                  <ul dnd-list="list">  
-                    <li ng-repeat="item in list"
-                    dnd-draggable="item"
-                    dnd-moved="list.splice($index, 1)"
-                    dnd-effect-allowed="move"
-                    dnd-selected="models.selected = item"
-                    ng-class="{'selected': models.selected === item}"
-                    >
-                      <table class="table card">                                  
-                        <tbody>
-                          <tr>
-                            <td width=80%>
-                              <div class="module ellipsis-1" align="left">
-                                Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
-                              </div>                                
-                            </td>
-                            <td>
-                              <div class="module ellipsis-1">
-                              C
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>{{item.label}}</td>
-                            <td></td>                                        
-                          </tr>
-                          <tr>
-                            <td>{{item.grade}}</td>
-                            <td></td>                                                                                                                           
-                          </tr>  
-                        </tbody>           
-                      </table>                                                           
-                    </li>
-                  </ul>    
-                </div>
+                <div class="panel-body col2" ng-include="'home/idleCards.html'"></div>
               </div>
             </div>
-          </div>    
+          </div>              
         </div>          
       </div>
+      <div class="row">
+        <div class="col-md-1">
+          <div class="panel panel-info" >                      
+            <div class="panel-heading">
+              <table><tbody><tr><td>Semaine S+1</td></tr></tbody></table>
+            </div>
+            </div>                        
+        </div>
+        <div class="cards">
+          <div class="col-md-11">
+            <div ng-repeat="(listName, list) in models.lists" class="col-sm-3">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{listName}}</h3>
+                </div>
+                <div class="panel-body col2" ng-include="'home/idleCards.html'"></div>
+              </div>
+            </div>
+          </div>              
+        </div>          
+      </div>
+            <div class="row">
+        <div class="col-md-1">
+          <div class="panel panel-info" >                      
+            <div class="panel-heading">
+              <table><tbody><tr><td>Semaine S+2</td></tr></tbody></table>
+            </div>
+            </div>                        
+        </div>
+        <div class="cards">
+          <div class="col-md-11">
+            <div ng-repeat="(listName, list) in models.lists" class="col-sm-3">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{listName}}</h3>
+                </div>
+                <div class="panel-body col2" ng-include="'home/idleCards.html'"></div>
+              </div>
+            </div>
+          </div>              
+        </div>          
+      </div>
+            <div class="row">
+        <div class="col-md-1">
+          <div class="panel panel-info" >                      
+            <div class="panel-heading">
+              <table><tbody><tr><td>Semaine S+3</td></tr></tbody></table>
+            </div>
+            </div>                        
+        </div>
+        <div class="cards">
+          <div class="col-md-11">
+            <div ng-repeat="(listName, list) in models.lists" class="col-sm-3">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{listName}}</h3>
+                </div>
+                <div class="panel-body col2" ng-include="'home/idleCards.html'"></div>
+              </div>
+            </div>
+          </div>              
+        </div>          
+      </div>
+            <div class="row">
+        <div class="col-md-1">
+          <div class="panel panel-info" >                      
+            <div class="panel-heading">
+              <table><tbody><tr><td>Semaine S+4</td></tr></tbody></table>
+            </div>
+            </div>                        
+        </div>
+        <div class="cards">
+          <div class="col-md-11">
+            <div ng-repeat="(listName, list) in models.lists" class="col-sm-3">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{listName}}</h3>
+                </div>
+                <div class="panel-body col2" ng-include="'home/idleCards.html'"></div>
+              </div>
+            </div>
+          </div>              
+        </div>          
+      </div>      
       <div class="col-md-12">
           <div class="panel panel-default">
               <div class="panel-heading">
@@ -134,6 +175,13 @@
       </div>          
   </div>
 </div>
+</br></br></br></br>
+</br></br></br></br>
+</br></br></br></br>
+</br></br></br></br>
+</br></br></br></br>
+</br></br></br></br>
+</br></br></br></br>
 <script>
 console.log("Page 'Home' loaded");
 </script>        

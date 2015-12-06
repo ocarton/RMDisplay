@@ -164,8 +164,6 @@ text.shadow {
 }
 
 
-
-
 .module {
   overflow: hidden;
 }
@@ -182,7 +180,36 @@ text.shadow {
   right: 0;
   width: 30%;
   height: 1.2em;
+  pointer-events: none;
+}
+.ellipsis-1-fade {
+  position: relative;
+  height: 1.2em; /* exactly one line */
+}
+.ellipsis-1-fade:after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 1.2em;
   background: linear-gradient(to right, rgba(255, 255, 255, 0), white 100%);
+  pointer-events: none;
+}
+.ellipsis-2 {
+  position: relative;
+  height: 2.2em; /* exactly two lines */
+}
+.ellipsis-2:after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 70%;
+  height: 1.2em;
+  /*background: linear-gradient(to right, rgba(255, 255, 255, 0), white 100%);*/
   pointer-events: none;
 }
 .ellipsis-3 {
@@ -215,11 +242,6 @@ text.shadow {
   /*background: linear-gradient(to right, rgba(255, 255, 255, 0), white 100%);*/
   pointer-events: none;
 }
-
-
-
-
-
 
 
 article,
@@ -1793,6 +1815,8 @@ pre code {
   margin-left: auto;
   padding-left: 10px;
   padding-right: 10;
+  
+  min-height: 100%; /*was absent*/
 }
 @media (min-width: 768px) {
   .container {

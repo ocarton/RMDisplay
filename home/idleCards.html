@@ -1,11 +1,5 @@
-<!-- The dnd-list directive allows to drop elements into it.
-     The dropped data will be added to the referenced list -->
-<ul dnd-list="list">
-    <!-- The dnd-draggable directive makes an element draggable and will
-         transfer the object that was assigned to it. If an element was
-         dragged away, you have to remove it from the original list
-         yourself using the dnd-moved attribute -->
-        <li ng-repeat="item in list"
+            <ul dnd-list="list">  
+            <li ng-repeat="item in list"
             dnd-draggable="item"
             dnd-moved="list.splice($index, 1)"
             dnd-effect-allowed="move"
@@ -13,30 +7,30 @@
             ng-class="{'selected': models.selected === item}"
             >
             <table class="table card">                                  
-            <tbody>
+              <tbody>
                 <tr>
-                <td width=80%>
-                    This cells [sic] has more content
+                <td width=65%>
+                    <div class="module ellipsis-1" align="left">{{item.Name}}</div>                                
                 </td>
-                <td width=20%>
-                    C
+                <td>
+                    <div class="module ellipsis-1">{{item.Grade}}</div>
                 </td>
                 </tr>
-                <tr>
-                <td>
-                {{item.label}}
+                <tr bgcolor={{item.color}}>
+                <td rowspan="2">
+                    <div class="module ellipsis-2" align="left">{{item.Notes2}}
+                    </div>
                 </td>
                 <td>
-                </td>                                        
+                    <div class="module ellipsis-1">{{item.Category}}</div>
+                </td>                                         
                 </tr>
-                <tr>
+                <tr bgcolor={{item.color}}>
                 <td>
-                {{item.grade}}
-                </td>
-                <td>
+                    <div class="module ellipsis-1">{{item.ARVE}}%</div>
                 </td>                                                                                                                           
                 </tr>  
-            </tbody>           
+              </tbody>           
             </table>                                                           
-        </li>
-</ul>
+          </li>
+        </ul>    
