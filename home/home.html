@@ -43,14 +43,18 @@
       </div>
     </div>
 <!-- Ecran de l'ARVE-->    
-<div class="section container" id="ARVE">
-  <h1 class="text-center text-primary">Tableau ARVE</h1>
+<div class="section container" id="ARVE" align="center">
+  <h1 class="text-center text-primary">ARVE</h1>
   <div class="row">
-    <div class="col-lg-6" ng-controller="ARVECtrl" align="center">
-      <h2 id="ARVEWTRTitle" class="text-center text-primary">ARVE WTR</h2>
-      <svg id="ARVEChart" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet"></svg>
-      <label align="center"><input  type="checkbox" ng-model="checkVac.value" ng-change="displayCat()">Afficher les vacances</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
-      <label align="center"><input  type="checkbox" ng-model="checkUnknown.value" ng-change="displayCat()">Compenser les unknowns</label>                 
+    <div id="ARVEChart" class="col-lg-6" ng-controller="ARVECtrl" align="center">
+      <h2 id="WTRTitle" class="text-center text-primary">ARVE WTR</h2>
+        <label><input  type="radio" name="ARVEVisual" value="Graph" ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Graphe</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+        <label><input  type="radio" name="ARVEVisual" value="Table" checked ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Tableau</label>                    
+      <svg id="WTRChart" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet"></svg>
+      <label id="WTRChart" align="center"><input  type="checkbox" ng-model="checkVac.value" ng-change="displayCat()">Afficher les vacances</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+      <label id="WTRChart" align="center"><input  type="checkbox" ng-model="checkUnknown.value" ng-change="displayCat()">Compenser les unknowns</label>
+      <p id="WTRTable" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet" style="display: none;">
+      </p>
     </div>
   </div>
 </div>  
@@ -68,12 +72,24 @@
         </div>
         <div class="cards">
           <div class="col-md-11">
-            <div ng-repeat="(listName, list) in models.lists" class="col-sm-3">
+            <div ng-repeat="(listName, list) in models.lists[0]" class="col-sm-3">
               <div class="panel panel-info">
                 <div class="panel-heading">
                     <h3 class="panel-title">{{listName}}</h3>
                 </div>
-                <div class="panel-body col2" ng-include="'home/idleCards.html'"></div>
+                <div class="panel-body col2">
+                  <ul dnd-list="list">  
+                  <li ng-repeat="item in list"
+                  dnd-draggable="item"
+                  dnd-moved="list.splice($index, 1)"
+                  dnd-effect-allowed="move"
+                  dnd-selected="models.selected = item"
+                  ng-class="{'selected': models.selected === item}"
+                  >                  <!-- " | orderBy: 'Name'"-->
+                  <div ng-include="'home/idleCards.html'"></div>
+                  </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>              
@@ -89,18 +105,27 @@
         </div>
         <div class="cards">
           <div class="col-md-11">
-            <div ng-repeat="(listName, list) in models.lists" class="col-sm-3">
+            <div ng-repeat="(listName, list) in models.lists[1]" class="col-sm-3">
               <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{{listName}}</h3>
+                <div class="panel-body col2">
+                  <ul dnd-list="list">  
+                  <li ng-repeat="item in list"
+                  dnd-draggable="item"
+                  dnd-moved="list.splice($index, 1)"
+                  dnd-effect-allowed="move"
+                  dnd-selected="models.selected = item"
+                  ng-class="{'selected': models.selected === item}"
+                  >                  
+                  <div ng-include="'home/idleCards.html'"></div>
+                  </li>
+                  </ul>
                 </div>
-                <div class="panel-body col2" ng-include="'home/idleCards.html'"></div>
               </div>
             </div>
           </div>              
         </div>          
       </div>
-            <div class="row">
+      <div class="row">
         <div class="col-md-1">
           <div class="panel panel-info" >                      
             <div class="panel-heading">
@@ -110,18 +135,27 @@
         </div>
         <div class="cards">
           <div class="col-md-11">
-            <div ng-repeat="(listName, list) in models.lists" class="col-sm-3">
+            <div ng-repeat="(listName, list) in models.lists[2]" class="col-sm-3">
               <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{{listName}}</h3>
+                <div class="panel-body col2">
+                  <ul dnd-list="list">  
+                  <li ng-repeat="item in list"
+                  dnd-draggable="item"
+                  dnd-moved="list.splice($index, 1)"
+                  dnd-effect-allowed="move"
+                  dnd-selected="models.selected = item"
+                  ng-class="{'selected': models.selected === item}"
+                  >                  
+                  <div ng-include="'home/idleCards.html'"></div>
+                  </li>
+                  </ul>
                 </div>
-                <div class="panel-body col2" ng-include="'home/idleCards.html'"></div>
               </div>
             </div>
           </div>              
         </div>          
       </div>
-            <div class="row">
+      <div class="row">
         <div class="col-md-1">
           <div class="panel panel-info" >                      
             <div class="panel-heading">
@@ -131,18 +165,27 @@
         </div>
         <div class="cards">
           <div class="col-md-11">
-            <div ng-repeat="(listName, list) in models.lists" class="col-sm-3">
+            <div ng-repeat="(listName, list) in models.lists[3]" class="col-sm-3">
               <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{{listName}}</h3>
+                <div class="panel-body col2">
+                  <ul dnd-list="list">  
+                  <li ng-repeat="item in list"
+                  dnd-draggable="item"
+                  dnd-moved="list.splice($index, 1)"
+                  dnd-effect-allowed="move"
+                  dnd-selected="models.selected = item"
+                  ng-class="{'selected': models.selected === item}"
+                  >                  
+                  <div ng-include="'home/idleCards.html'"></div>
+                  </li>
+                  </ul>
                 </div>
-                <div class="panel-body col2" ng-include="'home/idleCards.html'"></div>
               </div>
             </div>
           </div>              
         </div>          
       </div>
-            <div class="row">
+      <div class="row">
         <div class="col-md-1">
           <div class="panel panel-info" >                      
             <div class="panel-heading">
@@ -152,18 +195,57 @@
         </div>
         <div class="cards">
           <div class="col-md-11">
-            <div ng-repeat="(listName, list) in models.lists" class="col-sm-3">
+            <div ng-repeat="(listName, list) in models.lists[4]" class="col-sm-3">
               <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{{listName}}</h3>
+                <div class="panel-body col2">
+                  <ul dnd-list="list">  
+                  <li ng-repeat="item in list"
+                  dnd-draggable="item"
+                  dnd-moved="list.splice($index, 1)"
+                  dnd-effect-allowed="move"
+                  dnd-selected="models.selected = item"
+                  ng-class="{'selected': models.selected === item}"
+                  >                  
+                  <div ng-include="'home/idleCards.html'"></div>
+                  </li>
+                  </ul>
                 </div>
-                <div class="panel-body col2" ng-include="'home/idleCards.html'"></div>
               </div>
             </div>
           </div>              
         </div>          
-      </div>      
-      <div class="col-md-12">
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          <div class="panel panel-info" >                      
+            <div class="panel-heading">
+              <table><tbody><tr><td>Semaine S+5</td></tr></tbody></table>
+            </div>
+            </div>                        
+        </div>
+        <div class="cards">
+          <div class="col-md-11">
+            <div ng-repeat="(listName, list) in models.lists[5]" class="col-sm-3">
+              <div class="panel panel-info">
+                <div class="panel-body col2">
+                  <ul dnd-list="list">  
+                  <li ng-repeat="item in list"
+                  dnd-draggable="item"
+                  dnd-moved="list.splice($index, 1)"
+                  dnd-effect-allowed="move"
+                  dnd-selected="models.selected = item"
+                  ng-class="{'selected': models.selected === item}"
+                  >                  
+                  <div ng-include="'home/idleCards.html'"></div>
+                  </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>              
+        </div>          
+      </div>            
+      <!--div class="col-md-12">
           <div class="panel panel-default">
               <div class="panel-heading">
                   <h3 class="panel-title">Generated Model</h3>
@@ -172,11 +254,11 @@
                   <pre class="code">{{modelAsJson}}</pre>
               </div>
           </div>
-      </div>          
+      </div-->          
   </div>
 </div>
-</br></br></br></br>
-</br></br></br></br>
+<!--/br></br></br></br>
+</br></br></br></br-->
 </br></br></br></br>
 </br></br></br></br>
 </br></br></br></br>

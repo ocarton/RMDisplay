@@ -1,36 +1,28 @@
-            <ul dnd-list="list">  
-            <li ng-repeat="item in list"
-            dnd-draggable="item"
-            dnd-moved="list.splice($index, 1)"
-            dnd-effect-allowed="move"
-            dnd-selected="models.selected = item"
-            ng-class="{'selected': models.selected === item}"
-            >
-            <table class="table card">                                  
+
+            <table class="table card" style="font-size: 0.8em">                                  
               <tbody>
                 <tr>
-                <td width=65%>
-                    <div class="module ellipsis-1" align="left">{{item.Name}}</div>                                
+                <td width=65% >
+                    <div class="module ellipsis-1" align="left"><a href="http://worldwidestaffingcv.capgemini.com/CV.aspx?id={{item['Global Group ID']}}_doc">{{item.Name}}</a></div>                                
                 </td>
                 <td>
-                    <div class="module ellipsis-1">{{item.Grade}}</div>
+                    <div class="module ellipsis-1"><a href="sip:{{item['Email address']}}">{{item.Grade}}</a></div>
                 </td>
                 </tr>
-                <tr bgcolor={{item.color}}>
+                <tr bgcolor={{item.color}} style="font-size: 0.9em">
                 <td rowspan="2">
-                    <div class="module ellipsis-2" align="left">{{item.Notes2}}
+                    <div class="module ellipsis-2" align="left">{{item["Notes 2"]}}
                     </div>
                 </td>
-                <td>
-                    <div class="module ellipsis-1">{{item.Category}}</div>
+                <td> <!--style="height: 1.8em;"-->
+                    <div class="module ellipsis-1">{{item["Global practice"]}}</div>
                 </td>                                         
                 </tr>
-                <tr bgcolor={{item.color}}>
-                <td>
-                    <div class="module ellipsis-1">{{item.ARVE}}%</div>
+                <tr bgcolor={{item.color}} style="font-size: 0.9em">
+                <td> <!--style="height: 1.8em;"-->
+                    <div class="module ellipsis-1">{{item["% Availibility"]}}%</div>
                 </td>                                                                                                                           
                 </tr>  
               </tbody>           
             </table>                                                           
-          </li>
-        </ul>    
+  

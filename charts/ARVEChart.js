@@ -3,28 +3,41 @@ angular.module('ARVEChart', [])
 
 .controller( 'ARVECtrl', function ARVEController( $scope, auth, $http, $location, store) {
 
-$scope.checkVac = {
-  value : false
-}
+$scope.checkVac = {value : false}
 
-$scope.checkUnknown = {
-  value : false
-}
+$scope.checkUnknown = {value : false}
+
+$scope.radARVEVisual = {value : "Graph"}
 
 $scope.displayCat = function () {
   loadBarsData();  
+}
+
+$scope.displayARVEVisual = function () {
+  if ($scope.radARVEVisual.value == "Graph") {
+    d3.select("#ARVEChart").selectAll("#WTRChart").attr("style","display: inline;")     
+    d3.select("#ARVEChart").selectAll("#WTRTable")
+      .attr("style","display: none;")
+    loadBarsData();    
+  }
+  else {
+    d3.select("#ARVEChart").selectAll("#WTRChart").attr("style","display: none;")    
+    d3.select("#ARVEChart").selectAll("#WTRTable")
+      .attr("style","display: inline;")
+    buildTable();
+  }
 }
 
 $scope.ARVEChart = function() {}
 
 var fList= ["data/arveP2.json", "data/arveP1.json", "data/arveS.json", "data/arveS1.json", "data/arveS2.json"];
 
-var margin = {top: 40, right: 45, bottom: 30, left: 55},
+var margin = {top: 40, right: 35, bottom: 30, left: 65},
     width = 1000 - margin.left - margin.right,
     height = 800 - margin.top - margin.bottom;
 
 var x = d3.scale.ordinal()
-    .rangeRoundBands([0, width*.9], .5 ,0.4); //,1 : Space between bars
+    .rangeRoundBands([0, width*.9], .7 ,0.4); //,1 : Space between bars
 var y = d3.scale.linear()
     .range([height, 0]);
     
@@ -37,14 +50,14 @@ var yAxis = d3.svg.axis()
     .orient("left").ticks(10)
     .tickFormat(d3.format(".0%"));
     
-var curWeek = 2;
+var curWeek = 3;
 
 var catList = ["unknown", "sickness", "idle", "ti", "training",  "presales", "billable", "vacation"];
 
 var color = d3.scale.ordinal()
     .range(["#00000","#FFD300", "#FF0000", "#999999", "#FF7400", "#00E400", "#4416D5", "#00C9C9"])
     .domain(catList);
-var barOpacity=0.7, sideBarsWidth=0.3;
+var barOpacity=.8, sideBarsWidth=1;
 
 var t, transitionDuration = 1000;
 
@@ -52,14 +65,20 @@ var root = [], activeGroup = [], newGroupArray = [];
 var xBars = [], xBarsS = [], xBarsP = [];
 var groupC, groupL, groupR, legend; //Group of rectangles which compose one bar
 
-var title = d3.select("#ARVEWTRTitle"); 
+var title = d3.select("#ARVEChart").select("#WTRTitle"); 
 
-var svg = d3.select("#ARVEChart").append("svg")
+var svg = d3.select("#ARVEChart").select("#WTRChart").append("svg")
     .attr("class", "chart")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
+    //.attr("viewbox", "0 0 "+ width + margin.left + margin.right + " " + height + margin.top + margin.bottom)     
     .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
+var table = d3.select("#ARVEChart").select("#WTRTable").append("table")
+    .attr("class", "table-bordered table-striped table-responsive") 
+    .attr("width", width -100) //+ margin.left + margin.right)
+    .attr("height", height-100) /* + margin.top + margin.bottom*/
 
 function semText(week) {
   if (week==2){return "S"}
@@ -69,7 +88,7 @@ function semText(week) {
 
 // defining graph title
 function graphTitle () {
-  return "ARVE WTR Semaine "+semText(curWeek)+"&nbsp;&nbsp;&nbsp;("+semText(curWeek-1)+" à g., "+semText(curWeek+1)+" à dr.)"
+  return "ARVE WTR Semaine "+semText(curWeek-1)+" à "+semText(curWeek+1)
 }
 
 // function for the y grid lines
@@ -179,6 +198,63 @@ function loadBarsData() {
       t.selectAll(".x.axis").call(xAxis);  
   
       //Building or rebuilding the bars
+      var legendY1 = [], legendY2 = [];   
+      var lastLegendPos = -5;
+      var legPos, lastCat = ""; 
+
+      groupR = svg.selectAll(".barRight")
+        .data(xBarsS, function(d){return d.name});
+      groupR
+        .enter().append("g")
+        .attr("class", "barRight")
+        .attr("opacity", 0)         
+        .attr("id", function(d){return d.name})  
+        .attr("transform", function(d) {return "translate(" + (x(d.name)+x.rangeBand())+ ",0) scale(0, 1)"; })  // Position of next bar      
+        .on ("click", slideLeft);
+      groupR.exit().remove();     
+  
+      t.selectAll(".barRight")
+        .attr("opacity", 1)       
+        .attr("transform", function(d) {return "translate(" + (x(d.name)+x.rangeBand()) +  ",0) scale(1, 1)"; }) // Position of next bar
+      
+      groupR.selectAll("rect.unknown").attr("y", function(d){d.y0=0;});
+      
+      groupR.each(function(d) {
+        d.catSum = d.tot;         
+        if ($scope.checkUnknown.value != false) {d.catSum = d.catSum-d.unknown;}
+      });          
+  
+      rect = groupR.selectAll("rect")
+        .data(displayList, function(d){return(d)});
+      rect
+        .enter().append("rect")
+        .attr("opacity", barOpacity)      
+        .attr("class", function(d) {return d;})
+        .style("fill", function(d) {return color(d);});
+      rect.exit().remove();        
+  
+      angular.forEach(displayList, function(c){
+          groupR.each(function(parDat) {
+            svg.selectAll("#"+parDat.name+".barRight").selectAll("rect."+c)//.transition().duration(transitionDuration)
+                  .attr("opacity", barOpacity)            
+                  .attr("width", x.rangeBand()*sideBarsWidth) //Bar width 
+                  .attr("y", function(d) {return parDat.y0;}) //Bar position
+                  .attr("height", function(d) {
+                  //legPos defines position of the legend based on position of the bar
+                  legPos = parDat.y0 + y(1-parDat[c]/parDat.catSum)/2;              
+                  legendY2[c] = d3.max([20+lastLegendPos, legPos]); 
+                  legendY1[c] = legPos;        
+                  if (c != lastCat) {
+                    if (lastCat != "") {lastLegendPos = legendY2[lastCat];}
+                    lastCat=c;
+                    }
+                  parDat.y0 += y(1-parDat[c]/parDat.catSum);
+                  return y(1-parDat[c]/parDat.catSum)}); 
+          });
+      });      
+      
+      
+      
       groupC = svg.selectAll(".barCenter")
         .data(xBars, function(d){return d.name});
         
@@ -203,7 +279,7 @@ function loadBarsData() {
         .data(displayList, function(d){return(d)});
       rect
         .enter().append("rect")
-        .attr("opacity", 0)          
+        .attr("opacity", 1)          
         .attr("class", function(d) {return d;})
         .style("fill", function(d) {return color(d);});
       rect.exit().remove();
@@ -220,7 +296,7 @@ function loadBarsData() {
       angular.forEach(displayList, function(c){
           groupC.each(function(parDat) {
             svg.selectAll("#"+parDat.name+".barCenter").selectAll("rect."+c)
-                  .attr("opacity", 1)              
+                  .attr("opacity", barOpacity)              
                   .attr("width", x.rangeBand()) //Bar width        
                   .attr("y", function(d) {return parDat.y0;}) //Bar position
                   .attr("height", function(d) {
@@ -234,21 +310,22 @@ function loadBarsData() {
                 .attr("opacity",1)                   
                 .attr("transform", function(d) {return "translate(0," + parDat.midBar + ")"; })                
               //adding the white 'shadow' behind the text
-              value
+ /*             value
                 .append("text")
                   .attr("x", 3)
                   .attr("dy", ".35em")
                   .attr("font-size", "1.4em")                  
                   .attr("opacity",1)   
                   .attr("class", "shadow")                         
-                  .text(function(d){return d3.format(".2%")(parDat[c]/parDat.catSum)});
+                  .text(function(d){return d3.format(".2%")(parDat[c]/parDat.catSum)});*/
               //adding the text
               value
                 .append("text")
                   .attr("x", 3)
                   .attr("dy", ".35em")
                   .attr("font-size", "1.4em")                   
-                  .attr("opacity",1)   
+                  .attr("opacity",1)  
+                  .style("fill", "white") // remove this line to have black text
                   .text(function(d){return d3.format(".2%")(parDat[c]/parDat.catSum)});              
                                 
             }      
@@ -289,6 +366,7 @@ function loadBarsData() {
       angular.forEach(displayList, function(c){
           groupL.each(function(parDat) {
             svg.selectAll("#"+parDat.name+".barLeft").selectAll("rect."+c)
+                  .attr("opacity", barOpacity)            
                   .attr("width", x.rangeBand()*sideBarsWidth) //Bar width 
                   .attr("y", function(d) {return parDat.y0;}) //Bar position
                   .attr("height", function(d) {
@@ -297,60 +375,10 @@ function loadBarsData() {
           });
       });
   
-      var legendY1 = [], legendY2 = [];   
-      var lastLegendPos = -5;
-      var legPos, lastCat = ""; 
-
-      groupR = svg.selectAll(".barRight")
-        .data(xBarsS, function(d){return d.name});
-      groupR
-        .enter().append("g")
-        .attr("class", "barRight")
-        .attr("opacity", 0)         
-        .attr("id", function(d){return d.name})  
-        .attr("transform", function(d) {return "translate(" + (x(d.name)+x.rangeBand())+ ",0) scale(0, 1)"; })  // Position of next bar      
-        .on ("click", slideLeft);
-      groupR.exit().remove();     
-  
-      t.selectAll(".barRight")
-        .attr("opacity", 1)       
-        .attr("transform", function(d) {return "translate(" + (x(d.name)+x.rangeBand()) +  ",0) scale(1, 1)"; }) // Position of next bar
-      
-      groupR.selectAll("rect.unknown").attr("y", function(d){d.y0=0;});
-      
-      groupR.each(function(d) {
-        d.catSum = d.tot;         
-        if ($scope.checkUnknown.value != false) {d.catSum = d.catSum-d.unknown;}
-      });          
-  
-      rect = groupR.selectAll("rect")
-        .data(displayList, function(d){return(d)});
-      rect
-        .enter().append("rect")
-        .attr("opacity", barOpacity)      
-        .attr("class", function(d) {return d;})
-        .style("fill", function(d) {return color(d);});
-      rect.exit().remove();        
-  
-      angular.forEach(displayList, function(c){
-          groupR.each(function(parDat) {
-            svg.selectAll("#"+parDat.name+".barRight").selectAll("rect."+c)//.transition().duration(transitionDuration)
-                  .attr("width", x.rangeBand()*sideBarsWidth) //Bar width 
-                  .attr("y", function(d) {return parDat.y0;}) //Bar position
-                  .attr("height", function(d) {
-                  //legPos defines position of the legend based on position of the bar
-                  legPos = parDat.y0 + y(1-parDat[c]/parDat.catSum)/2;              
-                  legendY2[c] = d3.max([20+lastLegendPos, legPos]); 
-                  legendY1[c] = legPos;        
-                  if (c != lastCat) {
-                    if (lastCat != "") {lastLegendPos = legendY2[lastCat];}
-                    lastCat=c;
-                    }
-                  parDat.y0 += y(1-parDat[c]/parDat.catSum);
-                  return y(1-parDat[c]/parDat.catSum)}); 
-          });
-      });
-  
+      //Making solid all bars for the total (right group of bars)
+      svg.selectAll("#"+xBarsS[xBarsS.length-1].name+".barRight").selectAll("rect").attr("opacity", 1)
+      svg.selectAll("#"+xBarsS[xBarsS.length-1].name+".barCenter").selectAll("rect").attr("opacity", 1)
+      svg.selectAll("#"+xBarsS[xBarsS.length-1].name+".barLeft").selectAll("rect").attr("opacity", 1)      
       // Positionning legend
       legend = svg.select("#"+xBarsS[xBarsS.length-1].name+".barRight").selectAll(".legend")
             .data(displayList, function(d){return(d)})
@@ -390,7 +418,7 @@ function loadBarsData() {
 //-------------------------------------------------------------------------------
 var drawChart = function () {
 	  t = svg.transition().duration(transitionDuration);  
-    
+   
     // Draw the y Grid lines
     svg.append("g")            
         .attr("class", "y grid")
@@ -417,6 +445,20 @@ var drawChart = function () {
       groupL.transition().duration(transitionDuration).attr("transform", function(d) {return "translate(" + (x(d.name)-x.rangeBand()*sideBarsWidth) + ",0) scale(1, 1)"; });  // Position of next bar
       groupR.transition().duration(transitionDuration).attr("transform", function(d) {return "translate(" + (x(d.name)+x.rangeBand()) +  ",0) scale(1, 1)"; });
    });   
+}
+
+//-------------------------------------------------------------------------------
+// This function creates a table with all the data for the give week and the 
+// level of detail selected
+//-------------------------------------------------------------------------------
+function buildTable() {
+  table.selectAll().delete
+  titlerow = table.append("tr")
+  titlerow.append("td").text("bonjour")
+  table.append("td").text("un")
+  table.append("td").text("deux")
+  table.append("td").text("trois")    
+  
 }
 
 //-------------------------------------------------------------------------------
@@ -522,18 +564,18 @@ function drillDown(bar) {
 //-------------------------------------------------------------------------------
 function loadData() {
     console.log("Reloading data")
-    d3.json(fList[1], function(error, data1) {
-    if (error) throw error;  
-    root[1] = data1;    
-    initNodeData(root[1]);
     d3.json(fList[2], function(error, data2) {
+    if (error) throw error;  
+    root[2] = data2;    
+    initNodeData(root[2]);
+    d3.json(fList[3], function(error, data3) {
       if (error) throw error;  
-      root[2] = data2;    
-      initNodeData(root[2]);
-      d3.json(fList[3], function(error, data3) {
+      root[3] = data3;    
+      initNodeData(root[3]);
+      d3.json(fList[4], function(error, data4) {
         if (error) throw error;  
-        root[3] = data3;    
-        initNodeData(root[3]);
+        root[4] = data4;    
+        initNodeData(root[4]);
  
         drawChart();
  
@@ -545,10 +587,10 @@ function loadData() {
           root[0] = data0;
           initNodeData(root[0]);
         });
-        d3.json(fList[4], function(error, data4) {
+        d3.json(fList[1], function(error, data1) {
           if (error) throw error;  
-          root[4] = data4;    
-          initNodeData(root[4]);
+          root[1] = data1;    
+          initNodeData(root[1]);
           });
         });      
       });      
