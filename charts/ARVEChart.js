@@ -239,7 +239,8 @@ function loadBarsData() {
                   .attr("opacity", barOpacity)            
                   .attr("width", x.rangeBand()*sideBarsWidth) //Bar width 
                   .attr("y", function(d) {return parDat.y0;}) //Bar position
-                  .attr("height", function(d) {
+                  .attr("height", function (d) {
+                      if (c == "billable") { parDat.midBar = parDat.y0 + y(1 - parDat[c] / parDat.catSum / 2)+30 }
                   //legPos defines position of the legend based on position of the bar
                   legPos = parDat.y0 + y(1-parDat[c]/parDat.catSum)/2;              
                   legendY2[c] = d3.max([20+lastLegendPos, legPos]); 
@@ -249,7 +250,35 @@ function loadBarsData() {
                     lastCat=c;
                     }
                   parDat.y0 += y(1-parDat[c]/parDat.catSum);
-                  return y(1-parDat[c]/parDat.catSum)}); 
+                  return y(1 - parDat[c] / parDat.catSum)
+                  });
+            if (c == "billable") {
+                svg.selectAll("#" + parDat.name + ".barRight").selectAll("g.arve").remove()
+                var value = svg.selectAll("#" + parDat.name + ".barRight")
+                  .append("g")
+                  .attr("class", "arve")
+                  .attr("opacity", 1)
+                  .attr("transform", function (d) { return "translate(0," + parDat.midBar + ")"; })
+                //adding the white 'shadow' behind the text
+                /*             value
+                               .append("text")
+                                 .attr("x", 3)
+                                 .attr("dy", ".35em")
+                                 .attr("font-size", "1.4em")                  
+                                 .attr("opacity",1)   
+                                 .attr("class", "shadow")                         
+                                 .text(function(d){return d3.format(".2%")(parDat[c]/parDat.catSum)});*/
+                //adding the text
+                value
+                  .append("text")
+                    .attr("x", 3)
+                    .attr("dy", ".35em")
+                    .attr("font-size", "1.4em")
+                    .attr("opacity", 1)
+                    .style("fill", "white") // remove this line to have black text
+                    .text(function (d) { return d3.format(".2%")(parDat[c] / parDat.catSum) });
+
+            }
           });
       });      
       
@@ -304,9 +333,10 @@ function loadBarsData() {
                       parDat.y0 += y(1-parDat[c]/parDat.catSum);
                       return y(1-parDat[c]/parDat.catSum)});
             if (c == "billable") {
+              svg.selectAll("#" + parDat.name + ".barCenter").selectAll("g.arve").remove()
               var value = svg.selectAll("#"+parDat.name+".barCenter")
                 .append("g")
-                .attr("class", "legend")
+                .attr("class", "arve")
                 .attr("opacity",1)                   
                 .attr("transform", function(d) {return "translate(0," + parDat.midBar + ")"; })                
               //adding the white 'shadow' behind the text
@@ -369,9 +399,38 @@ function loadBarsData() {
                   .attr("opacity", barOpacity)            
                   .attr("width", x.rangeBand()*sideBarsWidth) //Bar width 
                   .attr("y", function(d) {return parDat.y0;}) //Bar position
-                  .attr("height", function(d) {
+                  .attr("height", function (d) {
+                      if (c == "billable") { parDat.midBar = parDat.y0 + y(1 - parDat[c] / parDat.catSum / 2)-30 }
                       parDat.y0 += y(1-parDat[c]/parDat.catSum);    
-                      return y(1-parDat[c]/parDat.catSum)}); 
+                      return y(1 - parDat[c] / parDat.catSum)
+                  });
+            if (c == "billable") {
+                svg.selectAll("#" + parDat.name + ".barLeft").selectAll("g.arve").remove()
+                var value = svg.selectAll("#" + parDat.name + ".barLeft")
+                  .append("g")
+                  .attr("class", "arve")
+                  .attr("opacity", 1)
+                  .attr("transform", function (d) { return "translate(0," + parDat.midBar + ")"; })
+                //adding the white 'shadow' behind the text
+                /*             value
+                               .append("text")
+                                 .attr("x", 3)
+                                 .attr("dy", ".35em")
+                                 .attr("font-size", "1.4em")                  
+                                 .attr("opacity",1)   
+                                 .attr("class", "shadow")                         
+                                 .text(function(d){return d3.format(".2%")(parDat[c]/parDat.catSum)});*/
+                //adding the text
+                value
+                  .append("text")
+                    .attr("x", 3)
+                    .attr("dy", ".35em")
+                    .attr("font-size", "1.4em")
+                    .attr("opacity", 1)
+                    .style("fill", "white") // remove this line to have black text
+                    .text(function (d) { return d3.format(".2%")(parDat[c] / parDat.catSum) });
+
+            }
           });
       });
   
