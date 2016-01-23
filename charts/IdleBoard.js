@@ -24,18 +24,18 @@ var myApp = angular.module("IdleBoard", []).controller("IdleCtrl", function($sco
     data.forEach(function(d) {
         d.color = color(d["Prod  Unit Label"]);
         if(d["Global practice"] == "AMOA") {
-            $scope.models.lists[d.Week].AMOA.push(d);            
+            $scope.models.lists[d.Week].AMOA.unshift(d);            
         }
         else if (d["Global practice"] == "AMOE" || d["Global practice"] == "NTIC") {
-            $scope.models.lists[d.Week].TECH.push(d);            
+            $scope.models.lists[d.Week].TECH.unshift(d);
         }
         else if (d["Global practice"] == "EM" || d["Global practice"] == "PMO" || d["Global practice"] == "QUALITE") {
-            $scope.models.lists[d.Week].EM.push(d);            
+            $scope.models.lists[d.Week].EM.unshift(d);
         }
         else{
-            $scope.models.lists[d.Week].AUTRES.push(d);            
+            $scope.models.lists[d.Week].AUTRES.unshift(d);
         }
-      });  
+    });
       $scope.$apply();
     });
 
