@@ -15,28 +15,32 @@ var myApp = angular.module("IdleBoard", []).controller("IdleCtrl", function($sco
     var dsv = d3.dsv(";", "text/plain; charset=ISO-8859-1");
 
     dsv("data/dispos.csv", function(error, data) {
-    $scope.models.lists[0]= {"TECH": [], "AUTRES": [], "AMOA": [], "EM": []}
-    $scope.models.lists[1]= {"TECH": [], "AUTRES": [], "AMOA": [], "EM": []}    
-    $scope.models.lists[2]= {"TECH": [], "AUTRES": [], "AMOA": [], "EM": []}    
-    $scope.models.lists[3]= {"TECH": [], "AUTRES": [], "AMOA": [], "EM": []}    
-    $scope.models.lists[4]= {"TECH": [], "AUTRES": [], "AMOA": [], "EM": []}                                              
-    $scope.models.lists[5]= {"TECH": [], "AUTRES": [], "AMOA": [], "EM": []}
-    data.forEach(function(d) {
-        d.color = color(d["Prod  Unit Label"]);
-        if(d["Global practice"] == "AMOA") {
-            $scope.models.lists[d.Week].AMOA.unshift(d);            
-        }
-        else if (d["Global practice"] == "AMOE" || d["Global practice"] == "NTIC") {
-            $scope.models.lists[d.Week].TECH.unshift(d);
-        }
-        else if (d["Global practice"] == "EM" || d["Global practice"] == "PMO" || d["Global practice"] == "QUALITE") {
-            $scope.models.lists[d.Week].EM.unshift(d);
-        }
-        else{
-            $scope.models.lists[d.Week].AUTRES.unshift(d);
-        }
-    });
-      $scope.$apply();
+        $scope.models.lists[0] = { "TECH": [], "AUTRES": [], "AMOA": [], "EM": [] }
+        $scope.models.lists[1] = { "TECH": [], "AUTRES": [], "AMOA": [], "EM": [] }
+        $scope.models.lists[2] = { "TECH": [], "AUTRES": [], "AMOA": [], "EM": [] }
+        $scope.models.lists[3] = { "TECH": [], "AUTRES": [], "AMOA": [], "EM": [] }
+        $scope.models.lists[4] = { "TECH": [], "AUTRES": [], "AMOA": [], "EM": [] }
+        $scope.models.lists[5] = { "TECH": [], "AUTRES": [], "AMOA": [], "EM": [] }
+        $scope.models.lists[6] = { "TECH": [], "AUTRES": [], "AMOA": [], "EM": [] }
+        $scope.models.lists[7] = { "TECH": [], "AUTRES": [], "AMOA": [], "EM": [] }
+        $scope.models.lists[8] = { "TECH": [], "AUTRES": [], "AMOA": [], "EM": [] }
+        $scope.models.lists[9] = { "TECH": [], "AUTRES": [], "AMOA": [], "EM": [] }
+        data.forEach(function(d) {
+            d.color = color(d["Prod  Unit Label"]);
+            if(d["Global practice"] == "AMOA") {
+                $scope.models.lists[d.Week].AMOA.unshift(d);            
+            }
+            else if (d["Global practice"] == "AMOE" || d["Global practice"] == "NTIC") {
+                $scope.models.lists[d.Week].TECH.unshift(d);
+            }
+            else if (d["Global practice"] == "EM" || d["Global practice"] == "PMO" || d["Global practice"] == "QUALITE") {
+                $scope.models.lists[d.Week].EM.unshift(d);
+            }
+            else{
+                $scope.models.lists[d.Week].AUTRES.unshift(d);
+            }
+        });
+        $scope.$apply();
     });
 
 //code before the pause

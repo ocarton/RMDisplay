@@ -66,7 +66,7 @@
         <div class="col-md-1">
           <div class="panel panel-info" >                      
             <div class="panel-heading">
-              <table><tbody><tr><td>Semaine S</td></tr></tbody></table>
+              <table><tbody><tr><td>Semaine en cours</td></tr></tbody></table>
             </div>
           </div>                        
         </div>
@@ -79,13 +79,13 @@
                 </div>
                 <div class="panel-body col2">
                   <ul dnd-list="list">  
-                  <li ng-repeat="item in list"
+                  <li ng-repeat="item in list | filter:{RMA:'FR03AAD2 - CSD_AD'}"
                   dnd-draggable="item"
                   dnd-moved="list.splice($index, 1)"
                   dnd-effect-allowed="move"
                   dnd-selected="models.selected = item"
                   ng-class="{'selected': models.selected === item}"
-                  >                  <!-- " | orderBy: 'Name'"-->
+                  >
                   <div ng-include="'home/idleCards.html'"></div>
                   </li>
                   </ul>
@@ -95,156 +95,40 @@
           </div>              
         </div>          
       </div>
-      <div class="row">
-        <div class="col-md-1">
-          <div class="panel panel-info" >                      
-            <div class="panel-heading">
-              <table><tbody><tr><td>Semaine S+1</td></tr></tbody></table>
-            </div>
-            </div>                        
-        </div>
-        <div class="cards">
-          <div class="col-md-11">
-            <div ng-repeat="(listName, list) in models.lists[1]" class="col-sm-3">
-              <div class="panel panel-info">
-                <div class="panel-body col2">
-                  <ul dnd-list="list">  
-                  <li ng-repeat="item in list"
-                  dnd-draggable="item"
-                  dnd-moved="list.splice($index, 1)"
-                  dnd-effect-allowed="move"
-                  dnd-selected="models.selected = item"
-                  ng-class="{'selected': models.selected === item}"
-                  >                  
-                  <div ng-include="'home/idleCards.html'"></div>
-                  </li>
-                  </ul>
+
+    <div ng-init="wks=[1, 2, 3, 4, 5, 6, 7, 8, 9]">
+        <div ng-repeat="week in wks">
+            <div class="row">
+                <div class="col-md-1">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <table><tbody><tr><td>Semaine S+{{week}}</td></tr></tbody></table>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>              
-        </div>          
-      </div>
-      <div class="row">
-        <div class="col-md-1">
-          <div class="panel panel-info" >                      
-            <div class="panel-heading">
-              <table><tbody><tr><td>Semaine S+2</td></tr></tbody></table>
-            </div>
-            </div>                        
-        </div>
-        <div class="cards">
-          <div class="col-md-11">
-            <div ng-repeat="(listName, list) in models.lists[2]" class="col-sm-3">
-              <div class="panel panel-info">
-                <div class="panel-body col2">
-                  <ul dnd-list="list">  
-                  <li ng-repeat="item in list"
-                  dnd-draggable="item"
-                  dnd-moved="list.splice($index, 1)"
-                  dnd-effect-allowed="move"
-                  dnd-selected="models.selected = item"
-                  ng-class="{'selected': models.selected === item}"
-                  >                  
-                  <div ng-include="'home/idleCards.html'"></div>
-                  </li>
-                  </ul>
+                <div class="cards">
+                    <div class="col-md-11">
+                        <div ng-repeat="(listName, list) in models.lists[week]" class="col-sm-3">
+                            <div class="panel panel-info">
+                                <div class="panel-body col2">
+                                    <ul dnd-list="list">
+                                        <li ng-repeat="item in list | filter:{RMA:'FR03AAD2 - CSD_AD'}"
+                                            dnd-draggable="item"
+                                            dnd-moved="list.splice($index, 1)"
+                                            dnd-effect-allowed="move"
+                                            dnd-selected="models.selected = item"
+                                            ng-class="{'selected': models.selected === item}">
+                                            <div ng-include="'home/idleCards.html'"></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>              
-        </div>          
-      </div>
-      <div class="row">
-        <div class="col-md-1">
-          <div class="panel panel-info" >                      
-            <div class="panel-heading">
-              <table><tbody><tr><td>Semaine S+3</td></tr></tbody></table>
-            </div>
-            </div>                        
         </div>
-        <div class="cards">
-          <div class="col-md-11">
-            <div ng-repeat="(listName, list) in models.lists[3]" class="col-sm-3">
-              <div class="panel panel-info">
-                <div class="panel-body col2">
-                  <ul dnd-list="list">  
-                  <li ng-repeat="item in list"
-                  dnd-draggable="item"
-                  dnd-moved="list.splice($index, 1)"
-                  dnd-effect-allowed="move"
-                  dnd-selected="models.selected = item"
-                  ng-class="{'selected': models.selected === item}"
-                  >                  
-                  <div ng-include="'home/idleCards.html'"></div>
-                  </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>              
-        </div>          
-      </div>
-      <div class="row">
-        <div class="col-md-1">
-          <div class="panel panel-info" >                      
-            <div class="panel-heading">
-              <table><tbody><tr><td>Semaine S+4</td></tr></tbody></table>
-            </div>
-            </div>                        
-        </div>
-        <div class="cards">
-          <div class="col-md-11">
-            <div ng-repeat="(listName, list) in models.lists[4]" class="col-sm-3">
-              <div class="panel panel-info">
-                <div class="panel-body col2">
-                  <ul dnd-list="list">  
-                  <li ng-repeat="item in list"
-                  dnd-draggable="item"
-                  dnd-moved="list.splice($index, 1)"
-                  dnd-effect-allowed="move"
-                  dnd-selected="models.selected = item"
-                  ng-class="{'selected': models.selected === item}"
-                  >                  
-                  <div ng-include="'home/idleCards.html'"></div>
-                  </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>              
-        </div>          
-      </div>
-      <div class="row">
-        <div class="col-md-1">
-          <div class="panel panel-info" >                      
-            <div class="panel-heading">
-              <table><tbody><tr><td>Semaine S+5</td></tr></tbody></table>
-            </div>
-            </div>                        
-        </div>
-        <div class="cards">
-          <div class="col-md-11">
-            <div ng-repeat="(listName, list) in models.lists[5]" class="col-sm-3">
-              <div class="panel panel-info">
-                <div class="panel-body col2">
-                  <ul dnd-list="list">  
-                  <li ng-repeat="item in list"
-                  dnd-draggable="item"
-                  dnd-moved="list.splice($index, 1)"
-                  dnd-effect-allowed="move"
-                  dnd-selected="models.selected = item"
-                  ng-class="{'selected': models.selected === item}"
-                  >                  
-                  <div ng-include="'home/idleCards.html'"></div>
-                  </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>              
-        </div>          
-      </div>            
+    </div>
       <!--div class="col-md-12">
           <div class="panel panel-default">
               <div class="panel-heading">
