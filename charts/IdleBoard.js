@@ -1,8 +1,8 @@
 /// <reference path="../typings/angular2/angular2.d.ts"/>
 var myApp = angular.module("IdleBoard", []).controller("IdleCtrl", function($scope) {
 
-    var skillList = ["FR03AA10_CSD_PAU", "FR03AA12_MCS_DEF", "FR03AA11_MCS_RT",  "FR03AA06_CSD_DC", "FR03AA09_MCS_S&A", "FR03AA14_CSD_RES2"];
-    
+    var skillList = ["FR03AA10_CSD_RTCP", "FR03AA12_MCS_OCS", "FR03AA11_MCS_RTC", "FR03AA06_CSD_DC", "FR03AA09_MCS_S&A", "FR03AA14_CSD_OCSP"];
+
     var color = d3.scale.ordinal()
         .range(["#FFF4D4", "#FF9BB8", "#FFE69B", "#C6FF9B", "#ABA9FF", "#FFD4E0"])
         .domain(skillList);

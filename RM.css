@@ -160,7 +160,7 @@ text.shadow {
     column-count: 1;    
   }
 } 
-@media (min-width: 1200px) { /*was 1800*/
+@media (min-width: 1220px) { /*was 1800*/
   .panel-body.col2 { 
     -webkit-column-count: 2; 
       -moz-column-count: 2; 
@@ -1836,15 +1836,15 @@ pre code {
     width: 970px;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1220px) {
   .container {
-    width: 1170px; 
+    width: 1220px; 
   }
 }
 /* This media was added for display on HD screens*/
-@media (min-width: 1800px) {
+@media (min-width: 1890px) {
   .container {
-    width: 1770px;
+    width: 1890px;
   }
 }
 .container-fluid {
@@ -2335,7 +2335,7 @@ pre code {
     margin-left: 0%;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1220px) {
   .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 {
     float: left;
   }
@@ -6709,7 +6709,7 @@ button.close {
     display: inline-block !important;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1220px) {
   .visible-lg {
     display: block !important;
   }
@@ -6724,17 +6724,17 @@ button.close {
     display: table-cell !important;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1220px) {
   .visible-lg-block {
     display: block !important;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1220px) {
   .visible-lg-inline {
     display: inline !important;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1220px) {
   .visible-lg-inline-block {
     display: inline-block !important;
   }
@@ -6754,7 +6754,7 @@ button.close {
     display: none !important;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1220px) {
   .hidden-lg {
     display: none !important;
   }

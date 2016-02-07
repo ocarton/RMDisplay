@@ -511,13 +511,10 @@ var drawChart = function () {
 // level of detail selected
 //-------------------------------------------------------------------------------
 function buildTable() {
-  table.selectAll().delete
-  titlerow = table.append("tr")
-  titlerow.append("td").text("bonjour")
-  table.append("td").text("un")
-  table.append("td").text("deux")
-  table.append("td").text("trois")    
-  
+
+    $scope.tableS0 = xBarsP;
+    $scope.tableS1 = xBars;
+    $scope.tableS2 = xBarsS;
 }
 
 //-------------------------------------------------------------------------------

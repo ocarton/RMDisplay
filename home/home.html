@@ -1,126 +1,179 @@
 <!-- Barre de navigation en bas de l'écran -->
 <div class="navbar navbar-default navbar-fixed-bottom">
-      <div class="container">
+    <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-          </button>
-           <a class="navbar-brand" href="#"><span>Identifié: {{auth.profile.nickname}}</span></a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><span>Identifié: {{auth.profile.nickname}}</span></a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-ex-collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li class="active">
-              <a href="#" class="btn-primary btn-block">Home</a>
-            </li>
-            <li class="active">
-              <a href="#/#ARVE" class="btn-primary btn-block">ARVE</a>
-            </li>
-            <li class="active">
-              <a href="#/#DISPOS" class="btn-primary btn-block">DISPOS</a>
-            </li>            
-            <li>
-             <a ng-click="logout()" class="btn-warning btn-block">Logout</a>
-            </li>            
-          </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active">
+                    <a href="" ng-click="navigate('')" class="btn-primary btn-block">Home</a>
+                </li>
+                <li class="active">
+                    <a href="" ng-click="navigate('ARVE')" class="btn-primary btn-block">ARVE</a>
+                </li>
+                <li class="active">
+                    <a href="" ng-click="navigate('DISPOS')" class="btn-primary btn-block">DISPOS</a>
+                </li>
+                <li>
+                    <a ng-click="logout()" class="btn-warning btn-block">Logout</a>
+                </li>
+            </ul>
         </div>
-      </div>
     </div>
+</div>
 <!-- Ecran de titre de la page-->
-   <div class="cover">
-      <div class="cover-image" style="background-image : url('src/img/sky-sunset-night.jpg')"></div>
-     
-      <!--div class="cover-image" style="background-image : url('https://unsplash.imgix.net/photo-1422513391413-ddd4f2ce3340?w=1024&amp;q=50&amp;fm=jpg&amp;s=282e5978de17d6cd2280888d16f06f04')"></div-->
-      <div class="container">
+<div id="TOP" class="section cover">
+    <div class="cover-image" style="background-image : url('src/img/sky-sunset-night.jpg')"></div>
+
+    <!--div class="cover-image" style="background-image : url('https://unsplash.imgix.net/photo-1422513391413-ddd4f2ce3340?w=1024&amp;q=50&amp;fm=jpg&amp;s=282e5978de17d6cd2280888d16f06f04')"></div-->
+    <div class="container">
         <div class="row">
-          <div class="col-md-6 text-center">
-            <h1 class="text-center text-inverse">RM staffing center</h1>
-            <p class="text-inverse">Information hub for the staffing purposes of the A&amp;D CSD Skill Center</p>
-            <br>
-            <br>
-          </div>
+            <div class="col-md-6 text-center">
+                <h1 class="text-center text-inverse">RM staffing center</h1>
+                <p class="text-inverse">Information hub for the staffing purposes of the CSD AERO Skill Center</p>
+                <br>
+                <br>
+            </div>
         </div>
-      </div>
     </div>
-<!-- Ecran de l'ARVE-->    
-<div class="section container" id="ARVE" align="center">
-  <h1 class="text-center text-primary">ARVE</h1>
-  <div class="row">
-    <div id="ARVEChart" class="col-lg-6" ng-controller="ARVECtrl" align="center">
-      <h2 id="WTRTitle" class="text-center text-primary">ARVE WTR</h2>
-        <label><input  type="radio" name="ARVEVisual" value="Graph" ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Graphe</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
-        <label><input  type="radio" name="ARVEVisual" value="Table" checked ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Tableau</label>                    
-      <svg id="WTRChart" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet"></svg>
-      <label id="WTRChart" align="center"><input  type="checkbox" ng-model="checkVac.value" ng-change="displayCat()">Afficher les vacances</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
-      <label id="WTRChart" align="center"><input  type="checkbox" ng-model="checkUnknown.value" ng-change="displayCat()">Compenser les unknowns</label>
-      <p id="WTRTable" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet" style="display: none;">
-      </p>
+</div>
+<!-- Ecran de l'ARVE-->
+<div id="ARVE" class="section container" align="center">
+    <h1 class="text-center text-primary">ARVE</h1>
+    <div class="row">
+        <div id="ARVEChart" class="col-lg-6" ng-controller="ARVECtrl" align="center">
+            <h2 id="WTRTitle" class="text-center text-primary">ARVE WTR</h2>
+            <label><input type="radio" name="ARVEVisual" value="Graph" ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Graphe</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+            <label><input type="radio" name="ARVEVisual" value="Table" checked ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Tableau</label>
+            <svg id="WTRChart" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet"></svg>
+            <label id="WTRChart" align="center"><input type="checkbox" ng-model="checkVac.value" ng-change="displayCat()">Afficher les vacances</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+            <label id="WTRChart" align="center"><input type="checkbox" ng-model="checkUnknown.value" ng-change="displayCat()">Compenser les unknowns</label>
+            <div id="WTRTable" viewBox="0 0 1000 800" style="display: none;">
+                <table class="table table-bordered table-hover table-striped">
+                    <tbody>
+                        <tr> <td></td> <td align="center" ng:repeat="arve in tableS0"><b>{{arve.name}}</b></td> </tr>
+                        <tr> <td>Billable</td> <td align="right" ng:repeat="arve in tableS0">{{arve.billable |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>ACCO</td> <td align="right" ng:repeat="arve in tableS0">{{arve.presales |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>TI</td> <td align="right" ng:repeat="arve in tableS0">{{arve.ti |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Interco</td> <td align="right" ng:repeat="arve in tableS0">{{arve.idle |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Maladie</td> <td align="right" ng:repeat="arve in tableS0">{{arve.sickness |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Congés</td> <td align="right" ng:repeat="arve in tableS0">{{arve.vacation |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Inconnu</td> <td align="right" ng:repeat="arve in tableS0">{{arve.unknown |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Effectif</td> <td align="right" ng:repeat="arve in tableS0">{{arve.tot |number:2}}&nbsp;</td> </tr>
+                        <tr> <td><b>ARVE</b></td> <td align="right" ng:repeat="arve in tableS0"><b>{{arve.billable/arve.tot*100|number:2}}%</b></td> </tr>
+                    </tbody>
+                </table>
+                </br>
+                <table class="table table-bordered table-hover table-striped">
+                    <tbody>
+                        <tr> <td></td> <td align="center" ng:repeat="arve in tableS1"><b>{{arve.name}}</b></td> </tr>
+                        <tr> <td>Billable</td> <td align="right" ng:repeat="arve in tableS1">{{arve.billable |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>ACCO</td> <td align="right" ng:repeat="arve in tableS1">{{arve.presales |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>TI</td> <td align="right" ng:repeat="arve in tableS1">{{arve.ti |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Interco</td> <td align="right" ng:repeat="arve in tableS1">{{arve.idle |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Maladie</td> <td align="right" ng:repeat="arve in tableS1">{{arve.sickness |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Congés</td> <td align="right" ng:repeat="arve in tableS1">{{arve.vacation |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Inconnu</td> <td align="right" ng:repeat="arve in tableS1">{{arve.unknown |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Effectif</td> <td align="right" ng:repeat="arve in tableS1">{{arve.tot |number:2}}&nbsp;</td> </tr>
+                        <tr> <td><b>ARVE</b></td> <td align="right" ng:repeat="arve in tableS1"><b>{{arve.billable/arve.tot*100|number:2}}%</b></td> </tr>
+                    </tbody>
+                </table>
+                </br>
+                <table class="table table-bordered table-hover table-striped">
+                    <tbody>
+                        <tr> <td></td> <td align="center" ng:repeat="arve in tableS2"><b>{{arve.name}}</b></td> </tr>
+                        <tr> <td>Billable</td> <td align="right" ng:repeat="arve in tableS2">{{arve.billable |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>ACCO</td> <td align="right" ng:repeat="arve in tableS2">{{arve.presales |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>TI</td> <td align="right" ng:repeat="arve in tableS2">{{arve.ti |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Interco</td> <td align="right" ng:repeat="arve in tableS2">{{arve.idle |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Maladie</td> <td align="right" ng:repeat="arve in tableS2">{{arve.sickness |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Congés</td> <td align="right" ng:repeat="arve in tableS2">{{arve.vacation |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Inconnu</td> <td align="right" ng:repeat="arve in tableS2">{{arve.unknown |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Effectif</td> <td align="right" ng:repeat="arve in tableS2">{{arve.tot |number:2}}&nbsp;</td> </tr>
+                        <tr> <td><b>ARVE</b></td> <td align="right" ng:repeat="arve in tableS2"><b>{{arve.billable/arve.tot*100|number:2}}%</b></td> </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-  </div>
-</div>  
+</div>
 
 <div class="section container" id="DISPOS">
-  <div class="col-md-12 ng-scope" ng-app="IdleBoard" ng-controller="IdleCtrl">
-    <h1 class="text-center text-primary">Disponibilités</h1>
-      <div class="row">
-        <div class="col-md-1">
-          <div class="panel panel-info" >                      
-            <div class="panel-heading">
-              <table><tbody><tr><td>Semaine en cours</td></tr></tbody></table>
-            </div>
-          </div>                        
-        </div>
-        <div class="cards">
-          <div class="col-md-11">
-            <div ng-repeat="(listName, list) in models.lists[0]" class="col-sm-3">
-              <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{{listName}}</h3>
+    <div class="col-md-12 ng-scope" ng-app="IdleBoard" ng-controller="IdleCtrl">
+        <h1 class="text-center text-primary">
+            Disponibilités
+            <select style="width: 150px" ng-init="dispoGroup='FR03CS04 - AERO'" ng-model="dispoGroup">
+                <option value="FR03CS03 - COMM">COMM</option>                
+                <option value="FR03CS04 - AERO">AERO</option>                
+                <option value="FR03CS05 - EUC">EUC</option>
+                <option value="FR03CS06 - PER">MED</option>
+                <option value="FR03CS07 - ECM">ECM</option>
+            </select>
+        </h1>
+        <div class="row">
+            <div class="col-md-1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <table><tbody><tr><td>Semaine en cours</td></tr></tbody></table>
+                    </div>
                 </div>
-                <div class="panel-body col2">
-                  <ul dnd-list="list">  
-                  <li ng-repeat="item in list | filter:{RMA:'FR03AAD2 - CSD_AD'}"
-                  dnd-draggable="item"
-                  dnd-moved="list.splice($index, 1)"
-                  dnd-effect-allowed="move"
-                  dnd-selected="models.selected = item"
-                  ng-class="{'selected': models.selected === item}"
-                  >
-                  <div ng-include="'home/idleCards.html'"></div>
-                  </li>
-                  </ul>
-                </div>
-              </div>
             </div>
-          </div>              
-        </div>          
-      </div>
-
-    <div ng-init="wks=[1, 2, 3, 4, 5, 6, 7, 8, 9]">
-        <div ng-repeat="week in wks">
-            <div class="row">
-                <div class="col-md-1">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <table><tbody><tr><td>Semaine S+{{week}}</td></tr></tbody></table>
+            <div class="cards">
+                <div class="col-md-11">
+                    <div ng-repeat="(listName, list) in models.lists[0]" class="col-sm-3">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">{{listName}}</h3>
+                            </div>
+                            <div class="panel-body col2">
+                                <ul dnd-list="list">
+                                    <li ng-repeat="item in list | filter:{RMA: dispoGroup}"
+                                        dnd-draggable="item"
+                                        dnd-moved="list.splice($index, 1)"
+                                        dnd-effect-allowed="move"
+                                        dnd-selected="models.selected = item"
+                                        ng-class="{'selected': models.selected === item}">
+                                        <div ng-include="'home/idleCards.html'"></div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="cards">
-                    <div class="col-md-11">
-                        <div ng-repeat="(listName, list) in models.lists[week]" class="col-sm-3">
-                            <div class="panel panel-info">
-                                <div class="panel-body col2">
-                                    <ul dnd-list="list">
-                                        <li ng-repeat="item in list | filter:{RMA:'FR03AAD2 - CSD_AD'}"
-                                            dnd-draggable="item"
-                                            dnd-moved="list.splice($index, 1)"
-                                            dnd-effect-allowed="move"
-                                            dnd-selected="models.selected = item"
-                                            ng-class="{'selected': models.selected === item}">
-                                            <div ng-include="'home/idleCards.html'"></div>
-                                        </li>
-                                    </ul>
+            </div>
+        </div>
+
+        <div ng-init="wks=[1, 2, 3, 4, 5, 6, 7, 8, 9]">
+            <div ng-repeat="week in wks">
+                <div class="row">
+                    <div class="col-md-1">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <table><tbody><tr><td>Semaine S+{{week}}</td></tr></tbody></table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cards">
+                        <div class="col-md-11">
+                            <div ng-repeat="(listName, list) in models.lists[week]" class="col-sm-3">
+                                <div class="panel panel-info">
+                                    <div class="panel-body col2">
+                                        <ul dnd-list="list">
+                                            <li ng-repeat="item in list | filter:{RMA: dispoGroup}"
+                                                dnd-draggable="item"
+                                                dnd-moved="list.splice($index, 1)"
+                                                dnd-effect-allowed="move"
+                                                dnd-selected="models.selected = item"
+                                                ng-class="{'selected': models.selected === item}">
+                                                <div ng-include="'home/idleCards.html'"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -128,18 +181,17 @@
                 </div>
             </div>
         </div>
+        <!--div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Generated Model</h3>
+                </div>
+                <div class="panel-body">
+                    <pre class="code">{{modelAsJson}}</pre>
+                </div>
+            </div>
+        </div-->
     </div>
-      <!--div class="col-md-12">
-          <div class="panel panel-default">
-              <div class="panel-heading">
-                  <h3 class="panel-title">Generated Model</h3>
-              </div>
-              <div class="panel-body">
-                  <pre class="code">{{modelAsJson}}</pre>
-              </div>
-          </div>
-      </div-->          
-  </div>
 </div>
 <!--/br></br></br></br>
 </br></br></br></br-->
@@ -149,7 +201,5 @@
 </br></br></br></br>
 </br></br></br></br>
 <script>
-console.log("Page 'Home' loaded");
-</script>        
-
-
+    console.log("Page 'Home' loaded");
+</script>
