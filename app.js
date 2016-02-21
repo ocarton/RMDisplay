@@ -6,7 +6,8 @@ angular.module( 'RMBoard', [
   'angular-storage',
   'angular-jwt',
   'orgaChart',
-  'ARVEChart',
+  'ARVEWTRChart',
+  'ARVERetainChart',
   'IdleBoard'
 ])
 .config( function myAppConfig ( $routeProvider, authProvider, $httpProvider, $locationProvider,

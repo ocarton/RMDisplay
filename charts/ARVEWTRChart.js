@@ -1,28 +1,28 @@
 /// <reference path="../typings/angular2/angular2.d.ts"/>
-angular.module('ARVEChart', [])
+angular.module('ARVEWTRChart', [])
 
-.controller( 'ARVECtrl', function ARVEController( $scope, auth, $http, $location, store) {
+.controller( 'ARVEWTRCtrl', function ARVEWTRController( $scope, auth, $http, $location, store) {
 
 $scope.checkVac = {value : false}
 
 $scope.checkUnknown = {value : false}
 
-$scope.radARVEVisual = {value : "Graph"}
+$scope.radARVEVisual = { value: "Graph" }
 
 $scope.displayCat = function () {
   loadBarsData();  
 }
 
 $scope.displayARVEVisual = function () {
-  if ($scope.radARVEVisual.value == "Graph") {
-    d3.select("#ARVEChart").selectAll("#WTRChart").attr("style","display: inline;")     
-    d3.select("#ARVEChart").selectAll("#WTRTable")
+    if ($scope.radARVEVisual.value == "Graph") {
+      d3.select("#ARVEWTRChart").selectAll("#WTRChart").attr("style", "display: inline;")
+      d3.select("#ARVEWTRChart").selectAll("#WTRTable")
       .attr("style","display: none;")
     loadBarsData();    
   }
   else {
-    d3.select("#ARVEChart").selectAll("#WTRChart").attr("style","display: none;")    
-    d3.select("#ARVEChart").selectAll("#WTRTable")
+      d3.select("#ARVEWTRChart").selectAll("#WTRChart").attr("style", "display: none;")
+      d3.select("#ARVEWTRChart").selectAll("#WTRTable")
       .attr("style","display: inline;")
     buildTable();
   }
@@ -32,7 +32,7 @@ $scope.ARVEChart = function() {}
 
 var fList= ["data/arveP2.json", "data/arveP1.json", "data/arveS.json", "data/arveS1.json", "data/arveS2.json"];
 
-var margin = {top: 40, right: 35, bottom: 30, left: 65},
+var margin = {top: 40, right: 65, bottom: 30, left: 95},
     width = 1000 - margin.left - margin.right,
     height = 800 - margin.top - margin.bottom;
 
@@ -57,17 +57,17 @@ var catList = ["unknown", "sickness", "idle", "ti", "training",  "presales", "bi
 var color = d3.scale.ordinal()
     .range(["#00000","#FFD300", "#FF0000", "#999999", "#FF7400", "#00E400", "#4416D5", "#00C9C9"])
     .domain(catList);
-var barOpacity=.8, sideBarsWidth=1;
+var barOpacity=.6, sideBarsWidth=1;
 
-var t, transitionDuration = 1000;
+var t, t1, transitionDuration = 750;
 
 var root = [], activeGroup = [], newGroupArray = [];
 var xBars = [], xBarsS = [], xBarsP = [];
 var groupC, groupL, groupR, legend; //Group of rectangles which compose one bar
 
-var title = d3.select("#ARVEChart").select("#WTRTitle"); 
+var title = d3.select("#ARVEWTRChart").select("#WTRTitle"); 
 
-var svg = d3.select("#ARVEChart").select("#WTRChart").append("svg")
+var svg = d3.select("#ARVEWTRChart").select("#WTRChart").append("svg")
     .attr("class", "chart")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -75,7 +75,7 @@ var svg = d3.select("#ARVEChart").select("#WTRChart").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
-var table = d3.select("#ARVEChart").select("#WTRTable").append("table")
+var table = d3.select("#ARVEWTRChart").select("#WTRTable").append("table")
     .attr("class", "table-bordered table-striped table-responsive") 
     .attr("width", width -100) //+ margin.left + margin.right)
     .attr("height", height-100) /* + margin.top + margin.bottom*/
@@ -88,7 +88,7 @@ function semText(week) {
 
 // defining graph title
 function graphTitle () {
-  return "ARVE WTR Semaine "+semText(curWeek-1)+" à "+semText(curWeek+1)
+  return "ARVE WTR semaine "+semText(curWeek-1)+" à "+semText(curWeek+1)
 }
 
 // function for the y grid lines
@@ -142,7 +142,8 @@ function loadBarsData() {
     title
       .html(graphTitle());
   
-    t = svg.transition().duration(transitionDuration);  
+    t = svg.transition().duration(transitionDuration)
+        .each("end", function () {t1 = d3.select(this).transition().duration(transitionDuration)});
   
     // Building the bars list
     console.log("Week index="+curWeek);
@@ -185,10 +186,10 @@ function loadBarsData() {
       y.domain([minVacSh, 1]);
       x.domain(xBars.map(function(d) {return d.name; }))
      
-      console.log("Ratio de vacances le plus élevé="+minVacSh);
+      console.log("Ratio de vacance WTR le plus élevé="+minVacSh);
   
       // Redisplaying yAxis and lines
-      var t1 = t.transition();
+      t1 = t.transition();
       t.selectAll(".y.axis").call(yAxis);    
       t.selectAll(".y.grid").call(make_y_axis());         
       svg.selectAll(".y.grid").selectAll("line").filter(function(d){return (Math.round(d*10) == d*10);})
@@ -207,10 +208,15 @@ function loadBarsData() {
       groupR
         .enter().append("g")
         .attr("class", "barRight")
-        .attr("opacity", 0)         
-        .attr("id", function(d){return d.name})  
-        .attr("transform", function(d) {return "translate(" + (x(d.name)+x.rangeBand())+ ",0) scale(0, 1)"; })  // Position of next bar      
-        .on ("click", slideLeft);
+        .attr("opacity", 0)
+        .attr("id", function (d) { return d.name })
+        //.on("click", slideLeft)
+        .attr("transform", function (d) { return "translate(" + (x(d.name) + x.rangeBand()) + ",0) scale(0, 1)"; });  // Position of next bar
+
+      groupR
+        .on("click", drillDown)
+      svg.select("#" + xBars[xBars.length - 1].name + ".barRight").on("click", drillUp);
+
       groupR.exit().remove();     
   
       t.selectAll(".barRight")
@@ -228,15 +234,15 @@ function loadBarsData() {
         .data(displayList, function(d){return(d)});
       rect
         .enter().append("rect")
-        .attr("opacity", barOpacity)      
+        .attr("opacity", 0)      
         .attr("class", function(d) {return d;})
         .style("fill", function(d) {return color(d);});
       rect.exit().remove();        
   
       angular.forEach(displayList, function(c){
           groupR.each(function(parDat) {
-            svg.selectAll("#"+parDat.name+".barRight").selectAll("rect."+c)//.transition().duration(transitionDuration)
-                  .attr("opacity", barOpacity)            
+            t.selectAll("#"+parDat.name+".barRight").selectAll("rect."+c)
+                 // .attr("opacity", barOpacity)            
                   .attr("width", x.rangeBand()*sideBarsWidth) //Bar width 
                   .attr("y", function(d) {return parDat.y0;}) //Bar position
                   .attr("height", function (d) {
@@ -252,6 +258,8 @@ function loadBarsData() {
                   parDat.y0 += y(1-parDat[c]/parDat.catSum);
                   return y(1 - parDat[c] / parDat.catSum)
                   });
+            t1.selectAll("#" + parDat.name + ".barRight").selectAll("rect." + c)//.transition().duration(transitionDuration)
+                  .attr("opacity", barOpacity)
             if (c == "billable") {
                 svg.selectAll("#" + parDat.name + ".barRight").selectAll("g.arve").remove()
                 var value = svg.selectAll("#" + parDat.name + ".barRight")
@@ -271,13 +279,15 @@ function loadBarsData() {
                 //adding the text
                 value
                   .append("text")
-                    .attr("x", 3)
+                    .text(function (d) { return d3.format(".1%")(parDat[c] / parDat.catSum) })
+                    .attr("x", function (d) { return x.rangeBand() * sideBarsWidth / 2 - this.getComputedTextLength() / 2; })//3)
+                    //.attr("transform", "rotate(-45)")
                     .attr("dy", ".35em")
                     .attr("font-size", "1.4em")
-                    .attr("opacity", 1)
                     .style("fill", "white") // remove this line to have black text
-                    .text(function (d) { return d3.format(".2%")(parDat[c] / parDat.catSum) });
-
+                    .attr("opacity", 0);
+                t1.selectAll("#" + parDat.name + ".barRight").selectAll("g.arve").select("text")
+                  .attr("opacity", 1);
             }
           });
       });      
@@ -308,7 +318,7 @@ function loadBarsData() {
         .data(displayList, function(d){return(d)});
       rect
         .enter().append("rect")
-        .attr("opacity", 1)          
+        .attr("opacity", 0)
         .attr("class", function(d) {return d;})
         .style("fill", function(d) {return color(d);});
       rect.exit().remove();
@@ -323,21 +333,22 @@ function loadBarsData() {
       });
 
       angular.forEach(displayList, function(c){
-          groupC.each(function(parDat) {
-            svg.selectAll("#"+parDat.name+".barCenter").selectAll("rect."+c)
-                  .attr("opacity", barOpacity)              
+          groupC.each(function (parDat) {
+            t.selectAll("#"+parDat.name+".barCenter").selectAll("rect."+c)
                   .attr("width", x.rangeBand()) //Bar width        
                   .attr("y", function(d) {return parDat.y0;}) //Bar position
                   .attr("height", function(d) {
                       if (c=="billable") {parDat.midBar = parDat.y0+y(1-parDat[c]/parDat.catSum/2)}
                       parDat.y0 += y(1-parDat[c]/parDat.catSum);
                       return y(1-parDat[c]/parDat.catSum)});
+            t1.selectAll("#" + parDat.name + ".barCenter").selectAll("rect." + c)
+                  .attr("opacity", barOpacity);
             if (c == "billable") {
-              svg.selectAll("#" + parDat.name + ".barCenter").selectAll("g.arve").remove()
-              var value = svg.selectAll("#"+parDat.name+".barCenter")
+                svg.selectAll("#" + parDat.name + ".barCenter").selectAll("g.arve").remove()
+              var value = svg.selectAll("#" + parDat.name + ".barCenter")
                 .append("g")
                 .attr("class", "arve")
-                .attr("opacity",1)                   
+                .attr("opacity", 1)
                 .attr("transform", function(d) {return "translate(0," + parDat.midBar + ")"; })                
               //adding the white 'shadow' behind the text
  /*             value
@@ -351,13 +362,15 @@ function loadBarsData() {
               //adding the text
               value
                 .append("text")
-                  .attr("x", 3)
-                  .attr("dy", ".35em")
-                  .attr("font-size", "1.4em")                   
-                  .attr("opacity",1)  
-                  .style("fill", "white") // remove this line to have black text
-                  .text(function(d){return d3.format(".2%")(parDat[c]/parDat.catSum)});              
-                                
+                .text(function (d) { return d3.format(".1%")(parDat[c] / parDat.catSum) })
+                .attr("x", function (d) { return x.rangeBand() * sideBarsWidth / 2 - this.getComputedTextLength() / 2; })
+                .attr("dy", ".35em")
+                .attr("font-size", "1.4em")                   
+                .style("fill", "white") // remove this line to have black text
+                .attr("opacity",0);  
+
+              t1.selectAll("#" + parDat.name + ".barCenter").selectAll("g.arve").select("text")
+                .attr("opacity", 1);
             }      
           });
       });
@@ -367,11 +380,15 @@ function loadBarsData() {
       groupL
         .enter().append("g")
         .attr("class", "barLeft")
-        .attr("id", function(d){return d.name})    
-        .attr("opacity", 0)              
-        .attr("transform", function(d) {return "translate(" + x(d.name)+ ",0) scale(0, 1)"; })  // Position of next bar      
-        .on ("click", slideRight);
-      groupL.exit().remove();     
+        .attr("id", function (d) { return d.name })
+        .attr("opacity", 0)
+        .attr("transform", function (d) { return "translate(" + x(d.name) + ",0) scale(0, 1)"; })  // Position of next bar      
+         //.on("click", slideRight);
+      groupL
+        .on("click", drillDown);
+      svg.select("#" + xBars[xBars.length - 1].name + ".barLeft").on("click", drillUp);
+
+      groupL.exit().remove();
   
       t.selectAll(".barLeft")
         .attr("opacity", 1)       
@@ -388,15 +405,14 @@ function loadBarsData() {
         .data(displayList, function(d){return(d)});
       rect
         .enter().append("rect")
-        .attr("opacity", barOpacity)      
+        .attr("opacity", 0)      
         .attr("class", function(d) {return d;})
         .style("fill", function(d) {return color(d);});
       rect.exit().remove();
   
       angular.forEach(displayList, function(c){
           groupL.each(function(parDat) {
-            svg.selectAll("#"+parDat.name+".barLeft").selectAll("rect."+c)
-                  .attr("opacity", barOpacity)            
+            t.selectAll("#"+parDat.name+".barLeft").selectAll("rect."+c)
                   .attr("width", x.rangeBand()*sideBarsWidth) //Bar width 
                   .attr("y", function(d) {return parDat.y0;}) //Bar position
                   .attr("height", function (d) {
@@ -404,6 +420,8 @@ function loadBarsData() {
                       parDat.y0 += y(1-parDat[c]/parDat.catSum);    
                       return y(1 - parDat[c] / parDat.catSum)
                   });
+            t1.selectAll("#" + parDat.name + ".barLeft").selectAll("rect." + c)
+                  .attr("opacity", barOpacity)
             if (c == "billable") {
                 svg.selectAll("#" + parDat.name + ".barLeft").selectAll("g.arve").remove()
                 var value = svg.selectAll("#" + parDat.name + ".barLeft")
@@ -423,21 +441,24 @@ function loadBarsData() {
                 //adding the text
                 value
                   .append("text")
-                    .attr("x", 3)
+                    .text(function (d) { return d3.format(".1%")(parDat[c] / parDat.catSum) })
+                    .attr("x", function (d) { return x.rangeBand() * sideBarsWidth / 2 - this.getComputedTextLength() / 2; })
                     .attr("dy", ".35em")
                     .attr("font-size", "1.4em")
-                    .attr("opacity", 1)
                     .style("fill", "white") // remove this line to have black text
-                    .text(function (d) { return d3.format(".2%")(parDat[c] / parDat.catSum) });
+                    .attr("opacity", 0);
+
+                t1.selectAll("#" + parDat.name + ".barLeft").selectAll("g.arve").select("text")
+                  .attr("opacity", 1);
 
             }
           });
       });
   
       //Making solid all bars for the total (right group of bars)
-      svg.selectAll("#"+xBarsS[xBarsS.length-1].name+".barRight").selectAll("rect").attr("opacity", 1)
-      svg.selectAll("#"+xBarsS[xBarsS.length-1].name+".barCenter").selectAll("rect").attr("opacity", 1)
-      svg.selectAll("#"+xBarsS[xBarsS.length-1].name+".barLeft").selectAll("rect").attr("opacity", 1)      
+      t1.selectAll("#"+xBarsS[xBarsS.length-1].name+".barRight").selectAll("rect").attr("opacity", 1)
+      t1.selectAll("#"+xBarsS[xBarsS.length-1].name+".barCenter").selectAll("rect").attr("opacity", 1)
+      t1.selectAll("#"+xBarsS[xBarsS.length-1].name+".barLeft").selectAll("rect").attr("opacity", 1)      
       // Positionning legend
       legend = svg.select("#"+xBarsS[xBarsS.length-1].name+".barRight").selectAll(".legend")
             .data(displayList, function(d){return(d)})
@@ -476,7 +497,7 @@ function loadBarsData() {
 // This is the function for the initial display of the graph.
 //-------------------------------------------------------------------------------
 var drawChart = function () {
-	  t = svg.transition().duration(transitionDuration);  
+	//  t = svg.transition().duration(transitionDuration);  
    
     // Draw the y Grid lines
     svg.append("g")            
@@ -496,14 +517,14 @@ var drawChart = function () {
     activeGroup = root;
     loadBarsData();
 
-    groupC.attr("transform", function(d) {return "translate(" + x(d.name) + ",0)"; });  // Position of next bar
+    /*groupC.attr("transform", function(d) {return "translate(" + x(d.name) + ",0)"; });  // Position of next bar
     groupL.attr("transform", function(d) {return "translate(" + x(d.name)+ ",0) scale(0, 1)"; });  // Position of next bar
     groupR.attr("transform", function(d) {return "translate(" + (x(d.name)+x.rangeBand()) + ",0) scale(0,1) "; });  // Position of next bar
 
    groupC.transition().duration(transitionDuration).attr("opacity", 1).each("end", function(e, i){
       groupL.transition().duration(transitionDuration).attr("transform", function(d) {return "translate(" + (x(d.name)-x.rangeBand()*sideBarsWidth) + ",0) scale(1, 1)"; });  // Position of next bar
       groupR.transition().duration(transitionDuration).attr("transform", function(d) {return "translate(" + (x(d.name)+x.rangeBand()) +  ",0) scale(1, 1)"; });
-   });   
+   }); */  
 }
 
 //-------------------------------------------------------------------------------
@@ -552,15 +573,16 @@ function slideChart(transition) {
       curWeek = curWeek-1; 
       loadBarsData();        
       // Moving bars
-      groupL.selectAll("rect")
+      /*groupL.selectAll("rect")
         .attr("transform", function(d) {return "translate(" + (0) + ",0)  scale(0, 1)"; });    
       groupC.selectAll("rect")
         .attr("transform", function(d) {return "translate(" + (-x.rangeBand()*sideBarsWidth) + ",0) scale("+sideBarsWidth+", 1)"; });
       groupR.selectAll("rect")
-        .attr("transform", function(d) {return "translate("+(-x.rangeBand())+",0) scale("+1/sideBarsWidth+", 1)"; })
+        .attr("transform", function (d) { return "translate(" + (-x.rangeBand()) + ",0) scale(" + 1 / sideBarsWidth + ", 1)"; })
+        */
       };        
     };  
-  groupR.selectAll("rect")
+  /*groupR.selectAll("rect")
       .transition().duration(0)
       .each("end", function(e, i){
           groupL.selectAll("rect").transition().duration(transitionDuration)
@@ -569,7 +591,9 @@ function slideChart(transition) {
             .attr("transform", function(d) {return "translate(" + (0) + ",0) scale(1, 1)"; });
           groupR.selectAll("rect").transition().duration(transitionDuration)
             .attr("transform", function(d) {return "translate(" + (0) + ",0) scale(1, 1)"; });        
-  }); 
+  }); */
+  svg.selectAll("rect")
+    .attr("transform", function (d) { return "translate(" + (0) + ",0)  scale(1, 1)"; });
 }
 
 //-------------------------------------------------------------------------------
@@ -619,7 +643,7 @@ function drillDown(bar) {
 // Main function. It loads the data
 //-------------------------------------------------------------------------------
 function loadData() {
-    console.log("Reloading data")
+    console.log("Reloading WTR data")
     d3.json(fList[2], function(error, data2) {
     if (error) throw error;  
     root[2] = data2;    

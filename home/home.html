@@ -46,55 +46,115 @@
 <div id="ARVE" class="section container" align="center">
     <h1 class="text-center text-primary">ARVE</h1>
     <div class="row">
-        <div id="ARVEChart" class="col-lg-6" ng-controller="ARVECtrl" align="center">
+        <div id="ARVEWTRChart" class="col-lg-6" ng-controller="ARVEWTRCtrl" align="center">
             <h2 id="WTRTitle" class="text-center text-primary">ARVE WTR</h2>
-            <label><input type="radio" name="ARVEVisual" value="Graph" ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Graphe</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
-            <label><input type="radio" name="ARVEVisual" value="Table" checked ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Tableau</label>
+            <label><input type="radio" name="ARVEWTRVisual" value="Graph" ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Graphe</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+            <label><input type="radio" name="ARVEWTRVisual" value="Table" checked ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Tableau</label>
             <svg id="WTRChart" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet"></svg>
             <label id="WTRChart" align="center"><input type="checkbox" ng-model="checkVac.value" ng-change="displayCat()">Afficher les vacances</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
             <label id="WTRChart" align="center"><input type="checkbox" ng-model="checkUnknown.value" ng-change="displayCat()">Compenser les unknowns</label>
             <div id="WTRTable" viewBox="0 0 1000 800" style="display: none;">
                 <table class="table table-bordered table-hover table-striped">
-                    <tbody>
+                    <tbody align="left">
                         <tr> <td></td> <td align="center" ng:repeat="arve in tableS0"><b>{{arve.name}}</b></td> </tr>
-                        <tr> <td>Billable</td> <td align="right" ng:repeat="arve in tableS0">{{arve.billable |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>ACCO</td> <td align="right" ng:repeat="arve in tableS0">{{arve.presales |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>TI</td> <td align="right" ng:repeat="arve in tableS0">{{arve.ti |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Interco</td> <td align="right" ng:repeat="arve in tableS0">{{arve.idle |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Maladie</td> <td align="right" ng:repeat="arve in tableS0">{{arve.sickness |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Congés</td> <td align="right" ng:repeat="arve in tableS0">{{arve.vacation |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Inconnu</td> <td align="right" ng:repeat="arve in tableS0">{{arve.unknown |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Effectif</td> <td align="right" ng:repeat="arve in tableS0">{{arve.tot |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Billable</tdalign="right"> <td align="right" ng:repeat="arve in tableS0">{{arve.billable |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Proposal</td> <td align="right" ng:repeat="arve in tableS0">{{arve.presales |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Internal work</td> <td align="right" ng:repeat="arve in tableS0">{{arve.ti |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Idle</td> <td align="right" ng:repeat="arve in tableS0">{{arve.idle |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Training</td> <td align="right" ng:repeat="arve in tableS0">{{arve.training |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Vacation</td> <td align="right" ng:repeat="arve in tableS0">{{arve.vacation |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Sickness</td> <td align="right" ng:repeat="arve in tableS0">{{arve.sickness |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Unknown</td> <td align="right" ng:repeat="arve in tableS0">{{arve.unknown |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS0">{{arve.tot |number:2}}&nbsp;</td> </tr>
                         <tr> <td><b>ARVE</b></td> <td align="right" ng:repeat="arve in tableS0"><b>{{arve.billable/arve.tot*100|number:2}}%</b></td> </tr>
                     </tbody>
                 </table>
                 </br>
                 <table class="table table-bordered table-hover table-striped">
-                    <tbody>
+                    <tbody align="left">
                         <tr> <td></td> <td align="center" ng:repeat="arve in tableS1"><b>{{arve.name}}</b></td> </tr>
                         <tr> <td>Billable</td> <td align="right" ng:repeat="arve in tableS1">{{arve.billable |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>ACCO</td> <td align="right" ng:repeat="arve in tableS1">{{arve.presales |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>TI</td> <td align="right" ng:repeat="arve in tableS1">{{arve.ti |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Interco</td> <td align="right" ng:repeat="arve in tableS1">{{arve.idle |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Maladie</td> <td align="right" ng:repeat="arve in tableS1">{{arve.sickness |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Congés</td> <td align="right" ng:repeat="arve in tableS1">{{arve.vacation |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Inconnu</td> <td align="right" ng:repeat="arve in tableS1">{{arve.unknown |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Effectif</td> <td align="right" ng:repeat="arve in tableS1">{{arve.tot |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Proposal</td> <td align="right" ng:repeat="arve in tableS1">{{arve.presales |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Internal work</td> <td align="right" ng:repeat="arve in tableS1">{{arve.ti |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Idle</td> <td align="right" ng:repeat="arve in tableS1">{{arve.idle |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Training</td> <td align="right" ng:repeat="arve in tableS1">{{arve.training |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Vacation</td> <td align="right" ng:repeat="arve in tableS1">{{arve.vacation |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Sickness</td> <td align="right" ng:repeat="arve in tableS1">{{arve.sickness |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Unknown</td> <td align="right" ng:repeat="arve in tableS1">{{arve.unknown |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS1">{{arve.tot |number:2}}&nbsp;</td> </tr>
                         <tr> <td><b>ARVE</b></td> <td align="right" ng:repeat="arve in tableS1"><b>{{arve.billable/arve.tot*100|number:2}}%</b></td> </tr>
                     </tbody>
                 </table>
                 </br>
                 <table class="table table-bordered table-hover table-striped">
-                    <tbody>
+                    <tbody align="left">
                         <tr> <td></td> <td align="center" ng:repeat="arve in tableS2"><b>{{arve.name}}</b></td> </tr>
                         <tr> <td>Billable</td> <td align="right" ng:repeat="arve in tableS2">{{arve.billable |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>ACCO</td> <td align="right" ng:repeat="arve in tableS2">{{arve.presales |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>TI</td> <td align="right" ng:repeat="arve in tableS2">{{arve.ti |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Interco</td> <td align="right" ng:repeat="arve in tableS2">{{arve.idle |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Maladie</td> <td align="right" ng:repeat="arve in tableS2">{{arve.sickness |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Congés</td> <td align="right" ng:repeat="arve in tableS2">{{arve.vacation |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Inconnu</td> <td align="right" ng:repeat="arve in tableS2">{{arve.unknown |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Effectif</td> <td align="right" ng:repeat="arve in tableS2">{{arve.tot |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Proposal</td> <td align="right" ng:repeat="arve in tableS2">{{arve.presales |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Internal work</td> <td align="right" ng:repeat="arve in tableS2">{{arve.ti |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Idle</td> <td align="right" ng:repeat="arve in tableS2">{{arve.idle |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Training</td> <td align="right" ng:repeat="arve in tableS2">{{arve.training |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Vacation</td> <td align="right" ng:repeat="arve in tableS2">{{arve.vacation |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Sickness</td> <td align="right" ng:repeat="arve in tableS2">{{arve.sickness |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Unknown</td> <td align="right" ng:repeat="arve in tableS2">{{arve.unknown |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS2">{{arve.tot |number:2}}&nbsp;</td> </tr>
+                        <tr> <td><b>ARVE</b></td> <td align="right" ng:repeat="arve in tableS2"><b>{{arve.billable/arve.tot*100|number:2}}%</b></td> </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="ARVERetainChart" class="col-lg-6" ng-controller="ARVERetainCtrl" align="center">
+            <h2 id="RetainTitle" class="text-center text-primary">ARVE Retain</h2>
+            <label><input type="radio" name="ARVEVisual" value="Graph" ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Graphe</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+            <label><input type="radio" name="ARVEVisual" value="Table" checked ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Tableau</label>
+            <svg id="RetainChart" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet"></svg>
+            <label id="WTRChart" align="center"><input type="checkbox" ng-model="checkVac.value" ng-change="displayCat()">Afficher les vacances</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+            <label id="RetainChart" align="center"><input type="checkbox" ng-model="checkSim.value" ng-change="displayCat()">Simuler l'évolution</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+            <div id="RetainTable" viewBox="0 0 1000 800" style="display: none;">
+                <table class="table table-bordered table-hover table-striped">
+                    <tbody align="left">
+                        <tr> <td></td> <td align="center" ng:repeat="arve in tableS0"><b>{{arve.name}}</b></td> </tr>
+                        <tr> <td>Billable</tdalign="right"> <td align="right" ng:repeat="arve in tableS0">{{arve.billable |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Proposal</td> <td align="right" ng:repeat="arve in tableS0">{{arve.presales |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Internal work</td> <td align="right" ng:repeat="arve in tableS0">{{arve.ti |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Idle</td> <td align="right" ng:repeat="arve in tableS0">{{arve.idle |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Training</td> <td align="right" ng:repeat="arve in tableS0">{{arve.training |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Vacation</td> <td align="right" ng:repeat="arve in tableS0">{{arve.vacation |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Sickness</td> <td align="right" ng:repeat="arve in tableS0">{{arve.sickness |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Unknown</td> <td align="right" ng:repeat="arve in tableS0">{{arve.unknown |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS0">{{arve.tot |number:2}}&nbsp;</td> </tr>
+                        <tr> <td><b>ARVE</b></td> <td align="right" ng:repeat="arve in tableS0"><b>{{arve.billable/arve.tot*100|number:2}}%</b></td> </tr>
+                    </tbody>
+                </table>
+                </br>
+                <table class="table table-bordered table-hover table-striped">
+                    <tbody align="left">
+                        <tr> <td></td> <td align="center" ng:repeat="arve in tableS1"><b>{{arve.name}}</b></td> </tr>
+                        <tr> <td>Billable</td> <td align="right" ng:repeat="arve in tableS1">{{arve.billable |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Proposal</td> <td align="right" ng:repeat="arve in tableS1">{{arve.presales |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Internal work</td> <td align="right" ng:repeat="arve in tableS1">{{arve.ti |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Idle</td> <td align="right" ng:repeat="arve in tableS1">{{arve.idle |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Training</td> <td align="right" ng:repeat="arve in tableS1">{{arve.training |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Vacation</td> <td align="right" ng:repeat="arve in tableS1">{{arve.vacation |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Sickness</td> <td align="right" ng:repeat="arve in tableS1">{{arve.sickness |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Unknown</td> <td align="right" ng:repeat="arve in tableS1">{{arve.unknown |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS1">{{arve.tot |number:2}}&nbsp;</td> </tr>
+                        <tr> <td><b>ARVE</b></td> <td align="right" ng:repeat="arve in tableS1"><b>{{arve.billable/arve.tot*100|number:2}}%</b></td> </tr>
+                    </tbody>
+                </table>
+                </br>
+                <table class="table table-bordered table-hover table-striped">
+                    <tbody align="left">
+                        <tr> <td></td> <td align="center" ng:repeat="arve in tableS2"><b>{{arve.name}}</b></td> </tr>
+                        <tr> <td>Billable</td> <td align="right" ng:repeat="arve in tableS2">{{arve.billable |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Proposal</td> <td align="right" ng:repeat="arve in tableS2">{{arve.presales |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Internal work</td> <td align="right" ng:repeat="arve in tableS2">{{arve.ti |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Idle</td> <td align="right" ng:repeat="arve in tableS2">{{arve.idle |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Training</td> <td align="right" ng:repeat="arve in tableS2">{{arve.training |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Vacation</td> <td align="right" ng:repeat="arve in tableS2">{{arve.vacation |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Sickness</td> <td align="right" ng:repeat="arve in tableS2">{{arve.sickness |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Unknown</td> <td align="right" ng:repeat="arve in tableS2">{{arve.unknown |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS2">{{arve.tot |number:2}}&nbsp;</td> </tr>
                         <tr> <td><b>ARVE</b></td> <td align="right" ng:repeat="arve in tableS2"><b>{{arve.billable/arve.tot*100|number:2}}%</b></td> </tr>
                     </tbody>
                 </table>
@@ -109,7 +169,7 @@
             Disponibilités
             <select style="width: 150px" ng-init="dispoGroup='FR03CS04 - AERO'" ng-model="dispoGroup">
                 <option value="FR03CS03 - COMM">COMM</option>                
-                <option value="FR03CS04 - AERO">AERO</option>                
+                <option value="FR03CS04 - AERO">ASD</option>                
                 <option value="FR03CS05 - EUC">EUC</option>
                 <option value="FR03CS06 - PER">MED</option>
                 <option value="FR03CS07 - ECM">ECM</option>
