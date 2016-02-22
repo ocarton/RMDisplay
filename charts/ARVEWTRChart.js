@@ -32,7 +32,7 @@ $scope.ARVEChart = function() {}
 
 var fList= ["data/arveP2.json", "data/arveP1.json", "data/arveS.json", "data/arveS1.json", "data/arveS2.json"];
 
-var margin = {top: 40, right: 65, bottom: 30, left: 95},
+var margin = {top: 60, right: 65, bottom: 30, left: 95},
     width = 1000 - margin.left - margin.right,
     height = 800 - margin.top - margin.bottom;
 

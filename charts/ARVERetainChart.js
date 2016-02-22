@@ -32,7 +32,7 @@ angular.module('ARVERetainChart', [])
 
     var fList = ["data/RetainForecast1.json", "data/RetainForecast2.json", "data/RetainForecast3.json", "data/RetainForecast4.json", "data/RetainForecast5.json"];
 
-    var margin = { top: 40, right: 65, bottom: 30, left: 95 },
+    var margin = { top: 60, right: 65, bottom: 30, left: 95 },
         width = 1000 - margin.left - margin.right,
         height = 800 - margin.top - margin.bottom;
 
@@ -84,9 +84,8 @@ angular.module('ARVERetainChart', [])
         .attr("height", height - 100) /* + margin.top + margin.bottom*/
 
     function semText(period) {
-        if (period == 2) { return "M" }
-        else if (period < 2) { return "M" + (period - 2) }
-        else { return "M+" + (period - 2) }
+        if (period == 0) { return "M" }
+        else { return "M+" + (period) }
     }
 
     // defining graph title
@@ -218,9 +217,23 @@ angular.module('ARVERetainChart', [])
         .style("stroke", "#000");
 
         // Setting a scale with all x labels   
+        var vRotateLabels = 0;
+        var vAlignLabels = "middle";
+        if (xLabels.length > 5) {
+            vRotateLabels = xLabels.length+8;
+            vAlignLabels = "start";
+        };
         idxLbl = 0;
-        t.selectAll(".x.axis").call(xAxis);
-
+        t.selectAll(".x.axis")
+            .call(xAxis);
+        t1.selectAll(".x.axis")
+            .selectAll("text")
+            .style("text-anchor", vAlignLabels)
+            .attr("dx", "-." + vRotateLabels + "em")
+            //.attr("dy", "." + 0 + "em")
+            .attr("transform", "rotate(-" + vRotateLabels + ")")
+        ;
+        
         //Building or rebuilding the bars
         var legendY1 = [], legendY2 = [];
         var lastLegendPos = -5;

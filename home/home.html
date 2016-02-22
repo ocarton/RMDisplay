@@ -114,48 +114,36 @@
                 <table class="table table-bordered table-hover table-striped">
                     <tbody align="left">
                         <tr> <td></td> <td align="center" ng:repeat="arve in tableS0"><b>{{arve.name}}</b></td> </tr>
-                        <tr> <td>Billable</tdalign="right"> <td align="right" ng:repeat="arve in tableS0">{{arve.billable |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Proposal</td> <td align="right" ng:repeat="arve in tableS0">{{arve.presales |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Internal work</td> <td align="right" ng:repeat="arve in tableS0">{{arve.ti |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Idle</td> <td align="right" ng:repeat="arve in tableS0">{{arve.idle |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Training</td> <td align="right" ng:repeat="arve in tableS0">{{arve.training |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Vacation</td> <td align="right" ng:repeat="arve in tableS0">{{arve.vacation |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Sickness</td> <td align="right" ng:repeat="arve in tableS0">{{arve.sickness |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Unknown</td> <td align="right" ng:repeat="arve in tableS0">{{arve.unknown |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS0">{{arve.tot |number:2}}&nbsp;</td> </tr>
-                        <tr> <td><b>ARVE</b></td> <td align="right" ng:repeat="arve in tableS0"><b>{{arve.billable/arve.tot*100|number:2}}%</b></td> </tr>
+                        <tr> <td>Firm</tdalign="right"> <td align="right" ng:repeat="arve in tableS0">{{arve.Firm |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Potential</td> <td align="right" ng:repeat="arve in tableS0">{{arve.Potential |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Vacation</td> <td align="right" ng:repeat="arve in tableS0">{{arve.Vacation |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS0">{{arve.tot+arve.Vacation |number:2}}&nbsp;</td> </tr>
+                        <tr> <td><b>ARVE_F</b></td> <td align="right" ng:repeat="arve in tableS0"><b>{{arve.Firm/arve.tot*100|number:2}}%</b></td> </tr>
+                        <tr> <td>ARVE_P</td> <td align="right" ng:repeat="arve in tableS0">{{(arve.Firm+arve.Potential)/arve.tot*100|number:2}}%</td> </tr>
                     </tbody>
                 </table>
                 </br>
                 <table class="table table-bordered table-hover table-striped">
                     <tbody align="left">
                         <tr> <td></td> <td align="center" ng:repeat="arve in tableS1"><b>{{arve.name}}</b></td> </tr>
-                        <tr> <td>Billable</td> <td align="right" ng:repeat="arve in tableS1">{{arve.billable |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Proposal</td> <td align="right" ng:repeat="arve in tableS1">{{arve.presales |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Internal work</td> <td align="right" ng:repeat="arve in tableS1">{{arve.ti |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Idle</td> <td align="right" ng:repeat="arve in tableS1">{{arve.idle |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Training</td> <td align="right" ng:repeat="arve in tableS1">{{arve.training |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Vacation</td> <td align="right" ng:repeat="arve in tableS1">{{arve.vacation |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Sickness</td> <td align="right" ng:repeat="arve in tableS1">{{arve.sickness |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Unknown</td> <td align="right" ng:repeat="arve in tableS1">{{arve.unknown |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS1">{{arve.tot |number:2}}&nbsp;</td> </tr>
-                        <tr> <td><b>ARVE</b></td> <td align="right" ng:repeat="arve in tableS1"><b>{{arve.billable/arve.tot*100|number:2}}%</b></td> </tr>
+                        <tr> <td>Firm</tdalign="right"> <td align="right" ng:repeat="arve in tableS1">{{arve.Firm |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Potential</td> <td align="right" ng:repeat="arve in tableS1">{{arve.Potential |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Vacation</td> <td align="right" ng:repeat="arve in tableS1">{{arve.Vacation |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS1">{{arve.tot+arve.Vacation |number:2}}&nbsp;</td> </tr>
+                        <tr> <td><b>ARVE_F</b></td> <td align="right" ng:repeat="arve in tableS1"><b>{{arve.Firm/arve.tot*100|number:2}}%</b></td> </tr>
+                        <tr> <td>ARVE_P</td> <td align="right" ng:repeat="arve in tableS1">{{(arve.Firm+arve.Potential)/arve.tot*100|number:2}}%</td> </tr>
                     </tbody>
                 </table>
                 </br>
                 <table class="table table-bordered table-hover table-striped">
                     <tbody align="left">
                         <tr> <td></td> <td align="center" ng:repeat="arve in tableS2"><b>{{arve.name}}</b></td> </tr>
-                        <tr> <td>Billable</td> <td align="right" ng:repeat="arve in tableS2">{{arve.billable |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Proposal</td> <td align="right" ng:repeat="arve in tableS2">{{arve.presales |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Internal work</td> <td align="right" ng:repeat="arve in tableS2">{{arve.ti |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Idle</td> <td align="right" ng:repeat="arve in tableS2">{{arve.idle |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Training</td> <td align="right" ng:repeat="arve in tableS2">{{arve.training |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Vacation</td> <td align="right" ng:repeat="arve in tableS2">{{arve.vacation |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Sickness</td> <td align="right" ng:repeat="arve in tableS2">{{arve.sickness |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>Unknown</td> <td align="right" ng:repeat="arve in tableS2">{{arve.unknown |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS2">{{arve.tot |number:2}}&nbsp;</td> </tr>
-                        <tr> <td><b>ARVE</b></td> <td align="right" ng:repeat="arve in tableS2"><b>{{arve.billable/arve.tot*100|number:2}}%</b></td> </tr>
+                        <tr> <td>Firm</tdalign="right"> <td align="right" ng:repeat="arve in tableS2">{{arve.Firm |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Potential</td> <td align="right" ng:repeat="arve in tableS2">{{arve.Potential |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Vacation</td> <td align="right" ng:repeat="arve in tableS2">{{arve.Vacation |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS2">{{arve.tot+arve.Vacation |number:2}}&nbsp;</td> </tr>
+                        <tr> <td><b>ARVE_F</b></td> <td align="right" ng:repeat="arve in tableS2"><b>{{arve.Firm/arve.tot*100|number:2}}%</b></td> </tr>
+                        <tr> <td>ARVE_P</td> <td align="right" ng:repeat="arve in tableS2">{{(arve.Firm+arve.Potential)/arve.tot*100|number:2}}%</td> </tr>
                     </tbody>
                 </table>
             </div>
