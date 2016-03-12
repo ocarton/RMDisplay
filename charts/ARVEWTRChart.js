@@ -32,9 +32,10 @@ $scope.ARVEChart = function() {}
 
 var fList= ["data/arveP2.json", "data/arveP1.json", "data/arveS.json", "data/arveS1.json", "data/arveS2.json"];
 
-var margin = {top: 60, right: 65, bottom: 30, left: 95},
-    width = 1000 - margin.left - margin.right,
-    height = 800 - margin.top - margin.bottom;
+var graph = {height: 800, width:1000},
+    margin = {top: 60, right: 65, bottom: 30, left: 95},
+    width = graph.width - margin.left - margin.right,
+    height = graph.height - margin.top - margin.bottom;
 
 var x = d3.scale.ordinal()
     .rangeRoundBands([0, width*.9], .7 ,0.4); //,1 : Space between bars
@@ -52,10 +53,10 @@ var yAxis = d3.svg.axis()
     
 var curWeek = 3;
 
-var catList = ["unknown", "sickness", "idle", "ti", "training",  "presales", "billable", "vacation"];
+var catList = ["unknown", "sickness", "management", "idle", "ti", "training",  "presales", "billable", "vacation"];
 
 var color = d3.scale.ordinal()
-    .range(["#00000","#FFD300", "#FF0000", "#999999", "#FF7400", "#00E400", "#4416D5", "#00C9C9"])
+    .range(["#00000","#FFD300", "#CCCCCC", "#FF0000", "#777777", "#FF7400", "#00E400", "#4416D5", "#00C9C9"])
     .domain(catList);
 var barOpacity=.6, sideBarsWidth=1;
 
@@ -67,6 +68,7 @@ var groupC, groupL, groupR, legend; //Group of rectangles which compose one bar
 
 var title = d3.select("#ARVEWTRChart").select("#WTRTitle"); 
 
+//This is where we include the graph
 var svg = d3.select("#ARVEWTRChart").select("#WTRChart").append("svg")
     .attr("class", "chart")
     .attr("width", width + margin.left + margin.right)
@@ -75,20 +77,34 @@ var svg = d3.select("#ARVEWTRChart").select("#WTRChart").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
+//We add a < and a > on the left and right of the graph to access previous and next period
+var prevPeriod = d3.select("#ARVEWTRChart").select("#WTRChart").append("text")
+    .attr("class", "navBtn")
+    .attr("x", 20)
+    .attr("y", graph.height / 2+30)
+    .on("click", slideLeft)
+    .text("‹");
+var nextPeriod = d3.select("#ARVEWTRChart").select("#WTRChart").append("text")
+    .attr("class", "navBtn")
+    .attr("x", graph.width-50)
+    .attr("y", graph.height / 2+30)
+    .on("click", slideRight)
+    .text("›");
+
 var table = d3.select("#ARVEWTRChart").select("#WTRTable").append("table")
     .attr("class", "table-bordered table-striped table-responsive") 
     .attr("width", width -100) //+ margin.left + margin.right)
     .attr("height", height-100) /* + margin.top + margin.bottom*/
 
 function semText(week) {
-  if (week==2){return "S"}
-  else if (week<2){return "S"+(week-2)}
-  else {return "S+"+(week-2)}
+  if (week==2){return "W"}
+  else if (week<2){return "W"+(week-2)}
+  else {return "W+"+(week-2)}
 }
 
 // defining graph title
 function graphTitle () {
-  return "ARVE WTR semaine "+semText(curWeek-1)+" à "+semText(curWeek+1)
+  return "ARVE WTR week "+semText(curWeek-1)+" to "+semText(curWeek+1)
 }
 
 // function for the y grid lines
@@ -126,7 +142,7 @@ function initNodeData(n) {
   }
 
   // Calculating total ETP not on vacation
-  n.tot = n.billable + n.presales + n.sickness + n.ti + n.idle + n.unknown + n.training;
+  n.tot = n.billable + n.presales + n.sickness + n.ti + n.idle + n.unknown + n.training + n.management;
   // Calculating vacation percentage
   n.vacSh = n.vacation / n.tot;  
   // Bar position
@@ -500,10 +516,10 @@ var drawChart = function () {
 	//  t = svg.transition().duration(transitionDuration);  
    
     // Draw the y Grid lines
-    svg.append("g")            
+    svg.append("g")
         .attr("class", "y grid")
         .call(make_y_axis()
-        )
+        );
 
     // Drawing yAxis
     yAxisGroup = svg.append("g")
@@ -516,6 +532,10 @@ var drawChart = function () {
 
     activeGroup = root;
     loadBarsData();
+
+    //Hiding next period symbol
+    nextPeriod.attr("style", "display: none;");
+    
 
     /*groupC.attr("transform", function(d) {return "translate(" + x(d.name) + ",0)"; });  // Position of next bar
     groupL.attr("transform", function(d) {return "translate(" + x(d.name)+ ",0) scale(0, 1)"; });  // Position of next bar
@@ -551,8 +571,9 @@ function slideRight() {
 };
 
 function slideChart(transition) {
-  
-  if(transition =="left") {
+  console.log("Moving " + transition + " to next period");
+
+  if(transition =="right") {
     // Securing max values      
     if (curWeek < root.length-2) {
       curWeek = curWeek+1;
@@ -564,14 +585,18 @@ function slideChart(transition) {
       groupC.selectAll("rect")
         .attr("transform", function(d) {return "translate(" + (x.rangeBand()) + ",0) scale("+sideBarsWidth+", 1)"; });
       groupR.selectAll("rect")
-        .attr("transform", function(d) {return "translate(" + (x.rangeBand()*sideBarsWidth) + ",0) scale(0, 1)"; })
+        .attr("transform", function (d) { return "translate(" + (x.rangeBand() * sideBarsWidth) + ",0) scale(0, 1)"; })
+      prevPeriod.attr("style", "display: inline;")
+      if (curWeek >= root.length - 2) { nextPeriod.attr("style", "display: none;") }
     };    
   }
-  else if(transition =="right") {
+  else if(transition =="left") {
     // Securing min values      
     if (curWeek > 1) {
       curWeek = curWeek-1; 
-      loadBarsData();        
+      loadBarsData();
+      nextPeriod.attr("style", "display: inline;")
+      if (curWeek <= 1) { prevPeriod.attr("style", "display: none;") }
       // Moving bars
       /*groupL.selectAll("rect")
         .attr("transform", function(d) {return "translate(" + (0) + ",0)  scale(0, 1)"; });    
@@ -579,7 +604,7 @@ function slideChart(transition) {
         .attr("transform", function(d) {return "translate(" + (-x.rangeBand()*sideBarsWidth) + ",0) scale("+sideBarsWidth+", 1)"; });
       groupR.selectAll("rect")
         .attr("transform", function (d) { return "translate(" + (-x.rangeBand()) + ",0) scale(" + 1 / sideBarsWidth + ", 1)"; })
-        */
+     */   
       };        
     };  
   /*groupR.selectAll("rect")

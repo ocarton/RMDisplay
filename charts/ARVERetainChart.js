@@ -32,10 +32,11 @@ angular.module('ARVERetainChart', [])
 
     var fList = ["data/RetainForecast1.json", "data/RetainForecast2.json", "data/RetainForecast3.json", "data/RetainForecast4.json", "data/RetainForecast5.json"];
 
-    var margin = { top: 60, right: 65, bottom: 30, left: 95 },
-        width = 1000 - margin.left - margin.right,
-        height = 800 - margin.top - margin.bottom;
-
+    var graph = { height: 800, width: 1000 },
+        margin = { top: 60, right: 65, bottom: 30, left: 95 },
+        width = graph.width - margin.left - margin.right,
+        height = graph.height - margin.top - margin.bottom;
+    
     var root = [], activeGroup = [], newGroupArray = [];
     var xLabels = [];
     var xBars = [], xBarsS = [], xBarsP = [];
@@ -48,9 +49,11 @@ angular.module('ARVERetainChart', [])
 
     var yAxisGroup = null, xAxisGroup = null;
     var idxLbl = 0;
+    var vRotateLabels = 0;
+    var vAlignLabels = "start";
     var xAxis = d3.svg.axis()
         .scale(x)
-        .tickFormat(function (d) { idxLbl = idxLbl + 1;return xLabels[idxLbl-1]})
+        .tickFormat(function (d) { idxLbl = idxLbl + 1; return xLabels[idxLbl - 1] })
         .orient("top").ticks(1);
     var yAxis = d3.svg.axis()
         .scale(y)
@@ -78,6 +81,20 @@ angular.module('ARVERetainChart', [])
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
+    //We add a < and a > on the left and right of the graph to access previous and next period
+    var prevPeriod = d3.select("#ARVERetainChart").select("#RetainChart").append("text")
+        .attr("class", "navBtn")
+        .attr("x", 20)
+        .attr("y", graph.height / 2 + 30)
+        .on("click", slideLeft)
+        .text("‹");
+    var nextPeriod = d3.select("#ARVERetainChart").select("#RetainChart").append("text")
+        .attr("class", "navBtn")
+        .attr("x", graph.width - 50)
+        .attr("y", graph.height / 2 + 30)
+        .on("click", slideRight)
+        .text("›");
+
     var table = d3.select("#ARVERetainChart").select("#RetainTable").append("table")
         .attr("class", "table-bordered table-striped table-responsive")
         .attr("width", width - 100) //+ margin.left + margin.right)
@@ -90,7 +107,7 @@ angular.module('ARVERetainChart', [])
 
     // defining graph title
     function graphTitle() {
-        return "ARVE Retain mois " + semText(curPeriod - 1) + " à " + semText(curPeriod + 1)
+        return "ARVE Retain month " + semText(curPeriod - 1) + " to " + semText(curPeriod + 1)
     }
 
     // function for the y grid lines
@@ -217,11 +234,14 @@ angular.module('ARVERetainChart', [])
         .style("stroke", "#000");
 
         // Setting a scale with all x labels   
-        var vRotateLabels = 0;
-        var vAlignLabels = "middle";
         if (xLabels.length > 5) {
             vRotateLabels = xLabels.length+8;
             vAlignLabels = "start";
+        }
+        else
+        {
+            vRotateLabels = 0;
+            vAlignLabels = "middle";
         };
         idxLbl = 0;
         t.selectAll(".x.axis")
@@ -420,8 +440,8 @@ angular.module('ARVERetainChart', [])
           .attr("class", "barLeft")
           .attr("id", function (d) { return d.uid })
           .attr("opacity", 0)
-          .attr("transform", function (d) { return "translate(" + x(d.uid) + ",0) scale(0, 1)"; })  // Position of next bar      
-        //.on("click", slideRight);
+          .attr("transform", function (d) { return "translate(" + x(d.uid) + ",0) scale(0, 1)"; });
+
         groupL
           .on("click", drillDown);
         svg.select("#" + xBars[xBars.length - 1].uid + ".barLeft").on("click", drillUp);
@@ -497,7 +517,8 @@ angular.module('ARVERetainChart', [])
         t1.selectAll("#" + xBarsS[xBarsS.length - 1].uid + ".barRight").selectAll("rect").attr("opacity", 1)
         t1.selectAll("#" + xBarsS[xBarsS.length - 1].uid + ".barCenter").selectAll("rect").attr("opacity", 1)
         t1.selectAll("#" + xBarsS[xBarsS.length - 1].uid + ".barLeft").selectAll("rect").attr("opacity", 1)
-        // Positionning legend
+
+        // Positionning legend on the right
         legend = svg.select("#" + xBarsS[xBarsS.length - 1].uid + ".barRight").selectAll(".legend")
               .data(displayList, function (d) { return (d) })
         legend.exit().remove();
@@ -521,12 +542,12 @@ angular.module('ARVERetainChart', [])
                 .attr("x1", -20).attr("x2", 10)
                 .attr("y1", function (d) { return (legendY1[d] - legendY2[d]); }).attr("y2", 0);
 
-        t.select("#" + xBarsS[xBarsS.length - 1].uid + ".barRight").selectAll(".legend")
+        t1.select("#" + xBarsS[xBarsS.length - 1].uid + ".barRight").selectAll(".legend")
             .attr("opacity", 1)
             .attr("transform", function (d) { return "translate(" + (x.rangeBand() * sideBarsWidth + 20) + "," + legendY2[d] + ")"; });
 
-        // Setting line
-        t.select("#" + xBarsS[xBarsS.length - 1].uid + ".barRight").selectAll(".legend line")
+        // Setting line between legend and middle of the bar
+        t1.select("#" + xBarsS[xBarsS.length - 1].uid + ".barRight").selectAll(".legend line")
               .attr("x1", -20).attr("x2", 10)
               .attr("y1", function (d) { return (legendY1[d] - legendY2[d]); }).attr("y2", 0);
     }
@@ -551,6 +572,9 @@ angular.module('ARVERetainChart', [])
         xAxisGroup = svg.append("g")
           .attr("class", "x axis")
           .call(xAxis);
+
+        //Hiding previous period symbol
+        prevPeriod.attr("style", "display: none;")
 
         activeGroup = root;
         loadBarsData();
@@ -578,7 +602,7 @@ angular.module('ARVERetainChart', [])
 
     //-------------------------------------------------------------------------------
     // The following three functions slide the bars to the right or to the left and
-    // update the values with the corresponding months.
+    // update the values with the corresponding weeks.
     //-------------------------------------------------------------------------------
     function slideLeft() {
         slideChart("left");
@@ -589,8 +613,9 @@ angular.module('ARVERetainChart', [])
     };
 
     function slideChart(transition) {
+        console.log("Moving " + transition + " to next period");
 
-        if (transition == "left") {
+        if (transition == "right") {
             // Securing max values      
             if (curPeriod < root.length - 2) {
                 curPeriod = curPeriod + 1;
@@ -603,13 +628,17 @@ angular.module('ARVERetainChart', [])
                   .attr("transform", function (d) { return "translate(" + (x.rangeBand()) + ",0) scale(" + sideBarsWidth + ", 1)"; });
                 groupR.selectAll("rect")
                   .attr("transform", function (d) { return "translate(" + (x.rangeBand() * sideBarsWidth) + ",0) scale(0, 1)"; })
+                prevPeriod.attr("style", "display: inline;")
+                if (curPeriod >= root.length - 2) { nextPeriod.attr("style", "display: none;") }
             };
         }
-        else if (transition == "right") {
+        else if (transition == "left") {
             // Securing min values      
             if (curPeriod > 1) {
                 curPeriod = curPeriod - 1;
                 loadBarsData();
+                nextPeriod.attr("style", "display: inline;")
+                if (curPeriod <= 1) { prevPeriod.attr("style", "display: none;") }
                 // Moving bars
                 /*groupL.selectAll("rect")
                   .attr("transform", function(d) {return "translate(" + (0) + ",0)  scale(0, 1)"; });    
@@ -617,7 +646,7 @@ angular.module('ARVERetainChart', [])
                   .attr("transform", function(d) {return "translate(" + (-x.rangeBand()*sideBarsWidth) + ",0) scale("+sideBarsWidth+", 1)"; });
                 groupR.selectAll("rect")
                   .attr("transform", function (d) { return "translate(" + (-x.rangeBand()) + ",0) scale(" + 1 / sideBarsWidth + ", 1)"; })
-                  */
+               */
             };
         };
         /*groupR.selectAll("rect")

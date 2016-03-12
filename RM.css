@@ -31,6 +31,11 @@ html {
     cursor: pointer;
     /*cursor: hand;*/
 }
+.navBtn {
+    cursor: pointer;
+    font-size: 8em;
+    opacity: 0.4;
+}
 .grid .tick {
     stroke: grey;
     /*stroke-opacity: 0.7;*/

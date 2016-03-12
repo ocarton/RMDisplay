@@ -6,7 +6,7 @@
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><span>Identifié: {{auth.profile.nickname}}</span></a>
+            <a class="navbar-brand" href="#"><span>Identified as : {{auth.profile.nickname}}</span></a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-ex-collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -17,7 +17,7 @@
                     <a href="" ng-click="navigate('ARVE')" class="btn-primary btn-block">ARVE</a>
                 </li>
                 <li class="active">
-                    <a href="" ng-click="navigate('DISPOS')" class="btn-primary btn-block">DISPOS</a>
+                    <a href="" ng-click="navigate('DISPOS')" class="btn-primary btn-block">Availables</a>
                 </li>
                 <li>
                     <a ng-click="logout()" class="btn-warning btn-block">Logout</a>
@@ -48,11 +48,11 @@
     <div class="row">
         <div id="ARVEWTRChart" class="col-lg-6" ng-controller="ARVEWTRCtrl" align="center">
             <h2 id="WTRTitle" class="text-center text-primary">ARVE WTR</h2>
-            <label><input type="radio" name="ARVEWTRVisual" value="Graph" ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Graphe</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
-            <label><input type="radio" name="ARVEWTRVisual" value="Table" checked ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Tableau</label>
+            <label><input type="radio" name="ARVEWTRVisual" value="Graph" ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Graph</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+            <label><input type="radio" name="ARVEWTRVisual" value="Table" checked ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Table</label>
             <svg id="WTRChart" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet"></svg>
-            <label id="WTRChart" align="center"><input type="checkbox" ng-model="checkVac.value" ng-change="displayCat()">Afficher les vacances</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
-            <label id="WTRChart" align="center"><input type="checkbox" ng-model="checkUnknown.value" ng-change="displayCat()">Compenser les unknowns</label>
+            <label id="WTRChart" align="center"><input type="checkbox" ng-model="checkVac.value" ng-change="displayCat()">Display vacations</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+            <label id="WTRChart" align="center"><input type="checkbox" ng-model="checkUnknown.value" ng-change="displayCat()">Compensate unknowns</label>
             <div id="WTRTable" viewBox="0 0 1000 800" style="display: none;">
                 <table class="table table-bordered table-hover table-striped">
                     <tbody align="left">
@@ -63,9 +63,10 @@
                         <tr> <td>Idle</td> <td align="right" ng:repeat="arve in tableS0">{{arve.idle |number:2}}&nbsp;</td> </tr>
                         <tr> <td>Training</td> <td align="right" ng:repeat="arve in tableS0">{{arve.training |number:2}}&nbsp;</td> </tr>
                         <tr> <td>Vacation</td> <td align="right" ng:repeat="arve in tableS0">{{arve.vacation |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Management</td> <td align="right" ng:repeat="arve in tableS0">{{arve.management |number:2}}&nbsp;</td> </tr>
                         <tr> <td>Sickness</td> <td align="right" ng:repeat="arve in tableS0">{{arve.sickness |number:2}}&nbsp;</td> </tr>
                         <tr> <td>Unknown</td> <td align="right" ng:repeat="arve in tableS0">{{arve.unknown |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS0">{{arve.tot |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS0">{{arve.tot+arve.vacation |number:2}}&nbsp;</td> </tr>
                         <tr> <td><b>ARVE</b></td> <td align="right" ng:repeat="arve in tableS0"><b>{{arve.billable/arve.tot*100|number:2}}%</b></td> </tr>
                     </tbody>
                 </table>
@@ -79,9 +80,10 @@
                         <tr> <td>Idle</td> <td align="right" ng:repeat="arve in tableS1">{{arve.idle |number:2}}&nbsp;</td> </tr>
                         <tr> <td>Training</td> <td align="right" ng:repeat="arve in tableS1">{{arve.training |number:2}}&nbsp;</td> </tr>
                         <tr> <td>Vacation</td> <td align="right" ng:repeat="arve in tableS1">{{arve.vacation |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Management</td> <td align="right" ng:repeat="arve in tableS1">{{arve.management |number:2}}&nbsp;</td> </tr>
                         <tr> <td>Sickness</td> <td align="right" ng:repeat="arve in tableS1">{{arve.sickness |number:2}}&nbsp;</td> </tr>
                         <tr> <td>Unknown</td> <td align="right" ng:repeat="arve in tableS1">{{arve.unknown |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS1">{{arve.tot |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS1">{{arve.tot+arve.vacation |number:2}}&nbsp;</td> </tr>
                         <tr> <td><b>ARVE</b></td> <td align="right" ng:repeat="arve in tableS1"><b>{{arve.billable/arve.tot*100|number:2}}%</b></td> </tr>
                     </tbody>
                 </table>
@@ -95,9 +97,10 @@
                         <tr> <td>Idle</td> <td align="right" ng:repeat="arve in tableS2">{{arve.idle |number:2}}&nbsp;</td> </tr>
                         <tr> <td>Training</td> <td align="right" ng:repeat="arve in tableS2">{{arve.training |number:2}}&nbsp;</td> </tr>
                         <tr> <td>Vacation</td> <td align="right" ng:repeat="arve in tableS2">{{arve.vacation |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Management</td> <td align="right" ng:repeat="arve in tableS2">{{arve.management |number:2}}&nbsp;</td> </tr>
                         <tr> <td>Sickness</td> <td align="right" ng:repeat="arve in tableS2">{{arve.sickness |number:2}}&nbsp;</td> </tr>
                         <tr> <td>Unknown</td> <td align="right" ng:repeat="arve in tableS2">{{arve.unknown |number:2}}&nbsp;</td> </tr>
-                        <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS2">{{arve.tot |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS2">{{arve.tot+arve.vacation |number:2}}&nbsp;</td> </tr>
                         <tr> <td><b>ARVE</b></td> <td align="right" ng:repeat="arve in tableS2"><b>{{arve.billable/arve.tot*100|number:2}}%</b></td> </tr>
                     </tbody>
                 </table>
@@ -105,11 +108,11 @@
         </div>
         <div id="ARVERetainChart" class="col-lg-6" ng-controller="ARVERetainCtrl" align="center">
             <h2 id="RetainTitle" class="text-center text-primary">ARVE Retain</h2>
-            <label><input type="radio" name="ARVEVisual" value="Graph" ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Graphe</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
-            <label><input type="radio" name="ARVEVisual" value="Table" checked ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Tableau</label>
+            <label><input type="radio" name="ARVEVisual" value="Graph" ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Graph</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+            <label><input type="radio" name="ARVEVisual" value="Table" checked ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Table</label>
             <svg id="RetainChart" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet"></svg>
-            <label id="WTRChart" align="center"><input type="checkbox" ng-model="checkVac.value" ng-change="displayCat()">Afficher les vacances</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
-            <label id="RetainChart" align="center"><input type="checkbox" ng-model="checkSim.value" ng-change="displayCat()">Simuler l'évolution</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+            <label id="WTRChart" align="center"><input type="checkbox" ng-model="checkVac.value" ng-change="displayCat()">Display vacations</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+            <label id="RetainChart" align="center"><input type="checkbox" ng-model="checkSim.value" ng-change="displayCat()">Simulate evolution</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
             <div id="RetainTable" viewBox="0 0 1000 800" style="display: none;">
                 <table class="table table-bordered table-hover table-striped">
                     <tbody align="left">
@@ -154,11 +157,13 @@
 <div class="section container" id="DISPOS">
     <div class="col-md-12 ng-scope" ng-app="IdleBoard" ng-controller="IdleCtrl">
         <h1 class="text-center text-primary">
-            Disponibilités
-            <select style="width: 150px" ng-init="dispoGroup='FR03CS04 - AERO'" ng-model="dispoGroup">
-                <option value="FR03CS03 - COMM">COMM</option>                
-                <option value="FR03CS04 - AERO">ASD</option>                
-                <option value="FR03CS05 - EUC">EUC</option>
+            Availabilities
+            <select style="width: 150px" ng-init="dispoGroup='FR03CS04 - ASD'" ng-model="dispoGroup">
+                <option value="FR03CS02 - TMP">TMP</option>  
+                <option value="FR03CS02 - SERVICES">SERVICES</option>                
+                <option value="FR03CS03 - COMM">COMM</option>                 
+                <option value="FR03CS04 - ASD">ASD</option>                
+                <option value="FR03CS05 - EU&I">EUI</option>
                 <option value="FR03CS06 - PER">MED</option>
                 <option value="FR03CS07 - ECM">ECM</option>
             </select>
@@ -167,7 +172,7 @@
             <div class="col-md-1">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <table><tbody><tr><td>Semaine en cours</td></tr></tbody></table>
+                        <table><tbody><tr><td>Current week</td></tr></tbody></table>
                     </div>
                 </div>
             </div>
@@ -202,7 +207,7 @@
                     <div class="col-md-1">
                         <div class="panel panel-info">
                             <div class="panel-heading">
-                                <table><tbody><tr><td>Semaine S+{{week}}</td></tr></tbody></table>
+                                <table><tbody><tr><td>Week W+{{week}}</td></tr></tbody></table>
                             </div>
                         </div>
                     </div>
