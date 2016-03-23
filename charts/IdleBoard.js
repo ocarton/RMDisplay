@@ -1,11 +1,41 @@
 /// <reference path="../typings/angular2/angular2.d.ts"/>
 var myApp = angular.module("IdleBoard", []).controller("IdleCtrl", function($scope) {
 
-    var skillList = ["FR03AA10_CSD_RTCP", "FR03AA12_MCS_OCS", "FR03AA11_MCS_RTC", "FR03AA06_CSD_DC", "FR03AA09_MCS_S&A", "FR03AA14_CSD_OCSP"];
-
+    var skillList = ["FR03AA10_CSD_RTCP", "FR03AA12_MCS_OCSR", "FR03AA11_MCS_RTCB", "FR03AA06_CSD_DC", "FR03AA09_MCS_S&A", "FR03AA14_CSD_OCSP"];
     var color = d3.scale.ordinal()
-        .range(["#FFF4D4", "#FF9BB8", "#FFE69B", "#C6FF9B", "#ABA9FF", "#FFD4E0"])
+        .range(["#FFF4D4", "#FF9BB8", "#FFE69B", "#C6FF9B", "#ABA9FF", "#FFD4E0", "#FFFFFF"])
         .domain(skillList);
+
+    $scope.listSC = [
+        { value: 'FR03CS04 - ASD', name: 'ASD', list: [
+            { value: 'FR03AA06_CSD_DC', name: 'DIGITAL', bgdcol: '#C6FF9B' },
+            { value: 'FR03AA09_MCS_S&A', name: 'S&A', bgdcol: '#ABA9FF' },
+            { value: 'FR03AA10_CSD_RTCP', name: 'RTC Pau', bgdcol: '#FFF4D4' },
+            { value: 'FR03AA11_MCS_RTCB', name: 'RTC Bayonne', bgdcol: '#FFE69B' },
+            { value: 'FR03AA12_MCS_OCSR', name: 'OCS Rennes', bgdcol: '#FF9BB8' },
+            { value: 'FR03AA14_CSD_OCSP', name: 'OCS Paris', bgdcol: '#FFD4E0' }
+        ]},
+        { value: 'FR03CSD4 - C&IM', name: 'C&IM', list:[] },
+        { value: 'FR03CS03 - COMM', name: 'COMM', list: [] },
+        { value: 'FR03CS07 - ECM', name: 'ECM', list: [] },
+        { value: 'FR03CS05 - EU&I', name: 'EU&I', list: [] },
+        { value: 'FR03CS01 - MGT', name: 'MGT', list: [] },
+        { value: 'FR03CS06 - PER', name: 'PER', list: [] },
+        { value: 'FR03CS02 - TMP', name: 'TMP', list: [] }
+    ];
+
+    $scope.changeSC = function () {
+        console.log("Skill center selected: " + $scope.selectedSC)
+        if ($scope.selectedSC == 'FR03CS04 - ASD') {
+            $scope.listSG = $scope.listSC[0].list;
+        }
+        else {
+            $scope.listSG = $scope.listSC[1].list;
+        }
+    }
+
+    $scope.selectedSC = "FR03CS04 - ASD";
+    $scope.listSG = $scope.listSC[0].list;
 
     $scope.models = {
         selected: null,
@@ -25,12 +55,12 @@ var myApp = angular.module("IdleBoard", []).controller("IdleCtrl", function($sco
         $scope.models.lists[7] = { "TECH": [], "AUTRES": [], "AMOA": [], "EM": [] }
         $scope.models.lists[8] = { "TECH": [], "AUTRES": [], "AMOA": [], "EM": [] }
         $scope.models.lists[9] = { "TECH": [], "AUTRES": [], "AMOA": [], "EM": [] }
-        data.forEach(function(d) {
+        data.forEach(function(d) {console.log(d)
             d.color = color(d["Prod  Unit Label"]);
             if(d["Global practice"] == "AMOA") {
                 $scope.models.lists[d.Week].AMOA.unshift(d);            
             }
-            else if (d["Global practice"] == "AMOE" || d["Global practice"] == "NTIC") {
+            else if (d["Global practice"] == "AMOE" || d["Global practice"] == "NTIC" || d["Global practice"] == "SAP") {
                 $scope.models.lists[d.Week].TECH.unshift(d);
             }
             else if (d["Global practice"] == "EM" || d["Global practice"] == "PMO" || d["Global practice"] == "QUALITE") {

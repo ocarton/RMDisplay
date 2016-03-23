@@ -542,12 +542,12 @@ angular.module('ARVERetainChart', [])
                 .attr("x1", -20).attr("x2", 10)
                 .attr("y1", function (d) { return (legendY1[d] - legendY2[d]); }).attr("y2", 0);
 
-        t1.select("#" + xBarsS[xBarsS.length - 1].uid + ".barRight").selectAll(".legend")
+        t.select("#" + xBarsS[xBarsS.length - 1].uid + ".barRight").selectAll(".legend")
             .attr("opacity", 1)
             .attr("transform", function (d) { return "translate(" + (x.rangeBand() * sideBarsWidth + 20) + "," + legendY2[d] + ")"; });
 
         // Setting line between legend and middle of the bar
-        t1.select("#" + xBarsS[xBarsS.length - 1].uid + ".barRight").selectAll(".legend line")
+        t.select("#" + xBarsS[xBarsS.length - 1].uid + ".barRight").selectAll(".legend line")
               .attr("x1", -20).attr("x2", 10)
               .attr("y1", function (d) { return (legendY1[d] - legendY2[d]); }).attr("y2", 0);
     }
@@ -667,7 +667,7 @@ angular.module('ARVERetainChart', [])
     // Functions which drill down or drill up the selected group data
     //-------------------------------------------------------------------------------
     function drillUp(bar) {
-        console.log("Drilling up " + bar.name);
+        console.log("Drilling up:" + bar.name + " ID:" + bar.uid);
         // Blocking drilling up on the top group
         if (bar.uid != root[0].uid) {
 
@@ -676,7 +676,7 @@ angular.module('ARVERetainChart', [])
             activeGroup = root;
             newGroupArray = [];
             angular.forEach(root, function (d) {
-                getNode(d, bar.uid);
+                return getNode(d, bar.uid);
             });
             activeGroup = newGroupArray;
             loadBarsData();
@@ -686,7 +686,7 @@ angular.module('ARVERetainChart', [])
     function getNode(tree, uid) {
         if (tree.children) {
             tree.children.forEach(function (d) {
-                if (d.uid == uid) { newGroupArray = newGroupArray.concat(tree) }
+                if (d.uid == uid) { newGroupArray = newGroupArray.concat(tree); console.log(d.uid);console.log(tree) }
                 else { return getNode(d, uid) }
             })
         }
@@ -696,7 +696,7 @@ angular.module('ARVERetainChart', [])
     }
 
     function drillDown(bar) {
-        console.log("Drilling down " + bar.name);
+        console.log("Drilling down:" + bar.name);
         newGroupArray = [];
         angular.forEach(activeGroup, function (d) {
             newGroupArray = newGroupArray.concat(d.children.filter(function (d) { return (d.uid == bar.uid) }));

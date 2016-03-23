@@ -26,10 +26,9 @@
         </div>
     </div>
 </div>
-<!-- Ecran de titre de la page-->
+<!-- Ecran de titre de la page (RM Staffing Center)-->
 <div id="TOP" class="section cover">
     <div class="cover-image" style="background-image : url('src/img/sky-sunset-night.jpg')"></div>
-
     <!--div class="cover-image" style="background-image : url('https://unsplash.imgix.net/photo-1422513391413-ddd4f2ce3340?w=1024&amp;q=50&amp;fm=jpg&amp;s=282e5978de17d6cd2280888d16f06f04')"></div-->
     <div class="container">
         <div class="row">
@@ -153,19 +152,18 @@
         </div>
     </div>
 </div>
-
+<!-- Ecran des dispos (Availabilities)-->
 <div class="section container" id="DISPOS">
     <div class="col-md-12 ng-scope" ng-app="IdleBoard" ng-controller="IdleCtrl">
         <h1 class="text-center text-primary">
-            Availabilities
-            <select style="width: 150px" ng-init="dispoGroup='FR03CS04 - ASD'" ng-model="dispoGroup">
-                <option value="FR03CS02 - TMP">TMP</option>  
-                <option value="FR03CS02 - SERVICES">SERVICES</option>                
-                <option value="FR03CS03 - COMM">COMM</option>                 
-                <option value="FR03CS04 - ASD">ASD</option>                
-                <option value="FR03CS05 - EU&I">EUI</option>
-                <option value="FR03CS06 - PER">MED</option>
-                <option value="FR03CS07 - ECM">ECM</option>
+            Availabilities SC
+            <select id="SCCombo" ng-model="selectedSC" style="width: 165px" ng-change="changeSC()" ng-init="SkillCenter='FR03CS04 - ASD'" ng-model="SkillCenter">
+                <option ng-repeat="item in listSC" value="{{item.value}}">{{item.name}}</option>
+            </select>
+            SG
+            <select id="SGCombo" ng-model="selectedSG" style="width: 165px" ng-change="changeSG()" ng-init="SkillGroup=''" ng-model="SkillGroup">
+                <option value=""></option>
+                <option ng-repeat="item in listSG" style="background-color: {{item.bgdcol}}" value="{{item.value}}">{{item.name}}</option>
             </select>
         </h1>
         <div class="row">
@@ -185,7 +183,7 @@
                             </div>
                             <div class="panel-body col2">
                                 <ul dnd-list="list">
-                                    <li ng-repeat="item in list | filter:{RMA: dispoGroup}"
+                                    <li ng-repeat="item in list | filter:{RMA: selectedSC}"
                                         dnd-draggable="item"
                                         dnd-moved="list.splice($index, 1)"
                                         dnd-effect-allowed="move"
@@ -217,7 +215,7 @@
                                 <div class="panel panel-info">
                                     <div class="panel-body col2">
                                         <ul dnd-list="list">
-                                            <li ng-repeat="item in list | filter:{RMA: dispoGroup}"
+                                            <li ng-repeat="item in list | filter:{RMA: selectedSC}"
                                                 dnd-draggable="item"
                                                 dnd-moved="list.splice($index, 1)"
                                                 dnd-effect-allowed="move"
@@ -234,20 +232,8 @@
                 </div>
             </div>
         </div>
-        <!--div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Generated Model</h3>
-                </div>
-                <div class="panel-body">
-                    <pre class="code">{{modelAsJson}}</pre>
-                </div>
-            </div>
-        </div-->
     </div>
 </div>
-<!--/br></br></br></br>
-</br></br></br></br-->
 </br></br></br></br>
 </br></br></br></br>
 </br></br></br></br>
