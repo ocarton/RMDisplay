@@ -3,19 +3,17 @@
 <!-- Ecran des dispos (Availabilities).
     Attention: L'utilisation de ng-repeat pour simplifier ce code n'est pas possible à cause de la façon dont dragular exploite ng-repeat
 -->
-<div class="section container" id="DISPOS">
+<div class="container"  id="DISPOS">
     <div class="col-md-12 ng-scope" ng-app="IdleBoard" ng-controller="IdleCtrl">
-        <h1 class="text-center text-primary">
-            Availabilities SC
-            <select id="SCCombo" ng-model="selectedSC" style="width: 165px" ng-change="changeSC()" ng-init="SkillCenter='FR03CS04 - ASD'" ng-model="SkillCenter">
-                <option ng-repeat="item in listSC" value="{{item.value}}">{{item.name}}</option>
-            </select>
-            SG
-            <select id="SGCombo" ng-model="selectedSG" style="width: 165px" ng-change="changeSG()" ng-init="SkillGroup=''" ng-model="SkillGroup">
-                <option value=""></option>
-                <option ng-repeat="item in listSG" style="background-color: {{item.bgdcol}}" value="{{item.value}}">{{item.name}}</option>
-            </select>
-        </h1>
+        <h1 class="text-center text-primary">Availabilities</h1>
+        <div align="center">
+            Skill Center :
+            <span ng-dropdown-multiselect="" options="selBoxSkillCData" selected-model="selBoxSkillCModel" extra-settings="selBoxSkillCSettings" events="onItemSelect(selBoxSkillCModel)"></span>&nbsp;&nbsp;
+            Skill Group :
+            <span ng-dropdown-multiselect="" options="selBoxSkillGData" selected-model="selBoxSkillGModel" extra-settings="selBoxSkillGSettings" events="onItemSelect(selBoxSkillGModel)"></span>&nbsp;&nbsp;
+            Ville :
+            <span ng-dropdown-multiselect="" options="selBoxCityData" selected-model="selBoxCityModel" extra-settings="selBoxCitySettings" events="onItemSelect(selBoxCityModel)"></span>
+        </div>
         <!-- Week 0 -->
         <div class="row">
             <div class="col-md-1">

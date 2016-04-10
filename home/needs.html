@@ -1,7 +1,7 @@
 <!-- Barre de navigation en bas de l'écran -->
 <div ng-include="'home/nav.html'"></div>
 <!-- Ecran des besoins (Needs)-->
-<div class="section container" id="NEEDS">
+<div class="container" id="NEEDS">
     <div class="col-md-12 ng-scope" ng-app="NeedBoard" ng-controller="NeedCtrl">
         <h1 class="text-center text-primary">
             Needs
@@ -9,7 +9,6 @@
         <div align="center">
             Practice :
             <span ng-dropdown-multiselect="" options="selBoxPracticeData" selected-model="selBoxPracticeModel" extra-settings="selBoxPracticeSettings" events="onItemSelect(selBoxPracticeModel)"></span>
-
         </div>
         <div class="row">
             <div class="col-md-1">
