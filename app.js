@@ -8,7 +8,8 @@ angular.module( 'RMBoard', [
   'orgaChart',
   'ARVEWTRChart',
   'ARVERetainChart',
-  'IdleBoard'
+  'IdleBoard',
+  'NeedBoard'
 ])
 .config( function myAppConfig ( $routeProvider, authProvider, $httpProvider, $locationProvider,
   jwtInterceptorProvider) {
@@ -18,6 +19,30 @@ angular.module( 'RMBoard', [
       templateUrl: 'home/home.html',
       pageTitle: 'Homepage',
       requiresLogin: true
+    })
+    .when('/home', {
+        controller: 'HomeCtrl',
+        templateUrl: 'home/home.html',
+        pageTitle: 'Homepage',
+        requiresLogin: true
+    })
+    .when('/arve', {
+        controller: 'HomeCtrl',
+        templateUrl: 'home/arve.html',
+        pageTitle: 'ARVEpage',
+        requiresLogin: true
+    })
+    .when('/idle', {
+        controller: 'HomeCtrl',
+        templateUrl: 'home/idle.html',
+        pageTitle: 'Idlespage',
+        requiresLogin: true
+    })
+    .when('/needs', {
+        controller: 'HomeCtrl',
+        templateUrl: 'home/needs.html',
+        pageTitle: 'Needspage',
+        requiresLogin: true
     })
     .when( '/login', {
       controller: 'LoginCtrl',

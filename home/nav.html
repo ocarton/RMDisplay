@@ -1,0 +1,31 @@
+<!-- Barre de navigation en bas de l'écran -->
+<div class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><span>Identified as : {{auth.profile.nickname}}</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active">
+                    <a href="/#/home" ng-click="navigate('')" class="btn-primary btn-block">Home</a>
+                </li>
+                <li class="active">
+                    <a href="/#/arve" ng-click="navigate('ARVE')" class="btn-primary btn-block">ARVE</a>
+                </li>
+                <li class="active">
+                    <a href="/#/idle" ng-click="navigate('DISPOS')" class="btn-primary btn-block">Availables</a>
+                </li>
+                <li class="active">
+                    <a href="/#/needs" ng-click="navigate('NEEDS')" class="btn-primary btn-block">Needs</a>
+                </li>
+                <li>
+                    <a ng-click="logout()" class="btn-warning btn-block">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

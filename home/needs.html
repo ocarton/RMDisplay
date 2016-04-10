@@ -1,0 +1,73 @@
+<!-- Barre de navigation en bas de l'écran -->
+<div ng-include="'home/nav.html'"></div>
+<!-- Ecran des besoins (Needs)-->
+<div class="section container" id="NEEDS">
+    <div class="col-md-12 ng-scope" ng-app="NeedBoard" ng-controller="NeedCtrl">
+        <h1 class="text-center text-primary">
+            Needs
+        </h1>
+        <div align="center">
+            Practice :
+            <span ng-dropdown-multiselect="" options="selBoxPracticeData" selected-model="selBoxPracticeModel" extra-settings="selBoxPracticeSettings" events="onItemSelect(selBoxPracticeModel)"></span>
+
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <table><tbody><tr><td>Ouvert</td></tr></tbody></table>
+                    </div>
+                </div>
+            </div>
+            <div class="cards">
+                <div class="col-md-11">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Besoins</h3>
+                        </div>
+                        <div class="panel-body col6">
+                            <div class='containerVertical'>
+                                <div class="card" ng-repeat="item in requests.lists | filter:{Statut: 'Ouvert'} | filter:practiceFilter" ng-include="'home/needCards.html'"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <table><tbody><tr><td>Proposition</td></tr></tbody></table>
+                    </div>
+                </div>
+            </div>
+            <div class="cards">
+                <div class="col-md-11">
+                    <div class="panel panel-info">
+                        <div class="panel-body col6">
+                            <div class='containerVertical'>
+                                <div class="card" ng-repeat="item in requests.lists | filter:{Statut: 'Proposition'} | filter:practiceFilter" ng-include="'home/needCards.html'"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <table><tbody><tr><td>Entretien</td></tr></tbody></table>
+                    </div>
+                </div>
+            </div>
+            <div class="card col-md-11 col6 panel panel-info panel-body containerVertical">
+                <div ng-repeat="item in requests.lists | filter:{Statut: 'Entretien'} | filter:practiceFilter" ng-include="'home/needCards.html'"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    console.log("Page 'Needs' loaded");
+</script>

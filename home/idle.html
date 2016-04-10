@@ -1,0 +1,347 @@
+<!-- Barre de navigation en bas de l'écran -->
+<div ng-include="'home/nav.html'"></div>
+<!-- Ecran des dispos (Availabilities).
+    Attention: L'utilisation de ng-repeat pour simplifier ce code n'est pas possible à cause de la façon dont dragular exploite ng-repeat
+-->
+<div class="section container" id="DISPOS">
+    <div class="col-md-12 ng-scope" ng-app="IdleBoard" ng-controller="IdleCtrl">
+        <h1 class="text-center text-primary">
+            Availabilities SC
+            <select id="SCCombo" ng-model="selectedSC" style="width: 165px" ng-change="changeSC()" ng-init="SkillCenter='FR03CS04 - ASD'" ng-model="SkillCenter">
+                <option ng-repeat="item in listSC" value="{{item.value}}">{{item.name}}</option>
+            </select>
+            SG
+            <select id="SGCombo" ng-model="selectedSG" style="width: 165px" ng-change="changeSG()" ng-init="SkillGroup=''" ng-model="SkillGroup">
+                <option value=""></option>
+                <option ng-repeat="item in listSG" style="background-color: {{item.bgdcol}}" value="{{item.value}}">{{item.name}}</option>
+            </select>
+        </h1>
+        <!-- Week 0 -->
+        <div class="row">
+            <div class="col-md-1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <table><tbody><tr><td>Current week</td></tr></tbody></table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-11">
+                <div class="col-sm-3 panel panel-info">
+                    <h3 class="panel-heading panel-title">AMOA</h3>
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[0].items | filter:{RMA: selectedSC} | filter:col1Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <h3 class="panel-heading panel-title">AUTRES</h3>
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[0].items | filter:{RMA: selectedSC} | filter:col2Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <h3 class="panel-heading panel-title">EM</h3>
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[0].items | filter:{RMA: selectedSC} | filter:col3Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <h3 class="panel-heading panel-title">TECH</h3>
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[0].items | filter:{RMA: selectedSC} | filter:col4Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Week 1 -->
+        <div class="row">
+            <div class="col-md-1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <table><tbody><tr><td>Week W+1</td></tr></tbody></table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-11">
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[1].items | filter:{RMA: selectedSC} | filter:col1Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[1].items | filter:{RMA: selectedSC} | filter:col2Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[1].items | filter:{RMA: selectedSC} | filter:col3Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[1].items | filter:{RMA: selectedSC} | filter:col4Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Week 2 -->
+        <div class="row">
+            <div class="col-md-1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <table><tbody><tr><td>Week W+2</td></tr></tbody></table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-11">
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[2].items | filter:{RMA: selectedSC} | filter:col1Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[2].items | filter:{RMA: selectedSC} | filter:col2Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[2].items | filter:{RMA: selectedSC} | filter:col3Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[2].items | filter:{RMA: selectedSC} | filter:col4Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Week 3 -->
+        <div class="row">
+            <div class="col-md-1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <table><tbody><tr><td>Week W+3</td></tr></tbody></table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-11">
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[3].items | filter:{RMA: selectedSC} | filter:col1Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[3].items | filter:{RMA: selectedSC} | filter:col2Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[3].items | filter:{RMA: selectedSC} | filter:col3Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[3].items | filter:{RMA: selectedSC} | filter:col4Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Week 4 -->
+        <div class="row">
+            <div class="col-md-1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <table><tbody><tr><td>Week W+4</td></tr></tbody></table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-11">
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[4].items | filter:{RMA: selectedSC} | filter:col1Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[4].items | filter:{RMA: selectedSC} | filter:col2Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[4].items | filter:{RMA: selectedSC} | filter:col3Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[4].items | filter:{RMA: selectedSC} | filter:col4Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Week 5 -->
+        <div class="row">
+            <div class="col-md-1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <table><tbody><tr><td>Week W+5</td></tr></tbody></table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-11">
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[5].items | filter:{RMA: selectedSC} | filter:col1Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[5].items | filter:{RMA: selectedSC} | filter:col2Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[5].items | filter:{RMA: selectedSC} | filter:col3Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[5].items | filter:{RMA: selectedSC} | filter:col4Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Week 6 -->
+        <div class="row">
+            <div class="col-md-1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <table><tbody><tr><td>Week W+6</td></tr></tbody></table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-11">
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[6].items | filter:{RMA: selectedSC} | filter:col1Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[6].items | filter:{RMA: selectedSC} | filter:col2Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[6].items | filter:{RMA: selectedSC} | filter:col3Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[6].items | filter:{RMA: selectedSC} | filter:col4Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Week 7 -->
+        <div class="row">
+            <div class="col-md-1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <table><tbody><tr><td>Week W+7</td></tr></tbody></table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-11">
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[7].items | filter:{RMA: selectedSC} | filter:col1Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[7].items | filter:{RMA: selectedSC} | filter:col2Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[7].items | filter:{RMA: selectedSC} | filter:col3Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[7].items | filter:{RMA: selectedSC} | filter:col4Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Week 8 -->
+        <div class="row">
+            <div class="col-md-1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <table><tbody><tr><td>Week W+8</td></tr></tbody></table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-11">
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[8].items | filter:{RMA: selectedSC} | filter:col1Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[8].items | filter:{RMA: selectedSC} | filter:col2Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[8].items | filter:{RMA: selectedSC} | filter:col3Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[8].items | filter:{RMA: selectedSC} | filter:col4Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Week 9 -->
+        <div class="row">
+            <div class="col-md-1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <table><tbody><tr><td>Week W+9</td></tr></tbody></table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-11">
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[9].items | filter:{RMA: selectedSC} | filter:col1Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[9].items | filter:{RMA: selectedSC} | filter:col2Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[9].items | filter:{RMA: selectedSC} | filter:col3Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+                <div class="col-sm-3 panel panel-info">
+                    <div class="panel-body col2 containerVertical">
+                        <div class="card" ng-repeat="item in models.availableList[9].items | filter:{RMA: selectedSC} | filter:col4Filter" ng-include="'home/idleCards.html'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    console.log("Page 'Idle' loaded");
+</script>
