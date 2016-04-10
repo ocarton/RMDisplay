@@ -202,7 +202,7 @@ function loadBarsData() {
       y.domain([minVacSh, 1]);
       x.domain(xBars.map(function(d) {return d.name; }))
      
-      //console.log("Ratio de vacance WTR le plus élevé="+minVacSh);
+      console.log("Ratio de vacance WTR le plus élevé="+minVacSh);
   
       // Redisplaying yAxis and lines
       t1 = t.transition();

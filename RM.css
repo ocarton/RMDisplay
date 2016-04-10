@@ -110,30 +110,6 @@ text.shadow {
     margin-bottom: 1px;
 }
 
-.cards ul li {
-    border: 1px solid #ddd;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-bottom-left-radius: 4px;    
-    display: block;
-    padding: 0px 0px;
-    margin-bottom: 1px;
-    padding-bottom: 1px;
-}
-.card{
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-bottom-left-radius: 4px;    
- /*   display: block;*/
-    padding: 0px 0px;
-    margin-bottom: 1px;
-    padding-bottom: 1px;
-}
-
 /**
  * Show selected elements in green
  */
@@ -174,13 +150,6 @@ text.shadow {
     height: 0;
     overflow: hidden;
 }*/
-
-/*dragular css*/
-.clickedClass {
-  background-color: orange;
-}
-
-
 .panel-body.col2 { 
   -webkit-column-count: 2; 
     -moz-column-count: 2; 
@@ -206,53 +175,6 @@ text.shadow {
       column-gap: 0.2em;    
   }
 }
-
-.panel-body.col6 { 
-  -webkit-column-count: 2; 
-    -moz-column-count: 2; 
-    column-count: 2;
-    -webkit-column-gap: 0.2em;
-    -moz-column-gap: 0.2em;
-    column-gap: 0.2em;    
-}
-@media (min-width: 768px) {
-  .panel-body.col6 {
-  -webkit-column-count: 4; 
-    -moz-column-count: 4; 
-    column-count: 4;    
-  }
-} 
-@media (min-width: 1220px) { /*was 1800*/
-  .panel-body.col6 { 
-    -webkit-column-count: 6; 
-      -moz-column-count: 6; 
-      column-count: 6;
-      -webkit-column-gap: 0.2em;
-      -moz-column-gap: 0.2em;
-      column-gap: 0.2em;    
-  }
-}
-
-/*Required for Dragular*/
- .dragRow {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .dragCell {
-    flex-grow: 1;
-  }
-
-  .dragRow,
-  .dragCell {
-    margin: 0px;
-    padding: 1px;
-    background-color: rgba(0, 0, 0, 0.2);
-    cursor: move;
-    cursor: grab;
-    cursor: -moz-grab;
-    cursor: -webkit-grab;
-  }
 
 
 .module {
@@ -323,23 +245,6 @@ text.shadow {
   height: 7em; /* exactly three lines */
 }
 .ellipsis-6:after {
-  content: "";
-  text-align: right;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 70%;
-  height: 1.2em;
-  /*background: linear-gradient(to right, rgba(255, 255, 255, 0), white 100%);*/
-  pointer-events: none;
-}
-
-.ellipsis-7 {
-  position: relative;
-  white-space: pre-wrap;
-  height: 9em; /* exactly seven lines */
-}
-.ellipsis-7:after {
   content: "";
   text-align: right;
   position: absolute;
