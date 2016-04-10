@@ -686,7 +686,7 @@ angular.module('ARVERetainChart', [])
     function getNode(tree, uid) {
         if (tree.children) {
             tree.children.forEach(function (d) {
-                if (d.uid == uid) { newGroupArray = newGroupArray.concat(tree); console.log(d.uid);console.log(tree) }
+                if (d.uid == uid) { newGroupArray = newGroupArray.concat(tree);}
                 else { return getNode(d, uid) }
             })
         }

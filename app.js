@@ -8,7 +8,8 @@ angular.module( 'RMBoard', [
   'orgaChart',
   'ARVEWTRChart',
   'ARVERetainChart',
-  'IdleBoard'
+  'IdleBoard',
+  'NeedBoard'
 ])
 .config( function myAppConfig ( $routeProvider, authProvider, $httpProvider, $locationProvider,
   jwtInterceptorProvider) {
