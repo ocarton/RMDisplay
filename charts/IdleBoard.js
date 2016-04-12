@@ -41,8 +41,6 @@ var myApp = angular.module('IdleBoard', ['angularjs-dropdown-multiselect', 'drag
         smartButtonMaxItems: 3,
         externalIdProp: ''
     };
-    console.log("TOOO")
-    console.log($scope.selBoxSkillCModel.map(function (e) { return e.value; }))
 
     $scope.selBoxSkillGModel = $scope.listSC[0].list.slice(0);
     $scope.selBoxSkillGData = $scope.listSC[0].list;
@@ -56,19 +54,8 @@ var myApp = angular.module('IdleBoard', ['angularjs-dropdown-multiselect', 'drag
         externalIdProp: ''
     };
 
-    $scope.changeSC = function () {
-        console.log("Skill center selected: " + $scope.selectedSC)
-        if ($scope.selectedSC == 'FR03CS04 - ASD') {
-            $scope.listSG = $scope.listSC[0].list;
-        }
-        else {
-            $scope.listSG = $scope.listSC[1].list;
-        }
-    }
-
     $scope.col1Filter = function (item) {
         var itemSelected = false;
-        console.log(item["RMA"]);
         if (item["Global practice"] == "AMOA"
             && $scope.selBoxSkillCModel.map(function (e) { return e.value; }).indexOf(item["RMA"]) != -1
             && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office Base"]) != -1)
@@ -133,9 +120,9 @@ var myApp = angular.module('IdleBoard', ['angularjs-dropdown-multiselect', 'drag
             $scope.models.availableList[d.Week].items.unshift(d);
         });
         citiesList.sort(function (a, b) { return a.label > b.label; });
-        $scope.$apply();
         $scope.selBoxCityModel = citiesList.slice(0);
         $scope.selBoxCityData = citiesList;
+        $scope.$apply();
     });
 
     //code before the pause
