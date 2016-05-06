@@ -7,8 +7,10 @@
             Needs
         </h1>
         <div align="center">
-            Practice :
-            <span ng-dropdown-multiselect="" options="selBoxPracticeData" selected-model="selBoxPracticeModel" extra-settings="selBoxPracticeSettings" events="onItemSelect(selBoxPracticeModel)"></span>
+            Origin :
+            <span ng-dropdown-multiselect="" options="selBoxPracticeData" selected-model="selBoxPracticeModel" extra-settings="selBoxPracticeSettings" events="onItemSelect(selBoxPracticeModel)"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!--JMD 04/05/2016-->
+            <span id="NeedCards" align="center"><input type="checkbox" ng-model="checkUnknown.value" ng-change="isNAFilter()">  Hide 'NA'</span>
         </div>
         <div class="row">
             <div class="col-md-1">
@@ -24,10 +26,8 @@
                         <div class="panel-heading">
                             <h3 class="panel-title">Besoins</h3>
                         </div>
-                        <div class="panel-body col6">
-                            <div class='containerVertical'>
-                                <div class="card" ng-repeat="item in requests.lists | filter:{Statut: 'Ouvert'} | filter:practiceFilter" ng-include="'home/needCards.html'"></div>
-                            </div>
+                        <div class="panel-body col6 containerVertical">
+                            <div class="card" ng-repeat="item in requests.lists | filter:{Statut: 'Ouvert'} | filter:practiceFilter  | filter:isNAFilter" ng-include="'home/needCards.html'"></div>
                         </div>
                     </div>
                 </div>
@@ -41,16 +41,8 @@
                     </div>
                 </div>
             </div>
-            <div class="cards">
-                <div class="col-md-11">
-                    <div class="panel panel-info">
-                        <div class="panel-body col6">
-                            <div class='containerVertical'>
-                                <div class="card" ng-repeat="item in requests.lists | filter:{Statut: 'Proposition'} | filter:practiceFilter" ng-include="'home/needCards.html'"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="card col-md-11 col6 panel panel-info panel-body containerVertical">
+                <div class="card" ng-repeat="item in requests.lists | filter:{Statut: 'Proposition'} | filter:practiceFilter | filter:isNAFilter" ng-include="'home/needCards.html'"></div>
             </div>
         </div>
         <div class="row">
@@ -62,7 +54,7 @@
                 </div>
             </div>
             <div class="card col-md-11 col6 panel panel-info panel-body containerVertical">
-                <div ng-repeat="item in requests.lists | filter:{Statut: 'Entretien'} | filter:practiceFilter" ng-include="'home/needCards.html'"></div>
+                <div ng-repeat="item in requests.lists | filter:{Statut: 'Entretien'} | filter:practiceFilter | filter:isNAFilter" ng-include="'home/needCards.html'"></div>
             </div>
         </div>
     </div>

@@ -5,13 +5,15 @@
 -->
 <div class="container"  id="DISPOS">
     <div class="col-md-12 ng-scope" ng-app="IdleBoard" ng-controller="IdleCtrl">
-        <h1 class="text-center text-primary">Availabilities</h1>
+        <h1 class="text-center text-primary">Availables</h1>
         <div align="center">
             Skill Center :
-            <span ng-dropdown-multiselect="" options="selBoxSkillCData" selected-model="selBoxSkillCModel" extra-settings="selBoxSkillCSettings" events="onItemSelect(selBoxSkillCModel)"></span>&nbsp;&nbsp;
+            <span ng-dropdown-multiselect="" options="selBoxSkillCData" selected-model="selBoxSkillCModel" extra-settings="selBoxSkillCSettings" events="storeSelected"></span>&nbsp;&nbsp;
+            <!-- OCA 06/05/2016 commented as the skill group is not used in the filters for now
             Skill Group :
             <span ng-dropdown-multiselect="" options="selBoxSkillGData" selected-model="selBoxSkillGModel" extra-settings="selBoxSkillGSettings" events="onItemSelect(selBoxSkillGModel)"></span>&nbsp;&nbsp;
-            Ville :
+            -->
+            Office base :
             <span ng-dropdown-multiselect="" options="selBoxCityData" selected-model="selBoxCityModel" extra-settings="selBoxCitySettings" events="onItemSelect(selBoxCityModel)"></span>
         </div>
         <!-- Week 0 -->

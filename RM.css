@@ -50,77 +50,6 @@ text.shadow {
     opacity: 0.9;
 }
 
-/**
- * For the correct positioning of the placeholder element, the dnd-list and
- * it's children must have position: relative
- */
-.cards ul[dnd-list],
-.cards ul[dnd-list] > li {
-	position: relative;
-  margin-top: 0px;
-}
-
-/**
- * The dnd-list should always have a min-height,
- * otherwise you can't drop to it once it's empty
- */
-.cards ul[dnd-list] {
-    min-height: 60px;
-    padding-left: 0px;
-    
-}
-
-/**
- * The dndDraggingSource class will be applied to
- * the source element of a drag operation. It makes
- * sense to hide it to give the user the feeling
- * that he's actually moving it.
- */
-.cards ul[dnd-list] .dndDraggingSource {
-    display: none;
-}
-
-/**
- * An element with .dndPlaceholder class will be
- * added to the dnd-list while the user is dragging
- * over it.
- */
-.cards ul[dnd-list] .dndPlaceholder {
-    display: block;
-    background-color: #ddd;
-    min-height: 60px;
-}
-
-/**
- * The dnd-lists's child elements currently MUST have
- * position: relative. Otherwise we can not determine
- * whether the mouse pointer is in the upper or lower
- * half of the element we are dragging over. In other
- * browsers we can use event.offsetY for this.
- */
-.cards ul[dnd-list] li {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-bottom-left-radius: 4px;    
-    display: block;
-    padding: 0px 0px;
-    margin-bottom: 1px;
-}
-
-.cards ul li {
-    border: 1px solid #ddd;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-bottom-left-radius: 4px;    
-    display: block;
-    padding: 0px 0px;
-    margin-bottom: 1px;
-    padding-bottom: 1px;
-}
 .card{
     background-color: #fff;
     border: 1px solid #ddd;
@@ -134,14 +63,6 @@ text.shadow {
     padding-bottom: 1px;
 }
 
-/**
- * Show selected elements in green
- */
-.cards ul[dnd-list] li.selected {
-    background-color: #dff0d8;
-    /*border: 3px solid #c9302c;*/    
-    color: #3c763d;
-}
 .card {
     position: relative;
 			padding: 0px;
