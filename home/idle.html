@@ -8,13 +8,13 @@
         <h1 class="text-center text-primary">Availables</h1>
         <div align="center">
             Skill Center :
-            <span ng-dropdown-multiselect="" options="selBoxSkillCData" selected-model="selBoxSkillCModel" extra-settings="selBoxSkillCSettings" events="storeSelected"></span>&nbsp;&nbsp;
+            <span ng-dropdown-multiselect="" options="selBoxSkillCData" selected-model="selBoxSkillCModel" extra-settings="selBoxSkillCSettings" events="storeSelection"></span>&nbsp;&nbsp;
             <!-- OCA 06/05/2016 commented as the skill group is not used in the filters for now
             Skill Group :
             <span ng-dropdown-multiselect="" options="selBoxSkillGData" selected-model="selBoxSkillGModel" extra-settings="selBoxSkillGSettings" events="onItemSelect(selBoxSkillGModel)"></span>&nbsp;&nbsp;
             -->
             Office base :
-            <span ng-dropdown-multiselect="" options="selBoxCityData" selected-model="selBoxCityModel" extra-settings="selBoxCitySettings" events="onItemSelect(selBoxCityModel)"></span>
+            <span ng-dropdown-multiselect="" options="selBoxCityData" selected-model="selBoxCityModel" extra-settings="selBoxCitySettings" events="storeSelection"></span>
         </div>
         <!-- Week 0 -->
         <div class="row">

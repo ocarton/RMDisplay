@@ -1,17 +1,9 @@
 /// <reference path="../typings/angular2/angular2.d.ts"/>
-angular.module('ARVEWTRChart', [])
+angular.module('ARVEWTRChart', ['ngCookies'])
 
-.controller( 'ARVEWTRCtrl', function ARVEWTRController( $scope, auth, $http, $location, store) {
-
-$scope.checkVac = {value : false}
-
-$scope.checkUnknown = {value : false}
+.controller( 'ARVEWTRCtrl', function ARVEWTRController( $scope, $cookies, auth, $http, $location, store) {
 
 $scope.radARVEVisual = { value: "Graph" }
-
-$scope.displayCat = function () {
-  loadBarsData();  
-}
 
 $scope.displayARVEVisual = function () {
     if ($scope.radARVEVisual.value == "Graph") {
@@ -117,6 +109,29 @@ function make_y_axis() {
         .tickFormat("")              
 }
 
+//------------------------------------------------------------------------------
+// Cookies management
+//------------------------------------------------------------------------------
+//OCA 06/05/2016 BEGIN - Storing all parameters for available view in cookies
+$scope.checkVac = false;
+$scope.checkUnknown = false;
+
+if ($cookies.SelARVEWTRVac == undefined || $cookies.SelARVEWTRVac == "undefined")
+    { $scope.checkVac = true }
+else
+    { $scope.checkVac = JSON.parse($cookies.SelARVEWTRVac); };
+if ($cookies.SelARVEWTRUnknown == undefined || $cookies.SelARVEWTRUnknown == "undefined")
+    { $scope.checkUnknown = true }
+else
+    { $scope.checkUnknown = JSON.parse($cookies.SelARVEWTRUnknown); };
+
+$scope.CheckBoxChanged = function () {
+    $cookies.SelARVEWTRVac = JSON.stringify($scope.checkVac);
+    $cookies.SelARVEWTRUnknown = JSON.stringify($scope.checkUnknown);
+    loadBarsData();
+}
+//OCA 06/05/2016 END
+
 //-------------------------------------------------------------------------------
 // This function sets up the initial values for the bars by
 // calculating the parent values based on its children sums
@@ -186,14 +201,14 @@ function loadBarsData() {
 
     var displayList = catList.slice();    
     // Removing vacations if box is unchecked 
-    if ($scope.checkVac.value == false) {
+    if ($scope.checkVac == false) {
       minVacSh = 0
       var posVac = displayList.indexOf("vacation");
       if (posVac > -1) {displayList.splice(posVac, 1)}
     }      
 
     //Removing unknowns if checkbox is checked
-    if ($scope.checkUnknown.value != false) {
+    if ($scope.checkUnknown != false) {
       var posUnknown = displayList.indexOf("unknown");
       if (posUnknown > -1) {displayList.splice(posUnknown, 1)}
     }       
@@ -243,7 +258,7 @@ function loadBarsData() {
       
       groupR.each(function(d) {
         d.catSum = d.tot;         
-        if ($scope.checkUnknown.value != false) {d.catSum = d.catSum-d.unknown;}
+        if ($scope.checkUnknown != false) {d.catSum = d.catSum-d.unknown;}
       });          
   
       rect = groupR.selectAll("rect")
@@ -343,7 +358,7 @@ function loadBarsData() {
 
       groupC.each(function(d) {
         d.catSum = d.tot;         
-        if ($scope.checkUnknown.value != false) {
+        if ($scope.checkUnknown != false) {
           d.catSum = d.catSum-d.unknown;
         } 
       });
@@ -414,7 +429,7 @@ function loadBarsData() {
       
       groupL.each(function(d) {
         d.catSum = d.tot;         
-        if ($scope.checkUnknown.value != false) {d.catSum = d.catSum-d.unknown;}
+        if ($scope.checkUnknown != false) {d.catSum = d.catSum-d.unknown;}
       });      
   
       rect = groupL.selectAll("rect")

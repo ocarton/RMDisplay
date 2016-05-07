@@ -1,11 +1,7 @@
 /// <reference path="../typings/angular2/angular2.d.ts"/>
-angular.module('ARVERetainChart', [])
+angular.module('ARVERetainChart', ['ngCookies'])
 
-.controller('ARVERetainCtrl', function ARVERetainController($scope, auth, $http, $location, store) {
-
-    $scope.checkVac = { value: false }
-
-    $scope.checkUnknown = { value: false }
+.controller('ARVERetainCtrl', function ARVERetainController($scope, $cookies, auth, $http, $location, store) {
 
     $scope.radARVEVisual = { value: "Graph" }
 
@@ -128,6 +124,29 @@ angular.module('ARVERetainChart', [])
         return parseFloat(CleanedString)
     }
 
+    //------------------------------------------------------------------------------
+    // Cookies management
+    //------------------------------------------------------------------------------
+    //OCA 06/05/2016 BEGIN - Storing all parameters for available view in cookies
+    $scope.checkVac = false;
+    $scope.checkSim = false;
+
+    if ($cookies.SelARVERetVac == undefined || $cookies.SelARVERetVac == "undefined")
+    { $scope.checkVac = true }
+    else
+    { $scope.checkVac = JSON.parse($cookies.SelARVERetVac); };
+    if ($cookies.SelARVERetSim == undefined || $cookies.SelARVERetSim == "undefined")
+    { $scope.checkSim = true }
+    else
+    { $scope.checkSim = JSON.parse($cookies.SelARVERetSim); };
+
+    $scope.CheckBoxChanged = function () {
+        $cookies.SelARVERetVac = JSON.stringify($scope.checkVac);
+        $cookies.SelARVERetSim = JSON.stringify($scope.checkSim);
+        loadBarsData();
+    }
+    //OCA 06/05/2016 END
+
     //-------------------------------------------------------------------------------
     // This function sets up the initial values for the bars by
     // calculating the parent values based on its children sums
@@ -214,7 +233,7 @@ angular.module('ARVERetainChart', [])
 
         var displayList = catList.slice();
         // Removing vacations if box is unchecked 
-        if ($scope.checkVac.value == false) {
+        if ($scope.checkVac == false) {
             minVacSh = 0
             var posVac = displayList.indexOf("Vacation");
             if (posVac > -1) { displayList.splice(posVac, 1) }

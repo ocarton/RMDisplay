@@ -1,6 +1,6 @@
 /// <reference path="../typings/angular2/angular2.d.ts"/>
 var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multiselect', 'dragularModule'])
-.controller('IdleCtrl', ['$scope', '$cookies', '$element', 'dragularService', function ($scope, $cookes, $element, dragularService) {
+.controller('IdleCtrl', ['$scope', '$cookies', '$element', 'dragularService', function ($scope, $cookies, $element, dragularService) {
     dragularService('.containerVertical', { removeOnSpill: false });
 
     var citiesList = [];
@@ -45,10 +45,7 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
 
     //------------Initialization of the dropdown lists
     $scope.selBoxSkillCData = $scope.listSC;
-    //if ($cookies.get('SkillC') == "") { 
     $scope.selBoxSkillCModel = $scope.listSC.slice(0, 1);
-    //}
-    //else { $scope.selBoxSkillCModel = $cookies.get('SkillC');}
     $scope.selBoxSkillCSettings = {
         smartButtonMaxItems: 3,
         externalIdProp: ''
@@ -66,55 +63,18 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
         externalIdProp: ''
     };
 
-    $scope.storeSelected = {
+    //OCA 06/05/2016 BEGIN - Storing all parameters for available view in cookies
+    $scope.storeSelection = {
         onItemSelect: function (item) {
-            console.log(item);
+            $cookies.SelIdleSC = JSON.stringify($scope.selBoxSkillCModel);
+            $cookies.SelIdleCities = JSON.stringify($scope.selBoxCityModel);
         },
         onItemDeselect: function (item) {
-            console.log(item);
+            $cookies.SelIdleSC = JSON.stringify($scope.selBoxSkillCModel);
+            $cookies.SelIdleCities = JSON.stringify($scope.selBoxCityModel);
         }
     };
-
-    //------------Filters for the lists of each column
-    $scope.col1Filter = function (item) {
-        var itemSelected = false;
-        if (item["Global practice"] == "AMOA"
-            && $scope.selBoxSkillCModel.map(function (e) { return e.value; }).indexOf(item["RMA"]) != -1
-            && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office Base"]) != -1)
-            { itemSelected = true; };
-        return itemSelected;
-    }
-
-    $scope.col2Filter = function (item) {
-        var itemSelected = false;
-        if (item["Global practice"] != "AMOA" && item["Global practice"] != "EM"
-            && item["Global practice"] != "PMO" && item["Global practice"] != "QUALITE"
-            && item["Global practice"] != "AMOE" && item["Global practice"] != "NTIC"
-            && item["Global practice"] != "SAP"
-            && $scope.selBoxSkillCModel.map(function (e) { return e.value; }).indexOf(item["RMA"]) != -1
-            && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office Base"]) != -1)
-            { itemSelected = true };
-        return itemSelected;
-    }
-
-    $scope.col3Filter = function (item) {
-        var itemSelected = false;
-        if ((item["Global practice"] == "EM" || item["Global practice"] == "PMO" || item["Global practice"] == "QUALITE")
-             && $scope.selBoxSkillCModel.map(function (e) { return e.value; }).indexOf(item["RMA"]) != -1
-             && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office Base"]) != -1)
-            { itemSelected = true };
-        return itemSelected;
-    }
-
-    $scope.col4Filter = function (item) {
-        var itemSelected = false;
-        if ((item["Global practice"] == "AMOE" || item["Global practice"] == "NTIC" || item["Global practice"] == "SAP")
-             && $scope.selBoxSkillCModel.map(function (e) { return e.value; }).indexOf(item["RMA"]) != -1
-             && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office Base"]) != -1)
-            { itemSelected = true };
-        return itemSelected;
-    }
-
+    //OCA 06/05/2016 END
 
     //------------Data loading of the idle people
     var dsv = d3.dsv(";", "text/plain; charset=ISO-8859-1");
@@ -147,8 +107,57 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
         });
         //JMD 03/05/2016 - Change sort
         citiesList.sort(function (a, b) { return a.label.localeCompare(b.label); });
-        $scope.selBoxCityModel = citiesList.slice(0);
         $scope.selBoxCityData = citiesList;
+        //OCA 06/05/2016 BEGIN - Setting up initial comboselect values
+        if ($cookies.SelIdleCities == undefined || $cookies.SelIdleCities == "undefined")
+        { $scope.selBoxCityModel = citiesList.slice(0); }
+        else
+        { $scope.selBoxCityModel = JSON.parse($cookies.SelIdleCities); };
+        if ($cookies.SelIdleSC == undefined || $cookies.SelIdleSC == "undefined")
+        { $scope.selBoxSkillCModel = $scope.listSC.slice(0, 1); }
+        else
+        { $scope.selBoxSkillCModel = JSON.parse($cookies.SelIdleSC); };
+        //OCA 06/05/2016 END
         $scope.$apply();
     });
+
+    //------------Filters for the lists of each column
+    $scope.col1Filter = function (item) {
+        var itemSelected = false;
+        if (item["Global practice"] == "AMOA"
+            && $scope.selBoxSkillCModel.map(function (e) { return e.value; }).indexOf(item["RMA"]) != -1
+            && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office Base"]) != -1)
+        { itemSelected = true; };
+        return itemSelected;
+    }
+
+    $scope.col2Filter = function (item) {
+        var itemSelected = false;
+        if (item["Global practice"] != "AMOA" && item["Global practice"] != "EM"
+            && item["Global practice"] != "PMO" && item["Global practice"] != "QUALITE"
+            && item["Global practice"] != "AMOE" && item["Global practice"] != "NTIC"
+            && item["Global practice"] != "SAP"
+            && $scope.selBoxSkillCModel.map(function (e) { return e.value; }).indexOf(item["RMA"]) != -1
+            && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office Base"]) != -1)
+        { itemSelected = true };
+        return itemSelected;
+    }
+
+    $scope.col3Filter = function (item) {
+        var itemSelected = false;
+        if ((item["Global practice"] == "EM" || item["Global practice"] == "PMO" || item["Global practice"] == "QUALITE")
+             && $scope.selBoxSkillCModel.map(function (e) { return e.value; }).indexOf(item["RMA"]) != -1
+             && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office Base"]) != -1)
+        { itemSelected = true };
+        return itemSelected;
+    }
+
+    $scope.col4Filter = function (item) {
+        var itemSelected = false;
+        if ((item["Global practice"] == "AMOE" || item["Global practice"] == "NTIC" || item["Global practice"] == "SAP")
+             && $scope.selBoxSkillCModel.map(function (e) { return e.value; }).indexOf(item["RMA"]) != -1
+             && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office Base"]) != -1)
+        { itemSelected = true };
+        return itemSelected;
+    }
 }]);

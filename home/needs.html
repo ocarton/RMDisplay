@@ -8,9 +8,9 @@
         </h1>
         <div align="center">
             Origin :
-            <span ng-dropdown-multiselect="" options="selBoxPracticeData" selected-model="selBoxPracticeModel" extra-settings="selBoxPracticeSettings" events="onItemSelect(selBoxPracticeModel)"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span ng-dropdown-multiselect="" options="selBoxPracticeData" selected-model="selBoxPracticeModel" extra-settings="selBoxPracticeSettings" events="storeSelection"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <!--JMD 04/05/2016-->
-            <span id="NeedCards" align="center"><input type="checkbox" ng-model="checkUnknown.value" ng-change="isNAFilter()">  Hide 'NA'</span>
+            <span id="NeedCards" align="center"><input type="checkbox" ng-model="checkUnknown" ng-change="CheckBoxChanged()">  Hide 'NA'</span>
         </div>
         <div class="row">
             <div class="col-md-1">

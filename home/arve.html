@@ -9,8 +9,8 @@
             <label><input type="radio" name="ARVEWTRVisual" value="Graph" ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Graph</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
             <label><input type="radio" name="ARVEWTRVisual" value="Table" checked ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Table</label>
             <svg id="WTRChart" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet"></svg>
-            <label id="WTRChart" align="center"><input type="checkbox" ng-model="checkVac.value" ng-change="displayCat()">Display vacations</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
-            <label id="WTRChart" align="center"><input type="checkbox" ng-model="checkUnknown.value" ng-change="displayCat()">Compensate unknowns</label>
+            <label id="WTRChart" align="center"><input type="checkbox" ng-model="checkVac" ng-change="CheckBoxChanged()">Display vacations</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+            <label id="WTRChart" align="center"><input type="checkbox" ng-model="checkUnknown" ng-change="CheckBoxChanged()">Compensate unknowns</label>
             <div id="WTRTable" viewBox="0 0 1000 800" style="display: none;">
                 <table class="table table-bordered table-hover table-striped">
                     <tbody align="left">
@@ -69,8 +69,8 @@
             <label><input type="radio" name="ARVEVisual" value="Graph" ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Graph</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
             <label><input type="radio" name="ARVEVisual" value="Table" checked ng-model="radARVEVisual.value" ng-change="displayARVEVisual()">Table</label>
             <svg id="RetainChart" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet"></svg>
-            <label id="RetainChart" align="center"><input type="checkbox" ng-model="checkVac.value" ng-change="displayCat()">Display vacations</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
-            <label id="RetainChart" align="center"><input type="checkbox" ng-model="checkSim.value" ng-change="displayCat()">Simulate evolution</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+            <label id="RetainChart" align="center"><input type="checkbox" ng-model="checkVac" ng-change="CheckBoxChanged()">Display vacations</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+            <label id="RetainChart" align="center"><input type="checkbox" ng-model="checkSim" ng-change="CheckBoxChanged()">Simulate evolution</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
             <div id="RetainTable" viewBox="0 0 1000 800" style="display: none;">
                 <table class="table table-bordered table-hover table-striped">
                     <tbody align="left">
