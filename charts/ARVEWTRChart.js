@@ -545,13 +545,29 @@ var drawChart = function () {
       .attr("class", "x axis")
       .call(xAxis);
 
-    activeGroup = root;
-    loadBarsData();
-
     //Hiding next period symbol
     nextPeriod.attr("style", "display: none;");
     
 
+    //OCA 06/05/2016 BEGIN - Storing all parameters for available view in cookies
+    //activeGroup = root;
+    if ($cookies.SelARVEWTRGroup == undefined || $cookies.SelARVEWTRGroup == "undefined")
+    { activeGroup = root; }
+    else
+    {   newGroupArray = [];
+        console.log(JSON.parse($cookies.SelARVEWTRGroup));
+        if (root[0].name == JSON.parse($cookies.SelARVEWTRGroup))
+        { newGroupArray = root; }
+        else
+        {
+            angular.forEach(root, function (d) {
+                return getNode(d, JSON.parse($cookies.SelARVEWTRGroup));
+            }
+            );
+        }
+        activeGroup = newGroupArray;
+    };
+    //OCA 06/05/2016 END
     /*groupC.attr("transform", function(d) {return "translate(" + x(d.name) + ",0)"; });  // Position of next bar
     groupL.attr("transform", function(d) {return "translate(" + x(d.name)+ ",0) scale(0, 1)"; });  // Position of next bar
     groupR.attr("transform", function(d) {return "translate(" + (x(d.name)+x.rangeBand()) + ",0) scale(0,1) "; });  // Position of next bar
@@ -559,8 +575,22 @@ var drawChart = function () {
    groupC.transition().duration(transitionDuration).attr("opacity", 1).each("end", function(e, i){
       groupL.transition().duration(transitionDuration).attr("transform", function(d) {return "translate(" + (x(d.name)-x.rangeBand()*sideBarsWidth) + ",0) scale(1, 1)"; });  // Position of next bar
       groupR.transition().duration(transitionDuration).attr("transform", function(d) {return "translate(" + (x(d.name)+x.rangeBand()) +  ",0) scale(1, 1)"; });
-   }); */  
+   }); */
+    loadBarsData();
 }
+//OCA 06/05/2016 BEGIN - This function finds a node in the ARVE tree based on its name
+function getNode(tree, name) {
+    if (tree.children) {
+        tree.children.forEach(function (d) {
+            if (d.name == name) { newGroupArray = newGroupArray.concat(d); console.log("Found one :"); console.log(d); }
+            else { return getNode(d, name) }
+        })
+    }
+    else {
+        return null;
+    }
+}
+//OCA 06/05/2016 END
 
 //-------------------------------------------------------------------------------
 // This function creates a table with all the data for the give week and the 
@@ -649,18 +679,19 @@ function drillUp(bar) {
     activeGroup = root;
     newGroupArray = [];    
     angular.forEach(root, function(d){
-      getNode(d, bar.name); 
+      getTopNode(d, bar.name); 
     });
-    activeGroup = newGroupArray;  
+    activeGroup = newGroupArray;
+    $cookies.SelARVEWTRGroup = JSON.stringify(activeGroup[activeGroup.length - 1].name);
     loadBarsData();    
   }
 };
 
-function getNode (tree, name) {
+function getTopNode (tree, name) {
     if (tree.children) {
         tree.children.forEach(function (d) {
           if (d.name ==name) {newGroupArray = newGroupArray.concat(tree)}  
-          else {return getNode(d, name)}         
+          else {return getTopNode(d, name)}         
         })
     }
     else {return null;
@@ -674,8 +705,9 @@ function drillDown(bar) {
     newGroupArray = newGroupArray.concat(d.children.filter(function(d){return(d.name == bar.name)}));
   });
   if (newGroupArray[0].children){
-    activeGroup = newGroupArray;  
-    loadBarsData();
+      activeGroup = newGroupArray;
+      $cookies.SelARVEWTRGroup = JSON.stringify(activeGroup[activeGroup.length - 1].name);
+      loadBarsData();
   }   
 };
 
@@ -696,12 +728,6 @@ function loadData() {
         if (error) throw error;  
         root[4] = data4;    
         initNodeData(root[4]);
- 
-        drawChart();
- 
-        // Those data are not required at the beginning,
-        // so they are loaded simultaneously as the drawing of the chart
-        // to save some time                
         d3.json(fList[0], function(error, data0) {
           if (error) throw error;  
           root[0] = data0;
@@ -711,6 +737,9 @@ function loadData() {
           if (error) throw error;  
           root[1] = data1;    
           initNodeData(root[1]);
+
+          drawChart();
+
           });
         });      
       });      

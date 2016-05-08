@@ -128,15 +128,12 @@ angular.module('ARVERetainChart', ['ngCookies'])
     // Cookies management
     //------------------------------------------------------------------------------
     //OCA 06/05/2016 BEGIN - Storing all parameters for available view in cookies
-    $scope.checkVac = false;
-    $scope.checkSim = false;
-
     if ($cookies.SelARVERetVac == undefined || $cookies.SelARVERetVac == "undefined")
-    { $scope.checkVac = true }
+    { $scope.checkVac = false }
     else
     { $scope.checkVac = JSON.parse($cookies.SelARVERetVac); };
     if ($cookies.SelARVERetSim == undefined || $cookies.SelARVERetSim == "undefined")
-    { $scope.checkSim = true }
+    { $scope.checkSim = false }
     else
     { $scope.checkSim = JSON.parse($cookies.SelARVERetSim); };
 
@@ -316,13 +313,11 @@ angular.module('ARVERetainChart', ['ngCookies'])
 
         angular.forEach(displayList, function (c) {
             groupR.each(function (parDat) {
-                //console.log("2   "+parDat.uid + "   over group "+ c)
                 t.selectAll("#" + parDat.uid + ".barRight").selectAll("rect." + c)
                      // .attr("opacity", barOpacity)            
                       .attr("width", x.rangeBand() * sideBarsWidth) //Bar width 
                       .attr("y", function (d) { return parDat.y0; }) //Bar position
                       .attr("height", function (d) {
-                          //console.log("Bar " + parDat.uid + " " + c + "=" + parDat[c] + " val affichée=" + y(1 - parDat[c] / parDat.catSum));
 
                           if (c == "Firm") { parDat.midBar = parDat.y0 + y(1 - parDat[c] / parDat.catSum / 2) + 30 }
                           //legPos defines position of the legend based on position of the bar
@@ -595,7 +590,24 @@ angular.module('ARVERetainChart', ['ngCookies'])
         //Hiding previous period symbol
         prevPeriod.attr("style", "display: none;")
 
-        activeGroup = root;
+        //OCA 06/05/2016 BEGIN - Storing all parameters for available view in cookies
+        //activeGroup = root;
+        if ($cookies.SelARVERetGroup == undefined || $cookies.SelARVERetGroup == "undefined")
+        {   activeGroup = root;   }
+        else
+        {   newGroupArray = [];
+            if (root[0].uid == JSON.parse($cookies.SelARVERetGroup))
+                {    newGroupArray = root;   }
+            else 
+            {
+                angular.forEach(root, function (d) {
+                    return getNode(d, JSON.parse($cookies.SelARVERetGroup));
+                }
+                );
+            }
+            activeGroup = newGroupArray;
+        };
+        //OCA 06/05/2016 END
         loadBarsData();
 
         /*groupC.attr("transform", function(d) {return "translate(" + x(d.name) + ",0)"; });  // Position of next bar
@@ -607,6 +619,20 @@ angular.module('ARVERetainChart', ['ngCookies'])
           groupR.transition().duration(transitionDuration).attr("transform", function(d) {return "translate(" + (x(d.name)+x.rangeBand()) +  ",0) scale(1, 1)"; });
        }); */
     }
+
+    //OCA 06/05/2016 BEGIN - This function finds a node in the ARVE tree based on its UID
+    function getNode(tree, uid) {
+        if (tree.children) {
+            tree.children.forEach(function (d) {
+                if (d.uid == uid) { newGroupArray = newGroupArray.concat(d);}
+                else { return getNode(d, uid) }
+            })
+        }
+        else {
+            return null;
+        }
+    }
+    //OCA 06/05/2016 END
 
     //-------------------------------------------------------------------------------
     // This function creates a table with all the data for the given period and the 
@@ -695,18 +721,19 @@ angular.module('ARVERetainChart', ['ngCookies'])
             activeGroup = root;
             newGroupArray = [];
             angular.forEach(root, function (d) {
-                return getNode(d, bar.uid);
+                return getTopNode(d, bar.uid);
             });
             activeGroup = newGroupArray;
+            $cookies.SelARVERetGroup = JSON.stringify(activeGroup[activeGroup.length - 1].uid);
             loadBarsData();
         }
     };
 
-    function getNode(tree, uid) {
+    function getTopNode(tree, uid) {
         if (tree.children) {
             tree.children.forEach(function (d) {
-                if (d.uid == uid) { newGroupArray = newGroupArray.concat(tree); console.log(d.uid);console.log(tree) }
-                else { return getNode(d, uid) }
+                if (d.uid == uid) { newGroupArray = newGroupArray.concat(tree);}
+                else { return getTopNode(d, uid) }
             })
         }
         else {
@@ -722,6 +749,7 @@ angular.module('ARVERetainChart', ['ngCookies'])
         });
         if (newGroupArray[0].children) {
             activeGroup = newGroupArray;
+            $cookies.SelARVERetGroup = JSON.stringify(activeGroup[activeGroup.length - 1].uid);
             loadBarsData();
         }
     };
@@ -729,6 +757,7 @@ angular.module('ARVERetainChart', ['ngCookies'])
     //-------------------------------------------------------------------------------
     // Main function. It loads the data
     //-------------------------------------------------------------------------------
+    loadData();
     function loadData() {
         console.log("Reloading Retain data")
         d3.json(fList[0], function (error, data0) {
@@ -743,12 +772,6 @@ angular.module('ARVERetainChart', ['ngCookies'])
                     if (error) throw error;
                     root[2] = data2;
                     initNodeData(root[2]);
-
-                    drawChart();
-
-                    // Those data are not required at the beginning,
-                    // so they are loaded simultaneously as the drawing of the chart
-                    // to save some time                
                     d3.json(fList[3], function (error, data3) {
                         if (error) throw error;
                         root[3] = data3;
@@ -758,20 +781,11 @@ angular.module('ARVERetainChart', ['ngCookies'])
                         if (error) throw error;
                         root[4] = data4;
                         initNodeData(root[4]);
+
+                        drawChart();
                     });
                 });
             });
         })
     }
-
-    /*function reloadGraph(){
-      svg.selectAll("g").remove();
-      drawChart();
-    }*/
-
-    //drawChart(function (d){return loadData();})  
-    loadData();
-    //drawChart();  
-    //setInterval(loadData,100000); 
-
 });
