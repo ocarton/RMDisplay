@@ -1,4 +1,4 @@
-/// <reference path="../typings/angular2/angular2.d.ts"/>
+﻿/// <reference path="../typings/angular2/angular2.d.ts"/>
 angular.module('ARVERetainChart', ['ngCookies'])
 
 .controller('ARVERetainCtrl', function ARVERetainController($scope, $cookies, auth, $http, $location, store) {

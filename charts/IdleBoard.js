@@ -1,4 +1,4 @@
-/// <reference path="../typings/angular2/angular2.d.ts"/>
+﻿/// <reference path="../typings/angular2/angular2.d.ts"/>
 var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multiselect', 'dragularModule'])
 .controller('IdleCtrl', ['$scope', '$cookies', '$element', 'dragularService', function ($scope, $cookies, $element, dragularService) {
     dragularService('.containerVertical', { removeOnSpill: false });

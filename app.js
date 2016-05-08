@@ -1,11 +1,11 @@
-angular.module( 'RMBoard', [
+﻿angular.module( 'RMBoard', [
   'auth0',
   'ngRoute',
   'sample.home',
   'sample.login',
   'angular-storage',
   'angular-jwt',
-  'orgaChart',
+// 'orgaChart',
   'ARVEWTRChart',
   'ARVERetainChart',
   'IdleBoard',

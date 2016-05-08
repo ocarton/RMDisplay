@@ -1,4 +1,4 @@
-/// <reference path="../typings/angular2/angular2.d.ts"/>
+﻿/// <reference path="../typings/angular2/angular2.d.ts"/>
 angular.module('ARVEWTRChart', ['ngCookies'])
 
 .controller( 'ARVEWTRCtrl', function ARVEWTRController( $scope, $cookies, auth, $http, $location, store) {
@@ -675,7 +675,7 @@ function drillUp(bar) {
   if (bar.name != root[0].name) {
 
     svg.select("#"+xBarsS[xBarsS.length-1].name+".barRight").selectAll(".legend").remove();
-  
+ 
     activeGroup = root;
     newGroupArray = [];    
     angular.forEach(root, function(d){

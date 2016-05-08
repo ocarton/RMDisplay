@@ -1,4 +1,4 @@
-angular.module('orgaChart', [])
+﻿angular.module('orgaChart', [])
   
 .controller( 'OrgaCtrl', function OrgaController( $scope, auth, $http, $location, store) {
     

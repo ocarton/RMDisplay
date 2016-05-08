@@ -27,7 +27,9 @@
 			// Use JavaScript source maps (if they exist).
 			"sourceMaps": false,
 			// If JavaScript source maps are enabled, the generated code is expected in this directory.
-			"outDir": null
+			"outDir": null,
+			// Files encoding default in UTF8
+			"files.encoding": "utf8"
 		},
 		{
 			"name": "Attach",
