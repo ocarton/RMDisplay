@@ -72,7 +72,7 @@
                 if (d.Propale_CSD == 0) { d.Propale_CSD = "" }
                 if (d.Practice == "CSD" || d.Practice == "PBS") { d.Link = "https://troom.capgemini.com/sites/FicheMissionStafingRequest/Lists/Besoins%20%20" + d.Practice + "%202" }
                 if (d.Practice == "ADM") { d.Link = "https://troom.capgemini.com/sites/FicheMissionStafingRequest/Lists/Liste%20test" }
-                if (d.Practice == "Autres") { d.Link = "https://troom.capgemini.com/sites/FicheMissionStafingRequest/Lists/Besoins%20%20Commerce%20%20Autres" }
+                if (d.Practice == "AUTRES") { d.Link = "https://troom.capgemini.com/sites/FicheMissionStafingRequest/Lists/Besoins%20%20Commerce%20%20Autres" }
                 d.color = color(d["Global_Practice"]);
                 d.description = encodeURIComponent(d.description);
                 $scope.requests.lists.unshift(d);

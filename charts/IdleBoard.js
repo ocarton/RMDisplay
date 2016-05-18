@@ -124,7 +124,7 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
     //------------Filters for the lists of each column
     $scope.col1Filter = function (item) {
         var itemSelected = false;
-        if (item["Global practice"] == "AMOA"
+        if ((item["Global practice"] == "AMOA" || item["Global practice"] == "CONSEIL")
             && $scope.selBoxSkillCModel.map(function (e) { return e.value; }).indexOf(item["RMA"]) != -1
             && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office Base"]) != -1)
         { itemSelected = true; };
@@ -136,9 +136,9 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
         if (item["Global practice"] != "AMOA" && item["Global practice"] != "EM"
             && item["Global practice"] != "PMO" && item["Global practice"] != "QUALITE"
             && item["Global practice"] != "AMOE" && item["Global practice"] != "NTIC"
-            && item["Global practice"] != "SAP"
+            && item["Global practice"] != "SAP" && item["Global practice"] != "CONSEIL"
             && $scope.selBoxSkillCModel.map(function (e) { return e.value; }).indexOf(item["RMA"]) != -1
-            && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office Base"]) != -1)
+           && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office Base"]) != -1)
         { itemSelected = true };
         return itemSelected;
     }

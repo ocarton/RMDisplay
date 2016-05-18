@@ -18,6 +18,50 @@ html {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
+
+/* JMD */
+.Blue_Planet { 
+position: fixed; 
+width: 120px;
+height: 120px;
+bottom: 400px; 
+right: 400px;
+}
+
+.Blue_Planet:hover { 
+position: fixed; 
+width: 200px; 
+height: 200px;
+} 
+
+.Green_Planet { 
+position: fixed; 
+width: 120px; 
+height: 120px;
+bottom: 200px; 
+right: 250px;
+} 
+
+.Green_Planet:hover{ 
+position: fixed; 
+width: 200px; 
+height: 200px;
+} 
+
+.Red_Planet { 
+position: fixed; 
+width: 120px;
+height: 120px;
+bottom: 400px; 
+right: 100px;
+}
+
+.Red_Planet:hover{ 
+position: fixed; 
+width: 200px; 
+height: 200px;
+} 
+
 /*Graphs rendering*/
 .axis {
   font-size:1.4em;   

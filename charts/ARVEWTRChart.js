@@ -550,7 +550,6 @@ var drawChart = function () {
     
 
     //OCA 06/05/2016 BEGIN - Storing all parameters for available view in cookies
-    //activeGroup = root;
     if ($cookies.SelARVEWTRGroup == undefined || $cookies.SelARVEWTRGroup == "undefined")
     { activeGroup = root; }
     else
@@ -565,9 +564,15 @@ var drawChart = function () {
             }
             );
         }
-        activeGroup = newGroupArray;
+        //OCA 18/05/2016 BEGIN – If array is not found, we use root
+        if (newGroupArray.length != 0)
+        { activeGroup = newGroupArray; }
+        else
+        { activeGroup = root; }
+        //OCA 18/05/2016 END
     };
     //OCA 06/05/2016 END
+
     /*groupC.attr("transform", function(d) {return "translate(" + x(d.name) + ",0)"; });  // Position of next bar
     groupL.attr("transform", function(d) {return "translate(" + x(d.name)+ ",0) scale(0, 1)"; });  // Position of next bar
     groupR.attr("transform", function(d) {return "translate(" + (x(d.name)+x.rangeBand()) + ",0) scale(0,1) "; });  // Position of next bar

@@ -591,23 +591,29 @@ angular.module('ARVERetainChart', ['ngCookies'])
         prevPeriod.attr("style", "display: none;")
 
         //OCA 06/05/2016 BEGIN - Storing all parameters for available view in cookies
-        //activeGroup = root;
         if ($cookies.SelARVERetGroup == undefined || $cookies.SelARVERetGroup == "undefined")
-        {   activeGroup = root;   }
+        { activeGroup = root; }
         else
-        {   newGroupArray = [];
+        {
+            newGroupArray = [];
             if (root[0].uid == JSON.parse($cookies.SelARVERetGroup))
-                {    newGroupArray = root;   }
-            else 
+            { newGroupArray = root; }
+            else
             {
                 angular.forEach(root, function (d) {
                     return getNode(d, JSON.parse($cookies.SelARVERetGroup));
                 }
                 );
             }
-            activeGroup = newGroupArray;
+            //OCA 18/05/2016 BEGIN – If array is not found, we use root
+            if (newGroupArray.length != 0)
+            { activeGroup = newGroupArray; }
+            else
+            { activeGroup = root; }
+            //OCA 18/05/2016 END
         };
         //OCA 06/05/2016 END
+
         loadBarsData();
 
         /*groupC.attr("transform", function(d) {return "translate(" + x(d.name) + ",0)"; });  // Position of next bar
