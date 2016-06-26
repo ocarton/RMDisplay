@@ -3,7 +3,43 @@ angular.module('ARVERetainChart', ['ngCookies'])
 
 .controller('ARVERetainCtrl', function ARVERetainController($scope, $cookies, auth, $http, $location, store) {
 
+    //Setup of the radio button values
     $scope.radARVEVisual = { value: "Graph" }
+
+    //OCA 26/05/2016 Setup of the period combobox values
+    periodList = [
+        { id: 1, label: "Monthly" },
+        { id: 2, label: "Weekly" }];
+    $scope.selBoxPeriodData = periodList;
+    $scope.selBoxPeriodSettings = {
+        selectionLimit: 1,
+        smartButtonMaxItems: 1,
+        closeOnSelect: true,
+        showCheckAll: false,
+        showUncheckAll: false,
+        scrollable: false,
+        externalIdProp: ''
+    };
+    if ($cookies.SelARVERetainPeriod == undefined || $cookies.SelARVERetainPeriod == "undefined")
+    { $scope.selBoxPeriodModel = { id: 2 }; }
+    else
+    { $scope.selBoxPeriodModel = { id: parseInt($cookies.SelARVERetainPeriod) }; }
+    //Actions on combo selection change : we store the selection and redraw
+    $scope.storeSelection = {
+        onItemSelect: function (item) {
+            $cookies.SelARVERetainPeriod = $scope.selBoxPeriodModel.id;
+            if ($scope.selBoxPeriodModel.id == 2) { fList = fListWeeks; }
+            else { fList = fListMonths; }
+            loadData();
+        },
+        onItemDeselect: function (item) {
+            $cookies.SelARVERetainPeriod = $scope.selBoxPeriodModel.id;
+            if ($scope.selBoxPeriodModel.id == 2) { fList = fListWeeks; }
+            else { fList = fListMonths; }
+            loadData();
+        }
+    };
+    //OCA 26/06/2016 END
 
     $scope.displayCat = function () {
         loadBarsData();
@@ -26,7 +62,9 @@ angular.module('ARVERetainChart', ['ngCookies'])
 
     $scope.ARVEChart = function () { }
 
-    var fList = ["data/RetainForecast1.json", "data/RetainForecast2.json", "data/RetainForecast3.json", "data/RetainForecast4.json", "data/RetainForecast5.json"];
+    var fListMonths = ["data/RetainForecastM1.json", "data/RetainForecastM2.json", "data/RetainForecastM3.json", "data/RetainForecastM4.json", "data/RetainForecastM5.json"];
+    var fListWeeks = ["data/RetainForecastW1.json", "data/RetainForecastW2.json", "data/RetainForecastW3.json", "data/RetainForecastW4.json", "data/RetainForecastW5.json"];
+    var fList = fListWeeks;
 
     var graph = { height: 800, width: 1000 },
         margin = { top: 60, right: 65, bottom: 30, left: 95 },
@@ -97,13 +135,27 @@ angular.module('ARVERetainChart', ['ngCookies'])
         .attr("height", height - 100) /* + margin.top + margin.bottom*/
 
     function semText(period) {
-        if (period == 0) { return "M" }
-        else { return "M+" + (period) }
+        var vPeriod
+        if ($scope.selBoxPeriodModel.id == 1) {
+            vPeriod = "M"
+        }
+        else {
+            vPeriod = "W"
+        }
+        if (period == 0) { return vPeriod }
+        else { return vPeriod + "+" + (period) }
     }
 
     // defining graph title
     function graphTitle() {
-        return "ARVE Retain month " + semText(curPeriod - 1) + " to " + semText(curPeriod + 1)
+        var vPeriod
+        if ($scope.selBoxPeriodModel.id ==1 ) {
+            vPeriod = "months"
+        }
+        else {
+            vPeriod = "weeks"
+        }
+        return "ARVE Retain " + vPeriod + " " + semText(curPeriod - 1) + " to " + semText(curPeriod + 1)
     }
 
     // function for the y grid lines
@@ -177,9 +229,11 @@ angular.module('ARVERetainChart', ['ngCookies'])
 
         //Removing spaces in the name to avoid problems while selecting DOM
         if (n.name == "") { n.name = "_" }
-        else { n.name = n.name.replace(/ /g, "_") }
+        // OCA 26/06/2016 Removed the suppression of space
+        else { /*n.name = n.name.replace(/ /g, "_") */ }
         n.name = n.name.replace("_CEDEX", "")
-        n.name = n.name.replace("CSD_", "")
+        // OCA 26/06/2016 Removed the suppression of CSD as we now extract all France values
+        //n.name = n.name.replace("CSD_", "")
         // Max value for the graph
         n.tot = n.Firm+n.Potential+n.Unbilled
         // Calculating vacation percentage
@@ -570,14 +624,20 @@ angular.module('ARVERetainChart', ['ngCookies'])
     // This is the function for the initial display of the graph.
     //-------------------------------------------------------------------------------
     var drawChart = function () {
+        console.log("Calling drawChart")
         //  t = svg.transition().duration(transitionDuration);  
+
+        //OCA 26/06/2016 BEGIN removing previous axis to redraw Chart
+        svg.selectAll("*").remove();
+        //Hiding previous period symbol
+        if (curPeriod <= 1) { prevPeriod.attr("style", "display: none;") }
+        //OCA 26/06/2016 END
 
         // Draw the y Grid lines
         svg.append("g")
             .attr("class", "y grid")
             .call(make_y_axis()
             )
-
         // Drawing yAxis
         yAxisGroup = svg.append("g")
           .attr("class", "y axis")
@@ -586,9 +646,6 @@ angular.module('ARVERetainChart', ['ngCookies'])
         xAxisGroup = svg.append("g")
           .attr("class", "x axis")
           .call(xAxis);
-
-        //Hiding previous period symbol
-        prevPeriod.attr("style", "display: none;")
 
         //OCA 06/05/2016 BEGIN - Storing all parameters for available view in cookies
         if ($cookies.SelARVERetGroup == undefined || $cookies.SelARVERetGroup == "undefined")

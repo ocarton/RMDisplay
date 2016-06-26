@@ -96,7 +96,7 @@ function semText(week) {
 
 // defining graph title
 function graphTitle () {
-  return "ARVE WTR week "+semText(curWeek-1)+" to "+semText(curWeek+1)
+  return "ARVE WTR weeks "+semText(curWeek-1)+" to "+semText(curWeek+1)
 }
 
 // function for the y grid lines

@@ -1893,12 +1893,12 @@ pre code {
 }
 @media (min-width: 768px) {
   .container {
-    width: 750px;
+    width: 768px;
   }
 }
 @media (min-width: 992px) {
   .container {
-    width: 970px;
+    width: 992px;
   }
 }
 @media (min-width: 1220px) {
@@ -1909,7 +1909,7 @@ pre code {
 /* This media was added for display on HD screens*/
 @media (min-width: 1890px) {
   .container {
-    width: 1890px;
+    width: 1870px;
   }
 }
 .container-fluid {
@@ -6128,7 +6128,7 @@ button.close {
 }
 @media (min-width: 992px) {
   .modal-lg {
-    width: 900px;
+    width: 992px;
   }
 }
 .tooltip {
@@ -6744,7 +6744,7 @@ button.close {
     display: inline-block !important;
   }
 }
-@media (min-width: 992px) and (max-width: 1199px) {
+@media (min-width: 992px) and (max-width: 1219px) {
   .visible-md {
     display: block !important;
   }
@@ -6759,17 +6759,17 @@ button.close {
     display: table-cell !important;
   }
 }
-@media (min-width: 992px) and (max-width: 1199px) {
+@media (min-width: 992px) and (max-width: 1219px) {
   .visible-md-block {
     display: block !important;
   }
 }
-@media (min-width: 992px) and (max-width: 1199px) {
+@media (min-width: 992px) and (max-width: 1219px) {
   .visible-md-inline {
     display: inline !important;
   }
 }
-@media (min-width: 992px) and (max-width: 1199px) {
+@media (min-width: 992px) and (max-width: 1219px) {
   .visible-md-inline-block {
     display: inline-block !important;
   }
@@ -6814,7 +6814,7 @@ button.close {
     display: none !important;
   }
 }
-@media (min-width: 992px) and (max-width: 1199px) {
+@media (min-width: 992px) and (max-width: 1219px) {
   .hidden-md {
     display: none !important;
   }
