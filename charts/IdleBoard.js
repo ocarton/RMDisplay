@@ -9,10 +9,6 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
         .range(["#FFE69B", "#FFF4D4", "#ABA9FF", "#FFF4D4", "#FF9BB8", "#FFE69B", "#C6FF9B", "#ABA9FF", "#FFD4E0", "#FFFFFF"])
         .domain(skillList);
 
-    var neo4j = require('neo4j');
-    var driver = neo4j.v1.driver("bolt://localhost:7473", neo4j.auth.basic("neo4j", "notraco"));
-    console.log(driver);
-
     $scope.models = {
         selected: null,
         availableList: [],

@@ -58,7 +58,10 @@ var root = [], activeGroup = [], newGroupArray = [];
 var xBars = [], xBarsS = [], xBarsP = [];
 var groupC, groupL, groupR, legend; //Group of rectangles which compose one bar
 
-var title = d3.select("#ARVEWTRChart").select("#WTRTitle"); 
+var title = d3.select("#ARVEWTRChart").select("#WTRTitle");
+var subTitle1 = d3.select("#ARVEWTRChart").select("#WTRsubTitle1")
+var subTitle2 = d3.select("#ARVEWTRChart").select("#WTRsubTitle2")
+var subTitle3 = d3.select("#ARVEWTRChart").select("#WTRsubTitle3")
 
 //This is where we include the graph
 var svg = d3.select("#ARVEWTRChart").select("#WTRChart").append("svg")
@@ -96,7 +99,11 @@ function semText(week) {
 
 // defining graph title
 function graphTitle () {
-  return "ARVE WTR weeks "+semText(curWeek-1)+" to "+semText(curWeek+1)
+    return "ARVE WTR weeks " + semText(curWeek - 1) + " to " + semText(curWeek + 1)
+}
+    // and subTitles
+function tableSubTitles(period) {
+    return "Week "+semText(curWeek +period -1)
 }
 
 // function for the y grid lines
@@ -170,8 +177,11 @@ function initNodeData(n) {
 //-------------------------------------------------------------------------------
 function loadBarsData() {
     // Setting new title
-    title
-      .html(graphTitle());
+    title.html(graphTitle());
+    // And subtitles
+    subTitle1.html(tableSubTitles(0));
+    subTitle2.html(tableSubTitles(1));
+    subTitle3.html(tableSubTitles(2));
   
     t = svg.transition().duration(transitionDuration)
         .each("end", function () {t1 = d3.select(this).transition().duration(transitionDuration)});

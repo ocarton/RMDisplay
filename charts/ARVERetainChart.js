@@ -106,6 +106,9 @@ angular.module('ARVERetainChart', ['ngCookies'])
     var t, t1, transitionDuration = 750;
 
     var title = d3.select("#ARVERetainChart").select("#RetainTitle");
+    var subTitle1 = d3.select("#ARVERetainChart").select("#RetainSubTitle1")
+    var subTitle2 = d3.select("#ARVERetainChart").select("#RetainSubTitle2")
+    var subTitle3 = d3.select("#ARVERetainChart").select("#RetainSubTitle3")
 
     var svg = d3.select("#ARVERetainChart").select("#RetainChart").append("svg")
         .attr("class", "chart")
@@ -156,6 +159,17 @@ angular.module('ARVERetainChart', ['ngCookies'])
             vPeriod = "weeks"
         }
         return "ARVE Retain " + vPeriod + " " + semText(curPeriod - 1) + " to " + semText(curPeriod + 1)
+    }
+    // and subTitles
+    function tableSubTitles(period) {
+        var vPeriod
+        if ($scope.selBoxPeriodModel.id == 1) {
+            vPeriod = "Month "
+        }
+        else {
+            vPeriod = "Week "
+        }
+        return vPeriod + semText(curPeriod + period - 1)
     }
 
     // function for the y grid lines
@@ -248,8 +262,11 @@ angular.module('ARVERetainChart', ['ngCookies'])
     //-------------------------------------------------------------------------------
     function loadBarsData() {
         // Setting new title
-        title
-          .html(graphTitle());
+        title.html(graphTitle());
+        // And subtitles
+        subTitle1.html(tableSubTitles(0));
+        subTitle2.html(tableSubTitles(1));
+        subTitle3.html(tableSubTitles(2));
 
         t = svg.transition().duration(transitionDuration)
             .each("end", function () { t1 = d3.select(this).transition().duration(transitionDuration) });
