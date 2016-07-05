@@ -24,7 +24,7 @@ angular.module('ARVERetainChart', ['ngCookies'])
     { $scope.selBoxPeriodModel = { id: 2 }; }
     else
     { $scope.selBoxPeriodModel = { id: parseInt($cookies.SelARVERetainPeriod) }; }
-    //Actions on combo selection change : we store the selection and redraw
+    //Those are the actions when combo selection is changed : we store the selection and redraw
     $scope.storeSelection = {
         onItemSelect: function (item) {
             $cookies.SelARVERetainPeriod = $scope.selBoxPeriodModel.id;
