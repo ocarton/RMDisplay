@@ -4,9 +4,9 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
     dragularService('.containerVertical', { removeOnSpill: false });
 
     var citiesList = [];
-    var skillList = ["FR03AA05_BS_PLM", "FR03AA02_BS_BTS", "FR03AA03_BS_M&SC", "FR03AA10_CSD_RTCP", "FR03AA12_MCS_OCSR", "FR03AA11_MCS_RTCB", "FR03AA06_CSD_DC", "FR03AA09_MCS_S&A", "FR03AA14_CSD_OCSP"];
+    var skillList = ["FR03AA05_BS_PLM", "FR03AA02_BS_BTS", "FR03AA03_BS_M&SC",   "FR03AA10_CSD_RTCP",       "FR03AA12_MCS_OCSR", "FR03AA11_MCS_RTCB", "FR03AA06_CSD_DC", "FR03AA09_MCS_S&A", "FR03AA14_CSD_OCSP"];
     var color = d3.scale.ordinal()
-        .range(["#fee45e", "#ffac52", "#9bc2f2", "#FFF4D4", "#FF9BB8", "#FFE69B", "#C6FF9B", "#ABA9FF", "#FFD4E0", "#FFFFFF"])
+        .range(["#fee45e"/*yellow*/, "#ffac52"/*orange*/, "#9bc2f2"/*blue*/, "#fee45e"/*yellow*/, "#ba62ea"/*purple*/, "#ffac52"/*orange*/, "#a4cc70"/*green*/, "#9bc2f2"/*blue*/, "#ff9bb7"/*light red*/, "#FFFFFF"/*white*/])
         .domain(skillList);
 
     $scope.models = {
@@ -95,7 +95,7 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
         data.forEach(function (d) {
             d.color = color(d["Prod  Unit Label"]);
             //Special condition for PBS Paris
-            if (d["RMA"] == "FR03PB03 - BS" && d["Office Base"] == "FR-PAR-SETOILE (SURESNES CEDEX,FR)") { d.color = "#a4cc70"; }
+            if (d["RMA"] == "FR03PB03 - BS" && d["Office Base"] == "FR-PAR-SETOILE (SURESNES CEDEX,FR)") { d.color = "#a4cc70"/*green*/; }
             //Creation of citiesList content from data available in dispos.csv
             if (citiesList.map(function (e) { return e.value; }).indexOf(d["Office Base"]) == -1) {
                 var newCity = {
