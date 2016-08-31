@@ -6,7 +6,7 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
     var citiesList = [];
     var skillList = ["FR03AA05_BS_PLM", "FR03AA02_BS_BTS", "FR03AA03_BS_M&SC",   "FR03AA10_CSD_RTCP",       "FR03AA12_MCS_OCSR", "FR03AA11_MCS_RTCB", "FR03AA06_CSD_DC", "FR03AA09_MCS_S&A", "FR03AA14_CSD_OCSP"];
     var color = d3.scale.ordinal()
-        .range(["#fee45e"/*yellow*/, "#ffac52"/*orange*/, "#9bc2f2"/*blue*/, "#fee45e"/*yellow*/, "#ba62ea"/*purple*/, "#ffac52"/*orange*/, "#a4cc70"/*green*/, "#9bc2f2"/*blue*/, "#ff9bb7"/*light red*/, "#FFFFFF"/*white*/])
+        .range(["#fee45e"/*yellow*/, "#ffac52"/*orange*/, "#9bc2f2"/*blue*/, "#fee45e"/*yellow*/, "#ba62eaqqqqqqqqqq"/*purple*/, "#ffac52"/*orange*/, "#a4cc70"/*green*/, "#9bc2f2"/*blue*/, "#ff9bb7"/*light red*/, "#FFFFFF"/*white*/])
         .domain(skillList);
 
     $scope.models = {

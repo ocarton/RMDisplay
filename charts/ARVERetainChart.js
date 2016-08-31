@@ -70,7 +70,7 @@ angular.module('ARVERetainChart', ['ngCookies'])
         margin = { top: 60, right: 65, bottom: 30, left: 95 },
         width = graph.width - margin.left - margin.right,
         height = graph.height - margin.top - margin.bottom;
-    
+
     var root = [], activeGroup = [], newGroupArray = [];
     var xLabels = [];
     var xBars = [], xBarsS = [], xBarsP = [];
@@ -137,6 +137,12 @@ angular.module('ARVERetainChart', ['ngCookies'])
         .attr("width", width - 100) //+ margin.left + margin.right)
         .attr("height", height - 100) /* + margin.top + margin.bottom*/
 
+    var timestampName = "date";
+    var timezone = convertMinsToHrsMins(-new Date().getTimezoneOffset()); //-120 means +02:00
+    var updateRetainTS = new Date(0);
+    var updateText = d3.select("#ARVERetainChart").select("#updateRetainText");
+
+
     function semText(period) {
         var vPeriod
         if ($scope.selBoxPeriodModel.id == 1) {
@@ -152,7 +158,7 @@ angular.module('ARVERetainChart', ['ngCookies'])
     // defining graph title
     function graphTitle() {
         var vPeriod
-        if ($scope.selBoxPeriodModel.id ==1 ) {
+        if ($scope.selBoxPeriodModel.id == 1) {
             vPeriod = "months"
         }
         else {
@@ -185,7 +191,7 @@ angular.module('ARVERetainChart', ['ngCookies'])
     function convStrToFloat(pString) {
         var vCleanedString
         CleanedString = (String(pString).replace("%", ""));
-        CleanedString = CleanedString.replace(" ","");
+        CleanedString = CleanedString.replace(" ", "");
         CleanedString = CleanedString.replace(",", ".");
         return parseFloat(CleanedString)
     }
@@ -236,22 +242,22 @@ angular.module('ARVERetainChart', ['ngCookies'])
             n.size = convStrToFloat(n.size);
             angular.forEach(catList, function (c) {
                 if (typeof n[c] === "undefined") { n[c] = 0; }
-                else { n[c] = convStrToFloat (n[c])}
+                else { n[c] = convStrToFloat(n[c]) }
                 // Setting missing values to 0
             });
         }
 
         //Removing spaces in the name to avoid problems while selecting DOM
         if (n.name == "") { n.name = "_" }
-        // OCA 26/06/2016 Removed the suppression of space
+            // OCA 26/06/2016 Removed the suppression of space
         else { /*n.name = n.name.replace(/ /g, "_") */ }
         n.name = n.name.replace("_CEDEX", "")
         // OCA 26/06/2016 Removed the suppression of CSD as we now extract all France values
         //n.name = n.name.replace("CSD_", "")
         // Max value for the graph
-        n.tot = n.Firm+n.Potential+n.Unbilled
+        n.tot = n.Firm + n.Potential + n.Unbilled
         // Calculating vacation percentage
-        n.vacSh = n.Vacation/n.tot
+        n.vacSh = n.Vacation / n.tot
         // Bar position
         n.y0 = 0;
     }
@@ -273,7 +279,7 @@ angular.module('ARVERetainChart', ['ngCookies'])
 
         // Building the bars list
         console.log("Month index=" + curPeriod);
-        xBars = []; 
+        xBars = [];
         angular.forEach(activeGroup[curPeriod].children, function (d) { xBars = xBars.concat(d); });
         xBars = xBars.concat(activeGroup[curPeriod]);
         angular.forEach(xBars, function (d) { d.y0 = 0; });
@@ -289,11 +295,11 @@ angular.module('ARVERetainChart', ['ngCookies'])
             xLabels = xLabels.concat(d.name);
             xBarsP = xBarsP.concat(d);
         });
-        xLabels = xLabels.concat(activeGroup[curPeriod-1].name)
+        xLabels = xLabels.concat(activeGroup[curPeriod - 1].name)
         xBarsP = xBarsP.concat(activeGroup[curPeriod - 1]);
         angular.forEach(xBarsP, function (d) { d.y0 = 0; });
 
-         // Calculating minimal vacation percentage  
+        // Calculating minimal vacation percentage  
         var minVacSh0 = d3.min(xBars.map(function (d) { return -d.vacSh; }));
         var minVacSh1 = d3.min(xBarsS.map(function (d) { return -d.vacSh; }));
         var minVacSh2 = d3.min(xBarsP.map(function (d) { return -d.vacSh; }));
@@ -322,11 +328,10 @@ angular.module('ARVERetainChart', ['ngCookies'])
 
         // Setting a scale with all x labels   
         if (xLabels.length > 5) {
-            vRotateLabels = xLabels.length+8;
+            vRotateLabels = xLabels.length + 8;
             vAlignLabels = "start";
         }
-        else
-        {
+        else {
             vRotateLabels = 0;
             vAlignLabels = "middle";
         };
@@ -340,7 +345,7 @@ angular.module('ARVERetainChart', ['ngCookies'])
             //.attr("dy", "." + 0 + "em")
             .attr("transform", "rotate(-" + vRotateLabels + ")")
         ;
-        
+
         //Building or rebuilding the bars
         var legendY1 = [], legendY2 = [];
         var lastLegendPos = -5;
@@ -704,7 +709,7 @@ angular.module('ARVERetainChart', ['ngCookies'])
     function getNode(tree, uid) {
         if (tree.children) {
             tree.children.forEach(function (d) {
-                if (d.uid == uid) { newGroupArray = newGroupArray.concat(d);}
+                if (d.uid == uid) { newGroupArray = newGroupArray.concat(d); }
                 else { return getNode(d, uid) }
             })
         }
@@ -812,7 +817,7 @@ angular.module('ARVERetainChart', ['ngCookies'])
     function getTopNode(tree, uid) {
         if (tree.children) {
             tree.children.forEach(function (d) {
-                if (d.uid == uid) { newGroupArray = newGroupArray.concat(tree);}
+                if (d.uid == uid) { newGroupArray = newGroupArray.concat(tree); }
                 else { return getTopNode(d, uid) }
             })
         }
@@ -844,28 +849,74 @@ angular.module('ARVERetainChart', ['ngCookies'])
             if (error) throw error;
             root[0] = data0;
             initNodeData(root[0]);
+            updateRetainTS = getLastUpdateTS(data0[timestampName], updateRetainTS);
+
             d3.json(fList[1], function (error, data1) {
                 if (error) throw error;
                 root[1] = data1;
                 initNodeData(root[1]);
+                updateRetainTS = getLastUpdateTS(data1[timestampName], updateRetainTS);
+
                 d3.json(fList[2], function (error, data2) {
                     if (error) throw error;
                     root[2] = data2;
                     initNodeData(root[2]);
+                    updateRetainTS = getLastUpdateTS(data2[timestampName], updateRetainTS);
+
                     d3.json(fList[3], function (error, data3) {
                         if (error) throw error;
                         root[3] = data3;
                         initNodeData(root[3]);
+                        updateRetainTS = getLastUpdateTS(data3[timestampName], updateRetainTS);
                     });
+
                     d3.json(fList[4], function (error, data4) {
                         if (error) throw error;
                         root[4] = data4;
                         initNodeData(root[4]);
+
+                        updateRetainTS = getLastUpdateTS(data4[timestampName], updateRetainTS);
+                        console.log("Retain chart updated at " + updateRetainTS);
+                        updateText.html(updateRetainTS.toLocaleString());
 
                         drawChart();
                     });
                 });
             });
         })
+
+
     }
+
+
+    //-------------------------------------------------------------------------------
+    // Load last update timestamp by comparison between a json formated date and Date
+    //-------------------------------------------------------------------------------
+    function getLastUpdateTS(jsonTS, saved) {
+        //Format timestamp
+        //TODO Improve parsing with moment.js
+        var jsonDate = jsonTS.split(" ");
+        jsonDate = jsonDate[0].split("/").concat(jsonDate[1]);
+
+        var timestamp = new Date(jsonDate[2] + "-" + jsonDate[1] + "-" + jsonDate[0] + "T" + jsonDate[3] + timezone);
+        if (timestamp > saved) {
+            return timestamp;
+        }
+        return saved;
+    }
+
+    //-------------------------------------------------------------------------------
+    // Util functions
+    //-------------------------------------------------------------------------------
+    function convertMinsToHrsMins(minutes) {
+        var sign = Math.sign(minutes) < 0 ? '-' : '+';
+        minutes = Math.abs(minutes);
+        var h = Math.trunc(minutes / 60);
+        var m = minutes % 60;
+
+        h = h < 10 ? '0' + h : h;
+        m = m < 10 ? '0' + m : m;
+        return sign + h + ':' + m;
+    }
+
 });

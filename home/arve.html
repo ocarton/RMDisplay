@@ -12,11 +12,10 @@
             <label id="WTRChart" align="center"><input type="checkbox" ng-model="checkVac" ng-change="CheckBoxChanged()">Display vacations</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
             <label id="WTRChart" align="center"><input type="checkbox" ng-model="checkUnknown" ng-change="CheckBoxChanged()">Compensate unknowns</label>
             <div id="WTRTable" viewBox="0 0 1000 800" style="display: none;">
-                <h4 id="WTRsubTitle1" class="text-left">Period 1</h4>
                 <table class="table table-bordered table-hover table-striped">
                     <tbody align="left">
                         <tr> <td></td> <td align="center" ng:repeat="arve in tableS0"><b>{{arve.name}}</b></td> </tr>
-                        <tr> <td>Billable</td align="right"> <td align="right" ng:repeat="arve in tableS0">{{arve.billable |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Billable</tdalign="right"> <td align="right" ng:repeat="arve in tableS0">{{arve.billable |number:2}}&nbsp;</td> </tr>
                         <tr> <td>Proposal</td> <td align="right" ng:repeat="arve in tableS0">{{arve.presales |number:2}}&nbsp;</td> </tr>
                         <tr> <td>Internal work</td> <td align="right" ng:repeat="arve in tableS0">{{arve.ti |number:2}}&nbsp;</td> </tr>
                         <tr> <td>Idle</td> <td align="right" ng:repeat="arve in tableS0">{{arve.idle |number:2}}&nbsp;</td> </tr>
@@ -29,7 +28,7 @@
                         <tr> <td><b>ARVE</b></td> <td align="right" ng:repeat="arve in tableS0"><b>{{arve.billable/arve.tot*100|number:2}}%</b></td> </tr>
                     </tbody>
                 </table>
-                <h4 id="WTRsubTitle2" class="text-left">Period 2</h4>
+                </br>
                 <table class="table table-bordered table-hover table-striped">
                     <tbody align="left">
                         <tr> <td></td> <td align="center" ng:repeat="arve in tableS1"><b>{{arve.name}}</b></td> </tr>
@@ -46,7 +45,7 @@
                         <tr> <td><b>ARVE</b></td> <td align="right" ng:repeat="arve in tableS1"><b>{{arve.billable/arve.tot*100|number:2}}%</b></td> </tr>
                     </tbody>
                 </table>
-                <h4 id="WTRsubTitle3" class="text-left">Period 3</h4>
+                </br>
                 <table class="table table-bordered table-hover table-striped">
                     <tbody align="left">
                         <tr> <td></td> <td align="center" ng:repeat="arve in tableS2"><b>{{arve.name}}</b></td> </tr>
@@ -64,6 +63,7 @@
                     </tbody>
                 </table>
             </div>
+            <div id="updateWTRText"> not updated </div>
         </div>
         <div id="ARVERetainChart" class="col-lg-6" ng-controller="ARVERetainCtrl" align="center">
             <h2 id="RetainTitle" class="text-center text-primary">ARVE Retain</h2>
@@ -76,11 +76,10 @@
             <label id="RetainChart" align="center"><input type="checkbox" ng-model="checkVac" ng-change="CheckBoxChanged()">Display vacations</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
             <label id="RetainChart" align="center"><input type="checkbox" ng-model="checkSim" ng-change="CheckBoxChanged()">Simulate evolution</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
             <div id="RetainTable" viewBox="0 0 1000 800" style="display: none;">
-                <h4 id="RetainSubTitle1" class="text-left">Period 1</h4>
                 <table class="table table-bordered table-hover table-striped">
                     <tbody align="left">
                         <tr> <td></td> <td align="center" ng:repeat="arve in tableS0"><b>{{arve.name}}</b></td> </tr>
-                        <tr> <td>Firm</td align="right"> <td align="right" ng:repeat="arve in tableS0">{{arve.Firm |number:2}}&nbsp;</td> </tr>
+                        <tr> <td>Firm</td> <td align="right" ng:repeat="arve in tableS0">{{arve.Firm |number:2}}&nbsp;</td> </tr>
                         <tr> <td>Potential</td> <td align="right" ng:repeat="arve in tableS0">{{arve.Potential |number:2}}&nbsp;</td> </tr>
                         <tr> <td>Vacation</td> <td align="right" ng:repeat="arve in tableS0">{{arve.Vacation |number:2}}&nbsp;</td> </tr>
                         <tr> <td>TOTAL</td> <td align="right" ng:repeat="arve in tableS0">{{arve.tot+arve.Vacation |number:2}}&nbsp;</td> </tr>
@@ -88,7 +87,7 @@
                         <tr> <td>ARVE_P</td> <td align="right" ng:repeat="arve in tableS0">{{(arve.Firm+arve.Potential)/arve.tot*100|number:2}}%</td> </tr>
                     </tbody>
                 </table>
-                <h4 id="RetainSubTitle2" class="text-left">Period 2</h4>
+                </br>
                 <table class="table table-bordered table-hover table-striped">
                     <tbody align="left">
                         <tr> <td></td> <td align="center" ng:repeat="arve in tableS1"><b>{{arve.name}}</b></td> </tr>
@@ -100,7 +99,7 @@
                         <tr> <td>ARVE_P</td> <td align="right" ng:repeat="arve in tableS1">{{(arve.Firm+arve.Potential)/arve.tot*100|number:2}}%</td> </tr>
                     </tbody>
                 </table>
-                <h4 id="RetainSubTitle3" class="text-left">Period 3</h4>
+                </br>
                 <table class="table table-bordered table-hover table-striped">
                     <tbody align="left">
                         <tr> <td></td> <td align="center" ng:repeat="arve in tableS2"><b>{{arve.name}}</b></td> </tr>
@@ -113,6 +112,7 @@
                     </tbody>
                 </table>
             </div>
+            <div id="updateRetainText"> not updated </div>
         </div>
     </div>
 </div>
