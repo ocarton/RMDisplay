@@ -52,7 +52,10 @@
         <tr bgcolor={{item.color}} style="font-size: 0.9em">
             <td colspan="2">
                 <!--style="height: 1.8em;"-->
-                <div align="left" class="module ellipsis-1">{{item.Propale_CSD}}</div>
+                <!--MRO 02/09/2016 BEGIN - Display suggested people from selected practice [03/09/2016 OCA : using id instead of label] -->
+                <div align="left" class="module ellipsis-1">{{ item[selBoxPropaleModel.id] }}</div>
+                <!--MRO 02/09/2016 END -->
+
             </td>
         </tr>
     </tbody>

@@ -21,6 +21,28 @@
         externalIdProp: ''
     };
 
+//MRO 02/09/2016 BEGIN - Display suggested people from selected practice [04/09/2016 : edited OCA to use id values]
+//Warning : propaleList must contain id like in json file
+    propaleList = [
+        { id: "Propale_CSD", label: "CSD"},
+        { id: "Propale_PBS", label: "PBS"},
+        { id: "Propale_ADM", label: "ADM"},
+        { id: "Propale_STT", label: "STT"},
+        { id: "Propale_Groupe", label: "Groupe"}];
+
+    $scope.selBoxPropaleData = propaleList;
+
+    $scope.selBoxPropaleSettings = {
+        selectionLimit: 1,
+        smartButtonMaxItems: 1,
+        closeOnSelect: true,
+        showCheckAll: false,
+        showUncheckAll: false,
+        scrollable: false,
+        externalIdProp: ''
+    };
+    //MRO 02/09/2016 END
+    
     $scope.requests = {
         selected: null,
         lists: [],
@@ -30,8 +52,14 @@
     $scope.isNAFilter = function (item) {
         var itemSelected = true;
         if (item != undefined) {
-            if (item["Propale_CSD"] == "NA" || item["Propale_CSD"] == "X")
-            { itemSelected = !$scope.checkUnknown; };
+            //MRO 02/09/2016 BEGIN - Display suggested people from selected practice
+            //Suppress display of "NA" and "X" for all practices
+            angular.forEach(propaleList, function(propale) {
+                if (item[propale.id] == "NA" || item[propale.id] == "X") {
+                    itemSelected = !$scope.checkUnknown; 
+                };
+            });
+            //MRO 02/09/2016 END
         }
         return itemSelected;
     }
@@ -55,6 +83,13 @@
     $scope.CheckBoxChanged = function () {
         $cookies.SelNeedsHideNA = JSON.stringify($scope.checkUnknown);
     }
+    //MRO 02/09/2016 BEGIN - Display suggested people from selected practice
+    $scope.storePropaleSelection = {
+        onItemSelect: function (item) {
+            $cookies.SelNeedsPropale = JSON.stringify($scope.selBoxPropaleModel);
+        }
+    };
+    //MRO 02/09/2016 END
     //OCA 06/05/2016 END
 
     //-------------------------------------------------------------------------------
@@ -68,8 +103,14 @@
             // OCA 06/05/2016 - Commented : obviously useless
             //$scope.requests.lists = [];
             reqdata.children.forEach(function (d) {
-                if (d.Propale_CSD == 0) { d.Propale_CSD = "" }
-                if (d.Propale_CSD == 0) { d.Propale_CSD = "" }
+                
+                //MRO 02/09/2016 BEGIN - Display suggested people from selected practice
+                //Suppress display of "0" for all practices
+                angular.forEach(propaleList, function(propale) {
+                    if (d[propale.id] == 0) { d[propale.id] = "" };
+                });
+                //MRO 02/09/2016 END
+                
                 if (d.Practice == "CSD" || d.Practice == "PBS") { d.Link = "https://troom.capgemini.com/sites/FicheMissionStafingRequest/Lists/Besoins%20%20" + d.Practice + "%202" }
                 if (d.Practice == "ADM") { d.Link = "https://troom.capgemini.com/sites/FicheMissionStafingRequest/Lists/Liste%20test" }
                 if (d.Practice == "AUTRES") { d.Link = "https://troom.capgemini.com/sites/FicheMissionStafingRequest/Lists/Besoins%20%20Commerce%20%20Autres" }
@@ -95,6 +136,13 @@
         else
         { $scope.checkUnknown = JSON.parse($cookies.SelNeedsHideNA); };
         //OCA 06/05/2016 END
+        
+        //MRO 02/09/2016 BEGIN - Display suggested people from selected practice
+        if ($cookies.SelNeedsPropale == undefined || $cookies.SelNeedsPropale == "undefined")
+        { $scope.selBoxPropaleModel = angular.copy(propaleList[0]); }
+        else
+        { $scope.selBoxPropaleModel = JSON.parse($cookies.SelNeedsPropale); };
+        //MRO 02/09/2016 END
     }
 
     loadData();
