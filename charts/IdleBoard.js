@@ -14,6 +14,7 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
         availableList: [],
     };
 
+    //------------Definition of the scope for the combo list objects
     $scope.selBoxCityModel = [];
     $scope.selBoxCityData = [];
     $scope.selBoxSkillGModel = [];
@@ -77,10 +78,11 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
     };
     //OCA 06/05/2016 END
 
-    //------------Data loading of the idle people
+    //------------Loading external data of the idle people from dispo.csv file
     var dsv = d3.dsv(";", "text/plain; charset=ISO-8859-1");
 
     dsv("data/dispos.csv", function (error, data) {
+        //Cleaning idle people lists of the scope
         $scope.models.availableList[0] = { "items": [] };
         $scope.models.availableList[1] = { "items": [] };
         $scope.models.availableList[2] = { "items": [] };
@@ -92,11 +94,12 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
         $scope.models.availableList[8] = { "items": [] };
         $scope.models.availableList[9] = { "items": [] };
         var cityIndex = 1;
+        //Reading external data
         data.forEach(function (d) {
             d.color = color(d["Prod  Unit Label"]);
             //Special condition for PBS Paris
             if (d["RMA"] == "FR03PB03 - BS" && d["Office"] == "FR-PAR-SETOILE (SURESNES CEDEX,FR)") { d.color = "#a4cc70"/*green*/; }
-            //Creation of citiesList content from data available in dispos.csv
+            //Creation of citiesList content from external data read
             if (citiesList.map(function (e) { return e.value; }).indexOf(d["Office"]) == -1) {
                 var newCity = {
                     id: cityIndex,
