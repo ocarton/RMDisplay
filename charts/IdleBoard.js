@@ -95,13 +95,13 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
         data.forEach(function (d) {
             d.color = color(d["Prod  Unit Label"]);
             //Special condition for PBS Paris
-            if (d["RMA"] == "FR03PB03 - BS" && d["Office Base"] == "FR-PAR-SETOILE (SURESNES CEDEX,FR)") { d.color = "#a4cc70"/*green*/; }
+            if (d["RMA"] == "FR03PB03 - BS" && d["Office"] == "FR-PAR-SETOILE (SURESNES CEDEX,FR)") { d.color = "#a4cc70"/*green*/; }
             //Creation of citiesList content from data available in dispos.csv
-            if (citiesList.map(function (e) { return e.value; }).indexOf(d["Office Base"]) == -1) {
+            if (citiesList.map(function (e) { return e.value; }).indexOf(d["Office"]) == -1) {
                 var newCity = {
                     id: cityIndex,
-                    value: d["Office Base"],
-                    label: d["Office Base"].slice(d["Office Base"].indexOf("(") + 1, d["Office Base"].indexOf(")")).toUpperCase()
+                    value: d["Office"],
+                    label: d["Office"].slice(d["Office"].indexOf("(") + 1, d["Office"].indexOf(")")).toUpperCase()
                 };
                 citiesList.push(newCity);
                 cityIndex = cityIndex + 1
@@ -129,7 +129,7 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
         var itemSelected = false;
         if ((item["Global practice"] == "AMOA" || item["Global practice"] == "CONSEIL")
             && $scope.selBoxSkillCModel.map(function (e) { return e.value; }).indexOf(item["RMA"]) != -1
-            && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office Base"]) != -1)
+            && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office"]) != -1)
         { itemSelected = true; };
         return itemSelected;
     }
@@ -141,7 +141,7 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
             && item["Global practice"] != "AMOE" && item["Global practice"] != "NTIC"
             && item["Global practice"] != "SAP" && item["Global practice"] != "CONSEIL"
             && $scope.selBoxSkillCModel.map(function (e) { return e.value; }).indexOf(item["RMA"]) != -1
-           && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office Base"]) != -1)
+           && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office"]) != -1)
         { itemSelected = true };
         return itemSelected;
     }
@@ -150,7 +150,7 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
         var itemSelected = false;
         if ((item["Global practice"] == "EM" || item["Global practice"] == "PMO" || item["Global practice"] == "QUALITE")
              && $scope.selBoxSkillCModel.map(function (e) { return e.value; }).indexOf(item["RMA"]) != -1
-             && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office Base"]) != -1)
+             && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office"]) != -1)
         { itemSelected = true };
         return itemSelected;
     }
@@ -159,7 +159,7 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
         var itemSelected = false;
         if ((item["Global practice"] == "AMOE" || item["Global practice"] == "NTIC" || item["Global practice"] == "SAP")
              && $scope.selBoxSkillCModel.map(function (e) { return e.value; }).indexOf(item["RMA"]) != -1
-             && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office Base"]) != -1)
+             && $scope.selBoxCityModel.map(function (e) { return e.value; }).indexOf(item["Office"]) != -1)
         { itemSelected = true };
         return itemSelected;
     }
