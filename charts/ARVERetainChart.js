@@ -20,11 +20,12 @@ angular.module('ARVERetainChart', ['ngCookies'])
         scrollable: false,
         externalIdProp: ''
     };
+    //Retreiving initial values of the period combobox values from the cookies
     if ($cookies.SelARVERetainPeriod == undefined || $cookies.SelARVERetainPeriod == "undefined")
     { $scope.selBoxPeriodModel = { id: 2 }; }
     else
     { $scope.selBoxPeriodModel = { id: parseInt($cookies.SelARVERetainPeriod) }; }
-    //Those are the actions when combo selection is changed : we store the selection and redraw
+    //Those are the actions when combo selection is changed : we store the selection in the cookies and redraw
     $scope.storeSelection = {
         onItemSelect: function (item) {
             $cookies.SelARVERetainPeriod = $scope.selBoxPeriodModel.id;
@@ -41,10 +42,13 @@ angular.module('ARVERetainChart', ['ngCookies'])
     };
     //OCA 26/06/2016 END
 
-    $scope.displayCat = function () {
+    //OCA 07/09/2016 BEGIN deprecated
+    /*$scope.displayCat = function () {
         loadBarsData();
-    }
-
+    }*/
+    //OCA 07/09/2016 END
+    
+    //Functions which call graph data load and redraw when the user switches between graph and table views
     $scope.displayARVEVisual = function () {
         if ($scope.radARVEVisual.value == "Graph") {
             d3.select("#ARVERetainChart").selectAll("#RetainChart").attr("style", "display: inline;")
@@ -60,7 +64,8 @@ angular.module('ARVERetainChart', ['ngCookies'])
         }
     }
 
-    $scope.ARVEChart = function () { }
+    //OCA 07/09/2016 BEGIN deprecated
+    //$scope.ARVEChart = function () { }
 
     var fListMonths = ["data/RetainForecastM1.json", "data/RetainForecastM2.json", "data/RetainForecastM3.json", "data/RetainForecastM4.json", "data/RetainForecastM5.json"];
     var fListWeeks = ["data/RetainForecastW1.json", "data/RetainForecastW2.json", "data/RetainForecastW3.json", "data/RetainForecastW4.json", "data/RetainForecastW5.json"];
