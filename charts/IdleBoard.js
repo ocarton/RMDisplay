@@ -4,7 +4,8 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
     dragularService('.containerVertical', { removeOnSpill: false });
 
     var citiesList = [];
-    var skillList = ["FR03AA05_BS_PLM", "FR03AA02_BS_BTS", "FR03AA03_BS_M&SC",   "FR03AA10_CSD_RTCP",       "FR03AA12_MCS_OCSR", "FR03AA11_MCS_RTCB", "FR03AA06_CSD_DC", "FR03AA09_MCS_S&A", "FR03AA14_CSD_OCSP"];
+    //OCA 11/09/2016 Changed skill names to match new production units of R2D2
+    var skillList = ["FR03AA05_BS_PLM", "FR03AA02_BS_BTS", "FR03AA03_BS_M&SC", "FR03AA10", "FR03AA12", "FR03AA11", "FR03AA06", "FR03AA09", "FR03AA14"];
     var color = d3.scale.ordinal()
         .range(["#fee45e"/*yellow*/, "#ffac52"/*orange*/, "#9bc2f2"/*blue*/, "#fee45e"/*yellow*/, "#ba62ea"/*purple*/, "#ffac52"/*orange*/, "#a4cc70"/*green*/, "#9bc2f2"/*blue*/, "#ff9bb7"/*light red*/, "#FFFFFF"/*white*/])
         .domain(skillList);
@@ -79,7 +80,7 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
     //OCA 06/05/2016 END
 
     //------------Loading external data of the idle people from dispo.csv file
-    var dsv = d3.dsv(";", "text/plain; charset=ISO-8859-1");
+    var dsv = d3.dsv(";", "text/plain; charset=UTF-8");
 
     dsv("data/dispos.csv", function (error, data) {
         //Cleaning idle people lists of the scope
@@ -96,7 +97,7 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
         var cityIndex = 1;
         //Reading external data
         data.forEach(function (d) {
-            d.color = color(d["Prod  Unit Label"]);
+            d.color = color(d["Production Unit"]);
             //Special condition for PBS Paris
             if (d["RMA"] == "FR03PB03 - BS" && d["Office"] == "FR-PAR-SETOILE (SURESNES CEDEX,FR)") { d.color = "#a4cc70"/*green*/; }
             //Creation of citiesList content from external data read
