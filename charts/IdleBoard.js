@@ -21,8 +21,12 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
     $scope.selBoxSkillGModel = [];
     $scope.selBoxSkillCModel = [];
     $scope.listSC = [
-        {
-            id: 1, value: 'FR03CS04 - ASD', label: 'CSD ASD', list: [
+        { id: 1, value: 'FR03AAL05-HERMES', label: 'ADM HERM', list: [] },
+        { id: 2, value: 'FR03AAL04-NExT', label: 'ADM NextT', list: [] },
+        { id: 3, value: 'FR03AAL02-NORD', label: 'ADM NORD', list: [] },
+        { id: 4, value: 'FR03AAL03-OUEST', label: 'ADM OUEST', list: [] },
+        { id: 5, value: 'FR03AAL01-SUD', label: 'ADM SUD', list: [] },
+        {id: 10, value: 'FR03CS04 - ASD', label: 'CSD ASD', list: [
               { id: 1, value: 'FR03AA06_CSD_DC', label: 'DIGITAL', bgdcol: '#C6FF9B' },
               { id: 2, value: 'FR03AA09_MCS_S&A', label: 'S&A', bgdcol: '#ABA9FF' },
               { id: 3, value: 'FR03AA10_CSD_RTCP', label: 'RTC Pau', bgdcol: '#FFF4D4' },
@@ -31,19 +35,24 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
               { id: 6, value: 'FR03AA14_CSD_OCSP', label: 'OCS Paris', bgdcol: '#FFD4E0' }
             ]
         },
-        { id: 2, value: 'FR03CSD4 - C&IM', label: 'CSD C&IM', list: [] },
-        { id: 3, value: 'FR03CS03 - COMM', label: 'CSD COMM', list: [] },
-        { id: 4, value: 'FR03CS07 - ECM', label: 'CSD ECM', list: [] },
-        { id: 5, value: 'FR03CS05 - EU&I', label: 'CSD EU&I', list: [] },
-        { id: 6, value: 'FR03CS01 - MGT', label: 'CSD MGT', list: [] },
-        { id: 7, value: 'FR03CS06 - PER', label: 'CSD PER', list: [] },
-        { id: 8, value: 'FR03CS02 - TMP', label: 'CSD TMP', list: [] },
-        { id: 9, value: 'FR03AAL01-SUD', label: 'ADM SUD', list: [] },
-        { id: 10, value: 'FR03AAL02-NORD', label: 'ADM NORD', list: [] },
-        { id: 11, value: 'FR03AAL03-OUEST', label: 'ADM OUEST', list: [] },
-        { id: 12, value: 'FR03AAL04-NExT', label: 'ADM NextT', list: [] },
-        { id: 13, value: 'FR03AAL05-HERMES', label: 'ADM HERM', list: [] },
-        { id: 14, value: 'FR03PB03 - BS', label: 'PBS BS', list: [] }
+        { id: 11, value: 'FR03CSD4 - C&IM', label: 'CSD C&IM', list: [] },
+        { id: 12, value: 'FR03CS03 - COMM', label: 'CSD COMM', list: [] },
+        { id: 13, value: 'FR03CS07 - ECM', label: 'CSD ECM', list: [] },
+        { id: 14, value: 'FR03CS05 - EU&I', label: 'CSD EU&I', list: [] },
+        { id: 15, value: 'FR03CS01 - MGT', label: 'CSD MGT', list: [] },
+        { id: 16, value: 'FR03CS06 - PER', label: 'CSD PER', list: [] },
+        { id: 17, value: 'FR03CS02 - TMP', label: 'CSD TMP', list: [] },
+        { id: 31, value: 'FR03DC05 - BDU', label: 'DCX BDU', list: [] },
+        { id: 32, value: 'FR03DC04 - CoreT', label: 'DCX CoreT', list: [] },
+        { id: 33, value: 'FR03DC03 - DCX Paris', label: 'DCX Paris', list: [] },
+        { id: 34, value: 'FR03DC02 - DCX Retail', label: 'DCX Retail', list: [] },
+        { id: 35, value: 'FR03DC01 - MGT', label: 'DCX MGT', list: [] },
+        { id: 21, value: 'FR03PB03 - BS', label: 'PBS BS', list: [] },
+        { id: 22, value: 'FR03PB05 - CoreT', label: 'PBS CoreT', list: [] },
+        { id: 23, value: 'FR03PB01 - MGT', label: 'PBS MGT', list: [] },
+        //{ id: 24, value: 'FR03PB04 - ', label: 'PBS BS', list: [] },
+        { id: 25, value: 'FR03PB02 - SAP', label: 'PBS SAP', list: [] }
+
     ];
 
     //------------Initialization of the dropdown lists
