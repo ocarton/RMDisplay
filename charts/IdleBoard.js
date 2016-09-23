@@ -5,9 +5,9 @@ var myApp = angular.module('IdleBoard', ['ngCookies', 'angularjs-dropdown-multis
 
     var citiesList = [];
     //OCA 11/09/2016 Changed skill names to match new production units of R2D2
-    var skillList = ["FR03AA05", "FR03AA02", "FR03AA03", "FR03AA10", "FR03AA12", "FR03AA11", "FR03AA06", "FR03AA09", "FR03AA09", "FR03AA14"];
+    var skillList = ["FR03AA05", "FR03AA02", "FR03AA03", "FR03AA10", "FR03AA12", "FR03AA11", "FR03AA06", "FR03AA09", "FR03AA08", "FR03AA14"];
     var color = d3.scale.ordinal()
-        .range(["#fee45e"/*yellow*/, "#ffac52"/*orange*/, "#9bc2f2"/*blue*/, "#fee45e"/*yellow*/, "#ba62ea"/*purple*/, "#ffac52"/*orange*/, "#a4cc70"/*green*/, "#9bc2f2"/*blue*/, "#9bc2f4"/*blue*/, "#ff9bb7"/*light red*/, "#FFFFFF"/*white*/])
+        .range(["#fee45e"/*yellow*/, "#ffac52"/*orange*/, "#9bc2f2"/*blue*/, "#fee45e"/*yellow*/, "#ba62ea"/*purple*/, "#ffac52"/*orange*/, "#a4cc70"/*green*/, "#9bc2f2"/*blue*/, "#FFFFFF"/*blue*/, "#ff9bb7"/*light red*/, "#FFFFFF"/*white*/])
         .domain(skillList);
 
     $scope.models = {
